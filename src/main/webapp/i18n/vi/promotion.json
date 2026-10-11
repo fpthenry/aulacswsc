@@ -1,0 +1,31 @@
+{
+  "aulacswscApp": {
+    "promotion": {
+      "home": {
+        "title": "Promotions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Promotion",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Promotion",
+        "notFound": "No Promotions found"
+      },
+      "created": "Một Promotion mới được tạo với định danh {{ param }}",
+      "updated": "Một Promotion cập nhật với định danh {{ param }}",
+      "deleted": "Một Promotion đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Promotion {{ id }}?"
+      },
+      "detail": {
+        "title": "Promotion"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "discountPercent": "Discount Percent",
+      "discountAmount": "Discount Amount",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "active": "Active"
+    }
+  }
+}

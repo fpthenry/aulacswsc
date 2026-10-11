@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (customer(); as customerRef) {
+      <div>
+        <h2 data-cy="customerDetailsHeading"><span jhiTranslate="aulacswscApp.customer.detail.title">Customer</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ customerRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.fullName">Full Name</span></dt>
+          <dd>
+            <span>{{ customerRef.fullName }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.phone">Phone</span></dt>
+          <dd>
+            <span>{{ customerRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.email">Email</span></dt>
+          <dd>
+            <span>{{ customerRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.gender">Gender</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.Gender.' + (customerRef.gender ?? 'null')">{{
+              { null: '', MALE: 'MALE', FEMALE: 'FEMALE', OTHER: 'OTHER' }[customerRef.gender ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.dateOfBirth">Date Of Birth</span></dt>
+          <dd>
+            <span>{{ customerRef.dateOfBirth | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.address">Address</span></dt>
+          <dd>
+            <span>{{ customerRef.address }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.note">Note</span></dt>
+          <dd>
+            <span>{{ customerRef.note }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ customerRef.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.customer.user">User</span></dt>
+          <dd>
+            <span>{{ customerRef.user?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/customer', customerRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

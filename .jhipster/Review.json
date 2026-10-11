@@ -1,0 +1,54 @@
+{
+  "annotations": {
+    "changelogDate": "20261011043053"
+  },
+  "applications": ["aulacswsc"],
+  "documentation": "Đánh giá dịch vụ",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "rating",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "5",
+      "fieldValidateRulesMin": "1"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "2000"
+    },
+    {
+      "fieldName": "approved",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Review",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "fullName",
+      "otherEntityName": "customer",
+      "relationshipName": "customer",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "spaService",
+      "relationshipName": "service",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

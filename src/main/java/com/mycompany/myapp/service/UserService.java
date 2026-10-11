@@ -116,6 +116,8 @@ public class UserService {
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        // tài khoản tự đăng ký trên website là khách hàng
+        authorityRepository.findById(AuthoritiesConstants.CUSTOMER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         LOG.debug("Created Information for User: {}", newUser);

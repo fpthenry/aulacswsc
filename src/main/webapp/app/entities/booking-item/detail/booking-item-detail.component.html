@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (bookingItem(); as bookingItemRef) {
+      <div>
+        <h2 data-cy="bookingItemDetailsHeading"><span jhiTranslate="aulacswscApp.bookingItem.detail.title">Booking Item</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ bookingItemRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.price">Price</span></dt>
+          <dd>
+            <span>{{ bookingItemRef.price }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.quantity">Quantity</span></dt>
+          <dd>
+            <span>{{ bookingItemRef.quantity }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.durationMinutes">Duration Minutes</span></dt>
+          <dd>
+            <span>{{ bookingItemRef.durationMinutes }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.service">Service</span></dt>
+          <dd>
+            @if (bookingItem()!.service) {
+              <div>
+                <a [routerLink]="['/spa-service', bookingItem()!.service?.id, 'view']">{{ bookingItemRef.service?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.staff">Staff</span></dt>
+          <dd>
+            @if (bookingItem()!.staff) {
+              <div>
+                <a [routerLink]="['/staff', bookingItem()!.staff?.id, 'view']">{{ bookingItemRef.staff?.fullName }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.bookingItem.booking">Booking</span></dt>
+          <dd>
+            @if (bookingItem()!.booking) {
+              <div>
+                <a [routerLink]="['/booking', bookingItem()!.booking?.id, 'view']">{{ bookingItemRef.booking?.code }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/booking-item', bookingItemRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

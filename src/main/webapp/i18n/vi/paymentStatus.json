@@ -1,0 +1,10 @@
+{
+  "aulacswscApp": {
+    "PaymentStatus": {
+      "null": "",
+      "UNPAID": "UNPAID",
+      "PAID": "PAID",
+      "REFUNDED": "REFUNDED"
+    }
+  }
+}

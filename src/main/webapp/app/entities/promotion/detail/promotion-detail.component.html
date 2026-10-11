@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (promotion(); as promotionRef) {
+      <div>
+        <h2 data-cy="promotionDetailsHeading"><span jhiTranslate="aulacswscApp.promotion.detail.title">Promotion</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ promotionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.code">Code</span></dt>
+          <dd>
+            <span>{{ promotionRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.name">Name</span></dt>
+          <dd>
+            <span>{{ promotionRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.description">Description</span></dt>
+          <dd>
+            <span>{{ promotionRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.discountPercent">Discount Percent</span></dt>
+          <dd>
+            <span>{{ promotionRef.discountPercent }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.discountAmount">Discount Amount</span></dt>
+          <dd>
+            <span>{{ promotionRef.discountAmount }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ promotionRef.startDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ promotionRef.endDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.promotion.active">Active</span></dt>
+          <dd>
+            <span>{{ promotionRef.active }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/promotion', promotionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

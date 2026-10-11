@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (serviceCategory(); as serviceCategoryRef) {
+      <div>
+        <h2 data-cy="serviceCategoryDetailsHeading">
+          <span jhiTranslate="aulacswscApp.serviceCategory.detail.title">Service Category</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.name">Name</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.slug">Slug</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.slug }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.description">Description</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.imageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.displayOrder">Display Order</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.displayOrder }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.serviceCategory.active">Active</span></dt>
+          <dd>
+            <span>{{ serviceCategoryRef.active }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/service-category', serviceCategoryRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

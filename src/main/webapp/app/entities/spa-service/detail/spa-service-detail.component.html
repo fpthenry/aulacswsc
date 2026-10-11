@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (spaService(); as spaServiceRef) {
+      <div>
+        <h2 data-cy="spaServiceDetailsHeading"><span jhiTranslate="aulacswscApp.spaService.detail.title">Spa Service</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.name">Name</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.slug">Slug</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.slug }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.shortDescription">Short Description</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.shortDescription }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.description">Description</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.price">Price</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.price }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.salePrice">Sale Price</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.salePrice }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.durationMinutes">Duration Minutes</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.durationMinutes }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.imageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.featured">Featured</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.featured }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.active">Active</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.category">Category</span></dt>
+          <dd>
+            @if (spaService()!.category) {
+              <div>
+                <a [routerLink]="['/service-category', spaService()!.category?.id, 'view']">{{ spaServiceRef.category?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.staffs">Staffs</span></dt>
+          <dd>
+            @for (staffs of spaServiceRef.staffs; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/staff', staffs.id, 'view']">{{ staffs?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/spa-service', spaServiceRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

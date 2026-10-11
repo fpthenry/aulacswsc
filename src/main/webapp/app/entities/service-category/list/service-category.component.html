@@ -1,0 +1,147 @@
+<div>
+  <h2 id="page-heading" data-cy="ServiceCategoryHeading">
+    <span jhiTranslate="aulacswscApp.serviceCategory.home.title">Service Categories</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="aulacswscApp.serviceCategory.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-service-category"
+        [routerLink]="['/service-category/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="aulacswscApp.serviceCategory.home.createLabel">Create a new Service Category</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (serviceCategories().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="aulacswscApp.serviceCategory.home.notFound">No Service Categories found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="slug">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.slug">Slug</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imageUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="displayOrder">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.displayOrder">Display Order</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.active">Active</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
+          @for (serviceCategory of serviceCategories(); track trackId(serviceCategory)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/service-category', serviceCategory.id, 'view']">{{ serviceCategory.id }}</a>
+              </td>
+              <td>{{ serviceCategory.name }}</td>
+              <td>{{ serviceCategory.slug }}</td>
+              <td>{{ serviceCategory.description }}</td>
+              <td>{{ serviceCategory.imageUrl }}</td>
+              <td>{{ serviceCategory.displayOrder }}</td>
+              <td>{{ serviceCategory.active }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <button
+                    type="submit"
+                    [routerLink]="['/spa-service']"
+                    [queryParams]="{ 'filter[categoryId.in]': serviceCategory.id }"
+                    class="btn btn-info btn-sm"
+                    data-cy="filterOtherEntityButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span
+                      class="d-none d-md-inline"
+                      jhiTranslate="entity.action.show"
+                      [translateValues]="{ otherEntity: ('aulacswscApp.serviceCategory.services' | translate) }"
+                      >Show Services</span
+                    >
+                  </button>
+                  <a
+                    [routerLink]="['/service-category', serviceCategory.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/service-category', serviceCategory.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(serviceCategory)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

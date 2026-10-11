@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Thêm vai trò cho website spa: ROLE_STAFF, ROLE_CUSTOMER.
+        Tách thành changeset riêng (không sửa authority.csv) để không làm hỏng checksum
+        của changeset ban đầu trên database đã tạo.
+    -->
+    <changeSet id="20261011120000-1" author="jhipster">
+        <insert tableName="jhi_authority">
+            <column name="name" value="ROLE_STAFF"/>
+        </insert>
+        <insert tableName="jhi_authority">
+            <column name="name" value="ROLE_CUSTOMER"/>
+        </insert>
+    </changeSet>
+
+    <!-- Tài khoản mẫu "user" (id = 2) được gán vai trò khách hàng để thử nghiệm -->
+    <changeSet id="20261011120000-2" author="jhipster">
+        <insert tableName="jhi_user_authority">
+            <column name="user_id" valueNumeric="2"/>
+            <column name="authority_name" value="ROLE_CUSTOMER"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

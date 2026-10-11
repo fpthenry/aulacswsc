@@ -8,7 +8,16 @@
       "entities": {
         "main": "Thực thể",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "adminAuthority": "Authority",
+        "serviceCategory": "Service Category",
+        "spaService": "Spa Service",
+        "customer": "Customer",
+        "staff": "Staff",
+        "booking": "Booking",
+        "bookingItem": "Booking Item",
+        "promotion": "Promotion",
+        "review": "Review",
+        "contactMessage": "Contact Message"
       },
       "account": {
         "main": "Tài khoản",

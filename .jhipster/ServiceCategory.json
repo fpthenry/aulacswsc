@@ -1,0 +1,55 @@
+{
+  "annotations": {
+    "changelogDate": "20261011043046"
+  },
+  "applications": ["aulacswsc"],
+  "documentation": "Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...)",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "150"
+    },
+    {
+      "fieldName": "slug",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "180"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "imageUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "displayOrder",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ServiceCategory",
+  "pagination": "infinite-scroll",
+  "relationships": [
+    {
+      "otherEntityName": "spaService",
+      "otherEntityRelationshipName": "category",
+      "relationshipName": "services",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,29 @@
+{
+  "aulacswscApp": {
+    "contactMessage": {
+      "home": {
+        "title": "Contact Messages",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Contact Message",
+        "createOrEditLabel": "Create or edit a Contact Message",
+        "notFound": "No Contact Messages found"
+      },
+      "created": "A new Contact Message is created with identifier {{ param }}",
+      "updated": "A Contact Message is updated with identifier {{ param }}",
+      "deleted": "A Contact Message is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Contact Message {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Message"
+      },
+      "id": "ID",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "message": "Message",
+      "handled": "Handled",
+      "createdDate": "Created Date"
+    }
+  }
+}

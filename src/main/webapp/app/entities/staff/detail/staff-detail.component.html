@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (staff(); as staffRef) {
+      <div>
+        <h2 data-cy="staffDetailsHeading"><span jhiTranslate="aulacswscApp.staff.detail.title">Staff</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ staffRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.fullName">Full Name</span></dt>
+          <dd>
+            <span>{{ staffRef.fullName }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.phone">Phone</span></dt>
+          <dd>
+            <span>{{ staffRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.position">Position</span></dt>
+          <dd>
+            <span>{{ staffRef.position }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.bio">Bio</span></dt>
+          <dd>
+            <span>{{ staffRef.bio }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</span></dt>
+          <dd>
+            <span>{{ staffRef.avatarUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.active">Active</span></dt>
+          <dd>
+            <span>{{ staffRef.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.user">User</span></dt>
+          <dd>
+            <span>{{ staffRef.user?.login }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.services">Services</span></dt>
+          <dd>
+            @for (services of staffRef.services; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/spa-service', services.id, 'view']">{{ services?.name }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/staff', staffRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,35 @@
+{
+  "aulacswscApp": {
+    "spaService": {
+      "home": {
+        "title": "Spa Services",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Spa Service",
+        "createOrEditLabel": "Create or edit a Spa Service",
+        "notFound": "No Spa Services found"
+      },
+      "created": "A new Spa Service is created with identifier {{ param }}",
+      "updated": "A Spa Service is updated with identifier {{ param }}",
+      "deleted": "A Spa Service is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Spa Service {{ id }}?"
+      },
+      "detail": {
+        "title": "Spa Service"
+      },
+      "id": "ID",
+      "name": "Name",
+      "slug": "Slug",
+      "shortDescription": "Short Description",
+      "description": "Description",
+      "price": "Price",
+      "salePrice": "Sale Price",
+      "durationMinutes": "Duration Minutes",
+      "imageUrl": "Image Url",
+      "featured": "Featured",
+      "active": "Active",
+      "category": "Category",
+      "staffs": "Staffs"
+    }
+  }
+}

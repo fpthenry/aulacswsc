@@ -1,0 +1,30 @@
+{
+  "aulacswscApp": {
+    "serviceCategory": {
+      "home": {
+        "title": "Service Categories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Service Category",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Service Category",
+        "notFound": "No Service Categories found"
+      },
+      "created": "Một Service Category mới được tạo với định danh {{ param }}",
+      "updated": "Một Service Category cập nhật với định danh {{ param }}",
+      "deleted": "Một Service Category đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Service Category {{ id }}?"
+      },
+      "detail": {
+        "title": "Service Category"
+      },
+      "id": "ID",
+      "name": "Name",
+      "slug": "Slug",
+      "description": "Description",
+      "imageUrl": "Image Url",
+      "displayOrder": "Display Order",
+      "active": "Active",
+      "services": "Services"
+    }
+  }
+}

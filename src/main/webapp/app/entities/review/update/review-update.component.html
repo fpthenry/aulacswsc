@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-review-heading" data-cy="ReviewCreateUpdateHeading" jhiTranslate="aulacswscApp.review.home.createOrEditLabel">
+        Create or edit a Review
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="aulacswscApp.review.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let ratingRef = editForm.get('rating')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_rating" jhiTranslate="aulacswscApp.review.rating">Rating</label>
+          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
+          @if (ratingRef.invalid && (ratingRef.dirty || ratingRef.touched)) {
+            <div>
+              @if (editForm.get('rating')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('rating')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '1' }"
+                  >This field should be at least 1.</small
+                >
+              }
+              @if (editForm.get('rating')?.errors?.max) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '5' }"
+                  >This field cannot be more than 5.</small
+                >
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('rating')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let commentRef = editForm.get('comment')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_comment" jhiTranslate="aulacswscApp.review.comment">Comment</label>
+          <input type="text" class="form-control" name="comment" id="field_comment" data-cy="comment" formControlName="comment" />
+          @if (commentRef.invalid && (commentRef.dirty || commentRef.touched)) {
+            <div>
+              @if (editForm.get('comment')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '2000' }"
+                  >This field cannot be longer than 2000 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_approved" jhiTranslate="aulacswscApp.review.approved">Approved</label>
+          <input type="checkbox" class="form-check" name="approved" id="field_approved" data-cy="approved" formControlName="approved" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_createdDate" jhiTranslate="aulacswscApp.review.createdDate">Created Date</label>
+          <div class="d-flex">
+            <input
+              id="field_createdDate"
+              data-cy="createdDate"
+              type="datetime-local"
+              class="form-control"
+              name="createdDate"
+              formControlName="createdDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_customer" jhiTranslate="aulacswscApp.review.customer">Customer</label>
+          <select
+            class="form-control"
+            id="field_customer"
+            data-cy="customer"
+            name="customer"
+            formControlName="customer"
+            [compareWith]="compareCustomer"
+          >
+            @if (!editForm.get('customer')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (customerOption of customersSharedCollection; track $index) {
+              <option [ngValue]="customerOption">{{ customerOption.fullName }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['customer'])!.invalid && (editForm.get(['customer'])!.dirty || editForm.get(['customer'])!.touched)) {
+          <div>
+            @if (editForm.get(['customer'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_service" jhiTranslate="aulacswscApp.review.service">Service</label>
+          <select
+            class="form-control"
+            id="field_service"
+            data-cy="service"
+            name="service"
+            formControlName="service"
+            [compareWith]="compareSpaService"
+          >
+            @if (!editForm.get('service')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (spaServiceOption of spaServicesSharedCollection; track $index) {
+              <option [ngValue]="spaServiceOption">{{ spaServiceOption.name }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['service'])!.invalid && (editForm.get(['service'])!.dirty || editForm.get(['service'])!.touched)) {
+          <div>
+            @if (editForm.get(['service'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

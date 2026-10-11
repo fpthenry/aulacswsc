@@ -70,6 +70,29 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    // ===== Website spa: nội dung công khai cho khách vãng lai =====
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/service-categories/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/spa-services/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/promotions/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/staff/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/reviews/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
+                    // ===== Danh mục, dịch vụ, khuyến mãi, nhân viên, liên hệ: chỉ ADMIN quản lý =====
+                    .requestMatchers(mvc.pattern("/api/service-categories/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/spa-services/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/promotions/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/staff/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/contact-messages/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    // ===== Khách hàng: ADMIN & STAFF =====
+                    .requestMatchers(mvc.pattern("/api/customers/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF)
+                    // ===== Lịch hẹn: CUSTOMER chỉ được tạo & xem lịch của mình (lọc trong BookingResource) =====
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/bookings/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF, AuthoritiesConstants.CUSTOMER)
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/bookings")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF, AuthoritiesConstants.CUSTOMER)
+                    .requestMatchers(mvc.pattern("/api/bookings/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF)
+                    .requestMatchers(mvc.pattern("/api/booking-items/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF)
+                    // ===== Đánh giá: CUSTOMER viết đánh giá, ADMIN sửa/xóa/duyệt =====
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/reviews")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.CUSTOMER)
+                    .requestMatchers(mvc.pattern("/api/reviews/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/**")).authenticated()
                     .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/management/health")).permitAll()

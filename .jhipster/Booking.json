@@ -1,0 +1,93 @@
+{
+  "annotations": {
+    "changelogDate": "20261011043050"
+  },
+  "applications": ["aulacswsc"],
+  "documentation": "Lịch hẹn",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "BookingStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PENDING,CONFIRMED,IN_PROGRESS,COMPLETED,CANCELLED,NO_SHOW"
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "discountAmount",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "paymentStatus",
+      "fieldType": "PaymentStatus",
+      "fieldValues": "UNPAID,PAID,REFUNDED"
+    },
+    {
+      "fieldName": "paymentMethod",
+      "fieldType": "PaymentMethod",
+      "fieldValues": "CASH,BANK_TRANSFER,CARD,E_WALLET"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Booking",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "bookingItem",
+      "otherEntityRelationshipName": "booking",
+      "relationshipName": "items",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "promotion",
+      "relationshipName": "promotion",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "fullName",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "bookings",
+      "relationshipName": "customer",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (booking(); as bookingRef) {
+      <div>
+        <h2 data-cy="bookingDetailsHeading"><span jhiTranslate="aulacswscApp.booking.detail.title">Booking</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ bookingRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.code">Code</span></dt>
+          <dd>
+            <span>{{ bookingRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.startTime">Start Time</span></dt>
+          <dd>
+            <span>{{ bookingRef.startTime | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.endTime">End Time</span></dt>
+          <dd>
+            <span>{{ bookingRef.endTime | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.BookingStatus.' + (bookingRef.status ?? 'null')">{{
+              {
+                null: '',
+                PENDING: 'PENDING',
+                CONFIRMED: 'CONFIRMED',
+                IN_PROGRESS: 'IN_PROGRESS',
+                COMPLETED: 'COMPLETED',
+                CANCELLED: 'CANCELLED',
+                NO_SHOW: 'NO_SHOW',
+              }[bookingRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.totalAmount">Total Amount</span></dt>
+          <dd>
+            <span>{{ bookingRef.totalAmount }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.discountAmount">Discount Amount</span></dt>
+          <dd>
+            <span>{{ bookingRef.discountAmount }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.paymentStatus">Payment Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.PaymentStatus.' + (bookingRef.paymentStatus ?? 'null')">{{
+              { null: '', UNPAID: 'UNPAID', PAID: 'PAID', REFUNDED: 'REFUNDED' }[bookingRef.paymentStatus ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.paymentMethod">Payment Method</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.PaymentMethod.' + (bookingRef.paymentMethod ?? 'null')">{{
+              { null: '', CASH: 'CASH', BANK_TRANSFER: 'BANK_TRANSFER', CARD: 'CARD', E_WALLET: 'E_WALLET' }[
+                bookingRef.paymentMethod ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.note">Note</span></dt>
+          <dd>
+            <span>{{ bookingRef.note }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ bookingRef.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.promotion">Promotion</span></dt>
+          <dd>
+            @if (booking()!.promotion) {
+              <div>
+                <a [routerLink]="['/promotion', booking()!.promotion?.id, 'view']">{{ bookingRef.promotion?.code }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.customer">Customer</span></dt>
+          <dd>
+            @if (booking()!.customer) {
+              <div>
+                <a [routerLink]="['/customer', booking()!.customer?.id, 'view']">{{ bookingRef.customer?.fullName }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/booking', bookingRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

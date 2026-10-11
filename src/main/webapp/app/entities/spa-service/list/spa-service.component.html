@@ -1,0 +1,190 @@
+<div>
+  <h2 id="page-heading" data-cy="SpaServiceHeading">
+    <span jhiTranslate="aulacswscApp.spaService.home.title">Spa Services</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="aulacswscApp.spaService.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-spa-service"
+        [routerLink]="['/spa-service/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="aulacswscApp.spaService.home.createLabel">Create a new Spa Service</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  <jhi-filter [filters]="filters" />
+
+  @if (spaServices().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="aulacswscApp.spaService.home.notFound">No Spa Services found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="slug">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.slug">Slug</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="shortDescription">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.shortDescription">Short Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="price">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.price">Price</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="salePrice">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.salePrice">Sale Price</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="durationMinutes">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.durationMinutes">Duration Minutes</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imageUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="featured">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.featured">Featured</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.active">Active</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="category.name">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.spaService.category">Category</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (spaService of spaServices(); track trackId(spaService)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/spa-service', spaService.id, 'view']">{{ spaService.id }}</a>
+              </td>
+              <td>{{ spaService.name }}</td>
+              <td>{{ spaService.slug }}</td>
+              <td>{{ spaService.shortDescription }}</td>
+              <td>{{ spaService.description }}</td>
+              <td>{{ spaService.price }}</td>
+              <td>{{ spaService.salePrice }}</td>
+              <td>{{ spaService.durationMinutes }}</td>
+              <td>{{ spaService.imageUrl }}</td>
+              <td>{{ spaService.featured }}</td>
+              <td>{{ spaService.active }}</td>
+              <td>
+                @if (spaService.category) {
+                  <div>
+                    <a [routerLink]="['/service-category', spaService.category.id, 'view']">{{ spaService.category.name }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/spa-service', spaService.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/spa-service', spaService.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(spaService)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (spaServices().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

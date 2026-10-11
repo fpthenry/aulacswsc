@@ -1,0 +1,35 @@
+{
+  "aulacswscApp": {
+    "spaService": {
+      "home": {
+        "title": "Spa Services",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Spa Service",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Spa Service",
+        "notFound": "No Spa Services found"
+      },
+      "created": "Một Spa Service mới được tạo với định danh {{ param }}",
+      "updated": "Một Spa Service cập nhật với định danh {{ param }}",
+      "deleted": "Một Spa Service đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Spa Service {{ id }}?"
+      },
+      "detail": {
+        "title": "Spa Service"
+      },
+      "id": "ID",
+      "name": "Name",
+      "slug": "Slug",
+      "shortDescription": "Short Description",
+      "description": "Description",
+      "price": "Price",
+      "salePrice": "Sale Price",
+      "durationMinutes": "Duration Minutes",
+      "imageUrl": "Image Url",
+      "featured": "Featured",
+      "active": "Active",
+      "category": "Category",
+      "staffs": "Staffs"
+    }
+  }
+}

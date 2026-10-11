@@ -1,0 +1,127 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-service-category-heading"
+        data-cy="ServiceCategoryCreateUpdateHeading"
+        jhiTranslate="aulacswscApp.serviceCategory.home.createOrEditLabel"
+      >
+        Create or edit a Service Category
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="aulacswscApp.serviceCategory.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="aulacswscApp.serviceCategory.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+            <div>
+              @if (editForm.get('name')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('name')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                  >This field cannot be longer than 150 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        @let slugRef = editForm.get('slug')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_slug" jhiTranslate="aulacswscApp.serviceCategory.slug">Slug</label>
+          <input type="text" class="form-control" name="slug" id="field_slug" data-cy="slug" formControlName="slug" />
+          @if (slugRef.invalid && (slugRef.dirty || slugRef.touched)) {
+            <div>
+              @if (editForm.get('slug')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('slug')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '180' }"
+                  >This field cannot be longer than 180 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description" jhiTranslate="aulacswscApp.serviceCategory.description">Description</label>
+          <textarea
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        @let imageUrlRef = editForm.get('imageUrl')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_imageUrl" jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</label>
+          <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
+          @if (imageUrlRef.invalid && (imageUrlRef.dirty || imageUrlRef.touched)) {
+            <div>
+              @if (editForm.get('imageUrl')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                  >This field cannot be longer than 500 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_displayOrder" jhiTranslate="aulacswscApp.serviceCategory.displayOrder">Display Order</label>
+          <input
+            type="number"
+            class="form-control"
+            name="displayOrder"
+            id="field_displayOrder"
+            data-cy="displayOrder"
+            formControlName="displayOrder"
+          />
+        </div>
+
+        @let activeRef = editForm.get('active')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_active" jhiTranslate="aulacswscApp.serviceCategory.active">Active</label>
+          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
+          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+            <div>
+              @if (editForm.get('active')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

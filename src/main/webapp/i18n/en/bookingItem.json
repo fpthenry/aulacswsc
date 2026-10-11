@@ -1,0 +1,29 @@
+{
+  "aulacswscApp": {
+    "bookingItem": {
+      "home": {
+        "title": "Booking Items",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Booking Item",
+        "createOrEditLabel": "Create or edit a Booking Item",
+        "notFound": "No Booking Items found"
+      },
+      "created": "A new Booking Item is created with identifier {{ param }}",
+      "updated": "A Booking Item is updated with identifier {{ param }}",
+      "deleted": "A Booking Item is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Booking Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Booking Item"
+      },
+      "id": "ID",
+      "price": "Price",
+      "quantity": "Quantity",
+      "durationMinutes": "Duration Minutes",
+      "service": "Service",
+      "staff": "Staff",
+      "booking": "Booking"
+    }
+  }
+}

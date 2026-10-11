@@ -1,0 +1,153 @@
+<div>
+  <h2 id="page-heading" data-cy="ContactMessageHeading">
+    <span jhiTranslate="aulacswscApp.contactMessage.home.title">Contact Messages</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="aulacswscApp.contactMessage.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-contact-message"
+        [routerLink]="['/contact-message/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="aulacswscApp.contactMessage.home.createLabel">Create a new Contact Message</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  <jhi-filter [filters]="filters" />
+
+  @if (contactMessages().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="aulacswscApp.contactMessage.home.notFound">No Contact Messages found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fullName">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.fullName">Full Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="phone">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.phone">Phone</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="message">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.message">Message</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="handled">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.handled">Handled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.contactMessage.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (contactMessage of contactMessages(); track trackId(contactMessage)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/contact-message', contactMessage.id, 'view']">{{ contactMessage.id }}</a>
+              </td>
+              <td>{{ contactMessage.fullName }}</td>
+              <td>{{ contactMessage.phone }}</td>
+              <td>{{ contactMessage.email }}</td>
+              <td>{{ contactMessage.message }}</td>
+              <td>{{ contactMessage.handled }}</td>
+              <td>{{ contactMessage.createdDate | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/contact-message', contactMessage.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/contact-message', contactMessage.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(contactMessage)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (contactMessages().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

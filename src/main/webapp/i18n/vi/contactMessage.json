@@ -1,0 +1,29 @@
+{
+  "aulacswscApp": {
+    "contactMessage": {
+      "home": {
+        "title": "Contact Messages",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Contact Message",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Contact Message",
+        "notFound": "No Contact Messages found"
+      },
+      "created": "Một Contact Message mới được tạo với định danh {{ param }}",
+      "updated": "Một Contact Message cập nhật với định danh {{ param }}",
+      "deleted": "Một Contact Message đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Contact Message {{ id }}?"
+      },
+      "detail": {
+        "title": "Contact Message"
+      },
+      "id": "ID",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "message": "Message",
+      "handled": "Handled",
+      "createdDate": "Created Date"
+    }
+  }
+}
