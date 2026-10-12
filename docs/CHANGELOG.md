@@ -12,7 +12,15 @@ Chi tiết kỹ thuật xem thêm: [01 Database & phân quyền](01-database-va-
 
 ---
 
-## [Chưa commit] — từ 2026-10-11 đến 2026-10-12
+## [Chưa commit]
+
+_Chưa có thay đổi._
+
+---
+
+## 2026-10-12 — `0bc4158` feat(site): website khách spa, đặt lịch online, quản trị nội dung song ngữ và hiệu ứng giao diện
+
+> Commit trước đó `2f13502` (cùng tiêu đề, bản ngắn) chỉ chứa việc xóa `src/main/webapp/robots.txt` (robots.txt nay sinh động ở server); toàn bộ thay đổi bên dưới nằm trong `0bc4158`.
 
 ### Thay đổi giao diện (2026-10-12)
 
