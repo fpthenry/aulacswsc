@@ -34,14 +34,20 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ServiceCategoryResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME_VI = "AAAAAAAAAA";
+    private static final String UPDATED_NAME_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME_EN = "AAAAAAAAAA";
+    private static final String UPDATED_NAME_EN = "BBBBBBBBBB";
 
     private static final String DEFAULT_SLUG = "AAAAAAAAAA";
     private static final String UPDATED_SLUG = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION_VI = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRIPTION_EN = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION_EN = "BBBBBBBBBB";
 
     private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
     private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
@@ -86,9 +92,11 @@ class ServiceCategoryResourceIT {
      */
     public static ServiceCategory createEntity() {
         return new ServiceCategory()
-            .name(DEFAULT_NAME)
+            .nameVi(DEFAULT_NAME_VI)
+            .nameEn(DEFAULT_NAME_EN)
             .slug(DEFAULT_SLUG)
-            .description(DEFAULT_DESCRIPTION)
+            .descriptionVi(DEFAULT_DESCRIPTION_VI)
+            .descriptionEn(DEFAULT_DESCRIPTION_EN)
             .imageUrl(DEFAULT_IMAGE_URL)
             .displayOrder(DEFAULT_DISPLAY_ORDER)
             .active(DEFAULT_ACTIVE);
@@ -102,9 +110,11 @@ class ServiceCategoryResourceIT {
      */
     public static ServiceCategory createUpdatedEntity() {
         return new ServiceCategory()
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .description(UPDATED_DESCRIPTION)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
             .imageUrl(UPDATED_IMAGE_URL)
             .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);
@@ -167,10 +177,27 @@ class ServiceCategoryResourceIT {
 
     @Test
     @Transactional
-    void checkNameIsRequired() throws Exception {
+    void checkNameViIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        serviceCategory.setName(null);
+        serviceCategory.setNameVi(null);
+
+        // Create the ServiceCategory, which fails.
+        ServiceCategoryDTO serviceCategoryDTO = serviceCategoryMapper.toDto(serviceCategory);
+
+        restServiceCategoryMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(serviceCategoryDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkNameEnIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        serviceCategory.setNameEn(null);
 
         // Create the ServiceCategory, which fails.
         ServiceCategoryDTO serviceCategoryDTO = serviceCategoryMapper.toDto(serviceCategory);
@@ -228,9 +255,11 @@ class ServiceCategoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceCategory.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].nameVi").value(hasItem(DEFAULT_NAME_VI)))
+            .andExpect(jsonPath("$.[*].nameEn").value(hasItem(DEFAULT_NAME_EN)))
             .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].descriptionVi").value(hasItem(DEFAULT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].descriptionEn").value(hasItem(DEFAULT_DESCRIPTION_EN)))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].displayOrder").value(hasItem(DEFAULT_DISPLAY_ORDER)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
@@ -248,9 +277,11 @@ class ServiceCategoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(serviceCategory.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.nameVi").value(DEFAULT_NAME_VI))
+            .andExpect(jsonPath("$.nameEn").value(DEFAULT_NAME_EN))
             .andExpect(jsonPath("$.slug").value(DEFAULT_SLUG))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.descriptionVi").value(DEFAULT_DESCRIPTION_VI))
+            .andExpect(jsonPath("$.descriptionEn").value(DEFAULT_DESCRIPTION_EN))
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.displayOrder").value(DEFAULT_DISPLAY_ORDER))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE));
@@ -273,52 +304,102 @@ class ServiceCategoryResourceIT {
 
     @Test
     @Transactional
-    void getAllServiceCategoriesByNameIsEqualToSomething() throws Exception {
+    void getAllServiceCategoriesByNameViIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
 
-        // Get all the serviceCategoryList where name equals to
-        defaultServiceCategoryFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+        // Get all the serviceCategoryList where nameVi equals to
+        defaultServiceCategoryFiltering("nameVi.equals=" + DEFAULT_NAME_VI, "nameVi.equals=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllServiceCategoriesByNameIsInShouldWork() throws Exception {
+    void getAllServiceCategoriesByNameViIsInShouldWork() throws Exception {
         // Initialize the database
         insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
 
-        // Get all the serviceCategoryList where name in
-        defaultServiceCategoryFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+        // Get all the serviceCategoryList where nameVi in
+        defaultServiceCategoryFiltering("nameVi.in=" + DEFAULT_NAME_VI + "," + UPDATED_NAME_VI, "nameVi.in=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllServiceCategoriesByNameIsNullOrNotNull() throws Exception {
+    void getAllServiceCategoriesByNameViIsNullOrNotNull() throws Exception {
         // Initialize the database
         insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
 
-        // Get all the serviceCategoryList where name is not null
-        defaultServiceCategoryFiltering("name.specified=true", "name.specified=false");
+        // Get all the serviceCategoryList where nameVi is not null
+        defaultServiceCategoryFiltering("nameVi.specified=true", "nameVi.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllServiceCategoriesByNameContainsSomething() throws Exception {
+    void getAllServiceCategoriesByNameViContainsSomething() throws Exception {
         // Initialize the database
         insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
 
-        // Get all the serviceCategoryList where name contains
-        defaultServiceCategoryFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+        // Get all the serviceCategoryList where nameVi contains
+        defaultServiceCategoryFiltering("nameVi.contains=" + DEFAULT_NAME_VI, "nameVi.contains=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllServiceCategoriesByNameNotContainsSomething() throws Exception {
+    void getAllServiceCategoriesByNameViNotContainsSomething() throws Exception {
         // Initialize the database
         insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
 
-        // Get all the serviceCategoryList where name does not contain
-        defaultServiceCategoryFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+        // Get all the serviceCategoryList where nameVi does not contain
+        defaultServiceCategoryFiltering("nameVi.doesNotContain=" + UPDATED_NAME_VI, "nameVi.doesNotContain=" + DEFAULT_NAME_VI);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByNameEnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where nameEn equals to
+        defaultServiceCategoryFiltering("nameEn.equals=" + DEFAULT_NAME_EN, "nameEn.equals=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByNameEnIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where nameEn in
+        defaultServiceCategoryFiltering("nameEn.in=" + DEFAULT_NAME_EN + "," + UPDATED_NAME_EN, "nameEn.in=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByNameEnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where nameEn is not null
+        defaultServiceCategoryFiltering("nameEn.specified=true", "nameEn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByNameEnContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where nameEn contains
+        defaultServiceCategoryFiltering("nameEn.contains=" + DEFAULT_NAME_EN, "nameEn.contains=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByNameEnNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where nameEn does not contain
+        defaultServiceCategoryFiltering("nameEn.doesNotContain=" + UPDATED_NAME_EN, "nameEn.doesNotContain=" + DEFAULT_NAME_EN);
     }
 
     @Test
@@ -369,6 +450,124 @@ class ServiceCategoryResourceIT {
 
         // Get all the serviceCategoryList where slug does not contain
         defaultServiceCategoryFiltering("slug.doesNotContain=" + UPDATED_SLUG, "slug.doesNotContain=" + DEFAULT_SLUG);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionViIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionVi equals to
+        defaultServiceCategoryFiltering("descriptionVi.equals=" + DEFAULT_DESCRIPTION_VI, "descriptionVi.equals=" + UPDATED_DESCRIPTION_VI);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionViIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionVi in
+        defaultServiceCategoryFiltering(
+            "descriptionVi.in=" + DEFAULT_DESCRIPTION_VI + "," + UPDATED_DESCRIPTION_VI,
+            "descriptionVi.in=" + UPDATED_DESCRIPTION_VI
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionViIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionVi is not null
+        defaultServiceCategoryFiltering("descriptionVi.specified=true", "descriptionVi.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionViContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionVi contains
+        defaultServiceCategoryFiltering(
+            "descriptionVi.contains=" + DEFAULT_DESCRIPTION_VI,
+            "descriptionVi.contains=" + UPDATED_DESCRIPTION_VI
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionViNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionVi does not contain
+        defaultServiceCategoryFiltering(
+            "descriptionVi.doesNotContain=" + UPDATED_DESCRIPTION_VI,
+            "descriptionVi.doesNotContain=" + DEFAULT_DESCRIPTION_VI
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionEnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionEn equals to
+        defaultServiceCategoryFiltering("descriptionEn.equals=" + DEFAULT_DESCRIPTION_EN, "descriptionEn.equals=" + UPDATED_DESCRIPTION_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionEnIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionEn in
+        defaultServiceCategoryFiltering(
+            "descriptionEn.in=" + DEFAULT_DESCRIPTION_EN + "," + UPDATED_DESCRIPTION_EN,
+            "descriptionEn.in=" + UPDATED_DESCRIPTION_EN
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionEnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionEn is not null
+        defaultServiceCategoryFiltering("descriptionEn.specified=true", "descriptionEn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionEnContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionEn contains
+        defaultServiceCategoryFiltering(
+            "descriptionEn.contains=" + DEFAULT_DESCRIPTION_EN,
+            "descriptionEn.contains=" + UPDATED_DESCRIPTION_EN
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllServiceCategoriesByDescriptionEnNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedServiceCategory = serviceCategoryRepository.saveAndFlush(serviceCategory);
+
+        // Get all the serviceCategoryList where descriptionEn does not contain
+        defaultServiceCategoryFiltering(
+            "descriptionEn.doesNotContain=" + UPDATED_DESCRIPTION_EN,
+            "descriptionEn.doesNotContain=" + DEFAULT_DESCRIPTION_EN
+        );
     }
 
     @Test
@@ -547,9 +746,11 @@ class ServiceCategoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceCategory.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].nameVi").value(hasItem(DEFAULT_NAME_VI)))
+            .andExpect(jsonPath("$.[*].nameEn").value(hasItem(DEFAULT_NAME_EN)))
             .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].descriptionVi").value(hasItem(DEFAULT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].descriptionEn").value(hasItem(DEFAULT_DESCRIPTION_EN)))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].displayOrder").value(hasItem(DEFAULT_DISPLAY_ORDER)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
@@ -601,9 +802,11 @@ class ServiceCategoryResourceIT {
         // Disconnect from session so that the updates on updatedServiceCategory are not directly saved in db
         em.detach(updatedServiceCategory);
         updatedServiceCategory
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .description(UPDATED_DESCRIPTION)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
             .imageUrl(UPDATED_IMAGE_URL)
             .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);
@@ -696,7 +899,7 @@ class ServiceCategoryResourceIT {
         ServiceCategory partialUpdatedServiceCategory = new ServiceCategory();
         partialUpdatedServiceCategory.setId(serviceCategory.getId());
 
-        partialUpdatedServiceCategory.imageUrl(UPDATED_IMAGE_URL);
+        partialUpdatedServiceCategory.descriptionVi(UPDATED_DESCRIPTION_VI);
 
         restServiceCategoryMockMvc
             .perform(
@@ -728,9 +931,11 @@ class ServiceCategoryResourceIT {
         partialUpdatedServiceCategory.setId(serviceCategory.getId());
 
         partialUpdatedServiceCategory
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .description(UPDATED_DESCRIPTION)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
             .imageUrl(UPDATED_IMAGE_URL)
             .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);

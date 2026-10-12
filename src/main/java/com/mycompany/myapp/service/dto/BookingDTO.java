@@ -1,5 +1,6 @@
 package com.mycompany.myapp.service.dto;
 
+import com.mycompany.myapp.domain.enumeration.BookingSource;
 import com.mycompany.myapp.domain.enumeration.BookingStatus;
 import com.mycompany.myapp.domain.enumeration.PaymentMethod;
 import com.mycompany.myapp.domain.enumeration.PaymentStatus;
@@ -29,7 +30,14 @@ public class BookingDTO implements Serializable {
     private Instant endTime;
 
     @NotNull
+    @Min(value = 1)
+    @Max(value = 20)
+    private Integer numberOfPeople;
+
+    @NotNull
     private BookingStatus status;
+
+    private BookingSource source;
 
     @DecimalMin(value = "0")
     private BigDecimal totalAmount;
@@ -45,6 +53,9 @@ public class BookingDTO implements Serializable {
     private String note;
 
     private Instant createdDate;
+
+    @NotNull
+    private BranchDTO branch;
 
     private PromotionDTO promotion;
 
@@ -83,12 +94,28 @@ public class BookingDTO implements Serializable {
         this.endTime = endTime;
     }
 
+    public Integer getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(Integer numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
     public BookingStatus getStatus() {
         return status;
     }
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public BookingSource getSource() {
+        return source;
+    }
+
+    public void setSource(BookingSource source) {
+        this.source = source;
     }
 
     public BigDecimal getTotalAmount() {
@@ -139,6 +166,14 @@ public class BookingDTO implements Serializable {
         this.createdDate = createdDate;
     }
 
+    public BranchDTO getBranch() {
+        return branch;
+    }
+
+    public void setBranch(BranchDTO branch) {
+        this.branch = branch;
+    }
+
     public PromotionDTO getPromotion() {
         return promotion;
     }
@@ -184,13 +219,16 @@ public class BookingDTO implements Serializable {
             ", code='" + getCode() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", numberOfPeople=" + getNumberOfPeople() +
             ", status='" + getStatus() + "'" +
+            ", source='" + getSource() + "'" +
             ", totalAmount=" + getTotalAmount() +
             ", discountAmount=" + getDiscountAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             ", paymentMethod='" + getPaymentMethod() + "'" +
             ", note='" + getNote() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
+            ", branch=" + getBranch() +
             ", promotion=" + getPromotion() +
             ", customer=" + getCustomer() +
             "}";

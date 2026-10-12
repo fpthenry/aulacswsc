@@ -29,12 +29,15 @@ public interface StaffRepository extends StaffRepositoryWithBagRelationships, Jp
         return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
     }
 
-    @Query(value = "select staff from Staff staff left join fetch staff.user", countQuery = "select count(staff) from Staff staff")
+    @Query(
+        value = "select staff from Staff staff left join fetch staff.user left join fetch staff.branch",
+        countQuery = "select count(staff) from Staff staff"
+    )
     Page<Staff> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select staff from Staff staff left join fetch staff.user")
+    @Query("select staff from Staff staff left join fetch staff.user left join fetch staff.branch")
     List<Staff> findAllWithToOneRelationships();
 
-    @Query("select staff from Staff staff left join fetch staff.user where staff.id =:id")
+    @Query("select staff from Staff staff left join fetch staff.user left join fetch staff.branch where staff.id =:id")
     Optional<Staff> findOneWithToOneRelationships(@Param("id") Long id);
 }

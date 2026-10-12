@@ -77,7 +77,9 @@ public class BookingQueryService extends QueryService<Booking> {
                 buildStringSpecification(criteria.getCode(), Booking_.code),
                 buildRangeSpecification(criteria.getStartTime(), Booking_.startTime),
                 buildRangeSpecification(criteria.getEndTime(), Booking_.endTime),
+                buildRangeSpecification(criteria.getNumberOfPeople(), Booking_.numberOfPeople),
                 buildSpecification(criteria.getStatus(), Booking_.status),
+                buildSpecification(criteria.getSource(), Booking_.source),
                 buildRangeSpecification(criteria.getTotalAmount(), Booking_.totalAmount),
                 buildRangeSpecification(criteria.getDiscountAmount(), Booking_.discountAmount),
                 buildSpecification(criteria.getPaymentStatus(), Booking_.paymentStatus),
@@ -85,6 +87,7 @@ public class BookingQueryService extends QueryService<Booking> {
                 buildStringSpecification(criteria.getNote(), Booking_.note),
                 buildRangeSpecification(criteria.getCreatedDate(), Booking_.createdDate),
                 buildSpecification(criteria.getItemsId(), root -> root.join(Booking_.items, JoinType.LEFT).get(BookingItem_.id)),
+                buildSpecification(criteria.getBranchId(), root -> root.join(Booking_.branch, JoinType.LEFT).get(Branch_.id)),
                 buildSpecification(criteria.getPromotionId(), root -> root.join(Booking_.promotion, JoinType.LEFT).get(Promotion_.id)),
                 buildSpecification(criteria.getCustomerId(), root -> root.join(Booking_.customer, JoinType.LEFT).get(Customer_.id))
             );

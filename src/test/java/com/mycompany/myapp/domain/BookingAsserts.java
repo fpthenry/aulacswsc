@@ -51,7 +51,9 @@ public class BookingAsserts {
             .satisfies(a -> assertThat(a.getCode()).as("check code").isEqualTo(expected.getCode()))
             .satisfies(a -> assertThat(a.getStartTime()).as("check startTime").isEqualTo(expected.getStartTime()))
             .satisfies(a -> assertThat(a.getEndTime()).as("check endTime").isEqualTo(expected.getEndTime()))
+            .satisfies(a -> assertThat(a.getNumberOfPeople()).as("check numberOfPeople").isEqualTo(expected.getNumberOfPeople()))
             .satisfies(a -> assertThat(a.getStatus()).as("check status").isEqualTo(expected.getStatus()))
+            .satisfies(a -> assertThat(a.getSource()).as("check source").isEqualTo(expected.getSource()))
             .satisfies(a ->
                 assertThat(a.getTotalAmount())
                     .as("check totalAmount")
@@ -79,6 +81,7 @@ public class BookingAsserts {
     public static void assertBookingUpdatableRelationshipsEquals(Booking expected, Booking actual) {
         assertThat(actual)
             .as("Verify Booking relationships")
+            .satisfies(a -> assertThat(a.getBranch()).as("check branch").isEqualTo(expected.getBranch()))
             .satisfies(a -> assertThat(a.getPromotion()).as("check promotion").isEqualTo(expected.getPromotion()))
             .satisfies(a -> assertThat(a.getCustomer()).as("check customer").isEqualTo(expected.getCustomer()));
     }

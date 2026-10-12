@@ -1,0 +1,327 @@
+<!-- ===================== HERO (nền tối, slideshow Ken Burns hoặc video) ===================== -->
+<section class="hero" aria-labelledby="hero-title" aria-roledescription="carousel">
+  <div class="hero-media" aria-hidden="true">
+    @if (showVideo()) {
+      <video
+        #heroVideo
+        [src]="setting().heroVideoUrl"
+        [attr.poster]="slides()[0]?.src ?? null"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      ></video>
+    } @else {
+      @for (s of slides(); track s.src; let i = $index) {
+        <div class="slide" [class.active]="i === slideIndex()" [class.kb-alt]="i % 2 === 1" [class.still]="!playing()">
+          <img
+            [src]="s.src"
+            [attr.srcset]="s.srcset ?? null"
+            sizes="100vw"
+            alt=""
+            [attr.fetchpriority]="i === 0 ? 'high' : 'low'"
+            [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+            decoding="async"
+          />
+        </div>
+      }
+    }
+    <span class="hero-veil"></span>
+    <span class="hero-grain"></span>
+  </div>
+
+  <div class="container hero-content">
+    <div class="hero-ornament" aria-hidden="true"><span></span><site-icon name="leaf" [size]="18" /><span></span></div>
+    <p class="hero-eyebrow">{{ state.siteName() }}</p>
+    <h1 id="hero-title">
+      <span class="h-main">{{ sloganParts().main }}</span>
+      @if (sloganParts().accent) {
+        <span class="h-accent">{{ sloganParts().accent }}</span>
+      }
+    </h1>
+    @if (state.t(setting(), 'heroSubtitle')) {
+      <p class="hero-sub">{{ state.t(setting(), 'heroSubtitle') }}</p>
+    }
+    <div class="hero-actions">
+      <a class="btn-site btn-gold hero-cta" [routerLink]="state.link('booking')"
+        ><site-icon name="calendar" [size]="18" />{{ 'site.cta.book' | translate }}</a
+      >
+      <a class="btn-site hero-ghost" [routerLink]="state.link('services')">{{ 'site.cta.explore' | translate }}</a>
+    </div>
+  </div>
+
+  <div class="hero-controls">
+    @if (!showVideo() && slides().length > 1) {
+      <div class="dots" role="group" [attr.aria-label]="'site.home.slides' | translate">
+        @for (s of slides(); track s.src; let i = $index) {
+          <button
+            type="button"
+            [class.on]="i === slideIndex()"
+            [attr.aria-current]="i === slideIndex() ? 'true' : null"
+            [attr.aria-label]="'site.home.slide' | translate: { n: i + 1, total: slides().length }"
+            (click)="goToSlide(i)"
+          ></button>
+        }
+      </div>
+    }
+    @if (showVideo() || slides().length > 1) {
+      <button
+        type="button"
+        class="motion-toggle"
+        (click)="toggleMotion()"
+        [attr.aria-label]="(motionPaused() ? 'site.a11y.playVideo' : 'site.a11y.pauseVideo') | translate"
+      >
+        <site-icon [name]="motionPaused() ? 'play' : 'pause'" [size]="14" />
+      </button>
+    }
+  </div>
+
+  <a class="scroll-cue" href="#about" [attr.aria-label]="'site.home.scroll' | translate">
+    <span>{{ 'site.home.scroll' | translate }}</span>
+    <span class="cue-line" aria-hidden="true"></span>
+  </a>
+</section>
+
+<!-- ===================== GIỚI THIỆU ===================== -->
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div siteReveal="left">
+      <p class="eyebrow">{{ 'site.home.aboutEyebrow' | translate }}</p>
+      <h2 id="about-title">{{ state.t(setting(), 'aboutTitle') }}</h2>
+      @for (p of aboutParagraphs(); track $index) {
+        <p class="lead">{{ p }}</p>
+      }
+      <a class="btn-site btn-outline" [routerLink]="state.link('branches')">{{ 'site.cta.visitUs' | translate }}</a>
+    </div>
+    <div class="about-photos" aria-hidden="true">
+      @for (img of gallery().slice(0, 3); track img.id; let i = $index) {
+        <site-image
+          class="about-photo p{{ i }}"
+          siteReveal="curtain"
+          [revealDelay]="i * 180"
+          [url]="img.imageUrl"
+          alt=""
+          [ratio]="i === 0 ? '3 / 4' : '1 / 1'"
+          sizes="(min-width: 900px) 300px, 45vw"
+        />
+      } @empty {
+        <site-image class="about-photo p0" ratio="3 / 4" />
+        <site-image class="about-photo p1" ratio="1 / 1" />
+        <site-image class="about-photo p2" ratio="1 / 1" />
+      }
+    </div>
+  </div>
+
+  <div class="container">
+    <ul class="highlights">
+      @for (h of highlights(); track $index) {
+        @if (h.title) {
+          <li siteReveal [revealDelay]="$index * 120">
+            <span class="hl-icon"><site-icon [name]="h.icon" [size]="26" /></span>
+            <h3>{{ h.title }}</h3>
+            <p class="muted">{{ h.text }}</p>
+          </li>
+        }
+      }
+    </ul>
+
+    @if (stats().length) {
+      <dl class="stats">
+        @for (st of stats(); track st.key; let i = $index) {
+          <div class="stat" siteReveal [revealDelay]="i * 120">
+            <dt>{{ 'site.home.stats.' + st.key | translate }}</dt>
+            <dd>
+              <strong [siteCountUp]="st.value" [decimals]="st.decimals"></strong><span class="stat-suffix">{{ st.suffix }}</span>
+            </dd>
+          </div>
+        }
+      </dl>
+    }
+  </div>
+</section>
+
+<!-- ===================== DẢI CHỮ CHẠY ===================== -->
+@if (marquee().length) {
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      @for (round of [0, 1]; track round) {
+        @for (name of marquee(); track $index) {
+          <span class="mq-item">{{ name }}</span
+          ><span class="mq-dot">✦</span>
+        }
+      }
+    </div>
+  </div>
+}
+
+<!-- ===================== DANH MỤC ===================== -->
+@if (state.categories().length) {
+  <section class="section section--tint" aria-labelledby="cat-title">
+    <div class="container">
+      <div class="section-head" siteReveal="head">
+        <p class="eyebrow">{{ 'site.home.categoriesEyebrow' | translate }}</p>
+        <h2 id="cat-title">{{ 'site.home.categoriesTitle' | translate }}</h2>
+      </div>
+      <div class="grid grid-4 categories">
+        @for (c of state.categories(); track c.id; let i = $index) {
+          <a
+            class="category"
+            [routerLink]="state.link('services')"
+            [queryParams]="{ category: c.slug }"
+            siteReveal="zoom"
+            [revealDelay]="i * 110"
+          >
+            <site-image [url]="c.imageUrl" [alt]="state.t(c, 'name')" ratio="1 / 1" sizes="(min-width: 1024px) 280px, 50vw" />
+            <span class="category-label">
+              <strong>{{ state.t(c, 'name') }}</strong>
+              <small>{{ state.t(c, 'description') }}</small>
+            </span>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ===================== DỊCH VỤ NỔI BẬT ===================== -->
+<section class="section" aria-labelledby="featured-title">
+  <div class="container">
+    <div class="section-head" siteReveal="head">
+      <p class="eyebrow">{{ 'site.home.featuredEyebrow' | translate }}</p>
+      <h2 id="featured-title">{{ 'site.home.featuredTitle' | translate }}</h2>
+    </div>
+    <div class="grid grid-3">
+      @for (s of state.featuredServices(); track s.id; let i = $index) {
+        <site-service-card [service]="s" siteReveal [revealDelay]="(i % 3) * 100" />
+      }
+    </div>
+    <div class="center-action">
+      <a class="btn-site btn-outline" [routerLink]="state.link('services')">{{ 'site.cta.allServices' | translate }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ĐÁNH GIÁ ===================== -->
+<section class="section section--dark reviews-band" id="reviews" aria-labelledby="reviews-title">
+  <span class="big-quote" aria-hidden="true">“</span>
+  <div class="container">
+    <div class="section-head" siteReveal="head">
+      <p class="eyebrow">{{ 'site.home.reviewsEyebrow' | translate }}</p>
+      <h2 id="reviews-title">{{ 'site.home.reviewsTitle' | translate }}</h2>
+    </div>
+    <site-review-slider />
+    <div class="center-action">
+      <a class="btn-site btn-outline" [routerLink]="state.link('reviews')">{{ 'site.cta.allReviews' | translate }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THƯ VIỆN ẢNH ===================== -->
+@if (gallery().length) {
+  <section class="section" aria-labelledby="gallery-title">
+    <div class="container">
+      <div class="section-head" siteReveal="head">
+        <p class="eyebrow">{{ 'site.home.galleryEyebrow' | translate }}</p>
+        <h2 id="gallery-title">{{ 'site.home.galleryTitle' | translate }}</h2>
+      </div>
+    </div>
+    <div class="gallery-rows" aria-hidden="true">
+      @for (row of galleryRows(); track $index; let r = $index) {
+        <div class="g-row" [class.g-row--reverse]="r === 1">
+          @for (img of row; track img.id) {
+            <a [routerLink]="state.link('gallery')" tabindex="-1">
+              <site-image [url]="img.imageUrl" alt="" ratio="4 / 3" sizes="340px" />
+            </a>
+          }
+        </div>
+      }
+    </div>
+    <div class="container">
+      <div class="center-action">
+        <a class="btn-site btn-outline" [routerLink]="state.link('gallery')">{{ 'site.cta.allPhotos' | translate }}</a>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ===================== CƠ SỞ ===================== -->
+@if (state.branches().length) {
+  <section class="section section--tint" aria-labelledby="branches-title">
+    <div class="container">
+      <div class="section-head" siteReveal="head">
+        <p class="eyebrow">{{ 'site.home.branchesEyebrow' | translate }}</p>
+        <h2 id="branches-title">{{ 'site.home.branchesTitle' | translate }}</h2>
+      </div>
+      <div class="grid grid-2">
+        @for (b of state.branches(); track b.id; let i = $index) {
+          <article class="card branch-mini" [siteReveal]="i % 2 === 0 ? 'left' : 'right'" [revealDelay]="i * 100">
+            <div class="card-body">
+              <h3>{{ state.t(b, 'name') }}</h3>
+              <p class="row"><site-icon name="pin" [size]="18" />{{ state.t(b, 'address') }}</p>
+              <p class="row"><site-icon name="clock" [size]="18" />{{ b.openTime }} – {{ b.closeTime }}</p>
+              <p class="row">
+                <site-icon name="phone" [size]="18" /><a [href]="'tel:' + b.phone">{{ b.phone }}</a>
+              </p>
+              <div class="branch-actions">
+                <a class="btn-site btn-primary btn-sm" [routerLink]="state.link('booking')" [queryParams]="{ branch: b.slug }">{{
+                  'site.cta.book' | translate
+                }}</a>
+                @if (b.mapDirectionUrl) {
+                  <a class="btn-site btn-outline btn-sm" [href]="b.mapDirectionUrl" target="_blank" rel="noopener"
+                    >{{ 'site.cta.directions' | translate }}<span class="visually-hidden"> – {{ state.t(b, 'name') }}</span></a
+                  >
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ===================== TIN TỨC ===================== -->
+@if (posts().length) {
+  <section class="section" aria-labelledby="blog-title">
+    <div class="container">
+      <div class="section-head" siteReveal="head">
+        <p class="eyebrow">{{ 'site.home.blogEyebrow' | translate }}</p>
+        <h2 id="blog-title">{{ 'site.home.blogTitle' | translate }}</h2>
+      </div>
+      <div class="grid grid-3">
+        @for (p of posts(); track p.id; let i = $index) {
+          <article class="card" siteReveal [revealDelay]="i * 100">
+            <site-image [url]="p.coverImageUrl" [alt]="state.t(p, 'title')" ratio="16 / 10" sizes="(min-width: 1024px) 380px, 100vw" />
+            <div class="card-body">
+              <p class="muted small">
+                @if (p.category) {
+                  <span class="tag">{{ 'site.blog.category.' + p.category | translate }}</span>
+                }
+                {{ date(p.publishedAt) }}
+              </p>
+              <h3>
+                <a [routerLink]="state.link('blog', p.slug)">{{ state.t(p, 'title') }}</a>
+              </h3>
+              <p class="muted">{{ state.t(p, 'excerpt') }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ===================== CTA ===================== -->
+<section class="cta-band" aria-labelledby="cta-title">
+  @if (ctaImage(); as bg) {
+    <div class="cta-bg" aria-hidden="true"><img [src]="bg" alt="" loading="lazy" decoding="async" /></div>
+  }
+  <div class="container cta-inner" siteReveal="zoom">
+    <h2 id="cta-title">{{ 'site.home.ctaTitle' | translate }}</h2>
+    <p>{{ 'site.home.ctaText' | translate }}</p>
+    <a class="btn-site btn-gold" [routerLink]="state.link('booking')"
+      ><site-icon name="calendar" [size]="18" />{{ 'site.cta.bookNow' | translate }}</a
+    >
+  </div>
+</section>

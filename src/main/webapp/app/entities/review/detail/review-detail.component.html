@@ -15,6 +15,10 @@
           <dd>
             <span>{{ reviewRef.id }}</span>
           </dd>
+          <dt><span jhiTranslate="aulacswscApp.review.authorName">Author Name</span></dt>
+          <dd>
+            <span>{{ reviewRef.authorName }}</span>
+          </dd>
           <dt><span jhiTranslate="aulacswscApp.review.rating">Rating</span></dt>
           <dd>
             <span>{{ reviewRef.rating }}</span>
@@ -23,9 +27,25 @@
           <dd>
             <span>{{ reviewRef.comment }}</span>
           </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.review.help.videoUrl' | translate" jhiTranslate="aulacswscApp.review.videoUrl"
+              >Video Url</span
+            >
+          </dt>
+          <dd>
+            <span>{{ reviewRef.videoUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.review.reviewDate">Review Date</span></dt>
+          <dd>
+            <span>{{ reviewRef.reviewDate | formatMediumDate }}</span>
+          </dd>
           <dt><span jhiTranslate="aulacswscApp.review.approved">Approved</span></dt>
           <dd>
             <span>{{ reviewRef.approved }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.review.featured">Featured</span></dt>
+          <dd>
+            <span>{{ reviewRef.featured }}</span>
           </dd>
           <dt><span jhiTranslate="aulacswscApp.review.createdDate">Created Date</span></dt>
           <dd>
@@ -43,7 +63,7 @@
           <dd>
             @if (review()!.service) {
               <div>
-                <a [routerLink]="['/spa-service', review()!.service?.id, 'view']">{{ reviewRef.service?.name }}</a>
+                <a [routerLink]="['/spa-service', review()!.service?.id, 'view']">{{ reviewRef.service?.nameVi }}</a>
               </div>
             }
           </dd>

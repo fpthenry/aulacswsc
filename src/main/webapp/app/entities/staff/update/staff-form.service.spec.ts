@@ -27,6 +27,7 @@ describe('Staff Form Service', () => {
             avatarUrl: expect.any(Object),
             active: expect.any(Object),
             user: expect.any(Object),
+            branch: expect.any(Object),
             services: expect.any(Object),
           }),
         );
@@ -45,6 +46,7 @@ describe('Staff Form Service', () => {
             avatarUrl: expect.any(Object),
             active: expect.any(Object),
             user: expect.any(Object),
+            branch: expect.any(Object),
             services: expect.any(Object),
           }),
         );

@@ -3,9 +3,15 @@
     "changelogDate": "20261011043053"
   },
   "applications": ["aulacswsc"],
-  "documentation": "Đánh giá dịch vụ",
+  "documentation": "Đánh giá của khách (admin nhập hoặc khách viết, cần duyệt)",
   "dto": "mapstruct",
   "fields": [
+    {
+      "fieldName": "authorName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "150"
+    },
     {
       "fieldName": "rating",
       "fieldType": "Integer",
@@ -20,7 +26,22 @@
       "fieldValidateRulesMaxlength": "2000"
     },
     {
+      "documentation": "Link video review (YouTube / TikTok)",
+      "fieldName": "videoUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "reviewDate",
+      "fieldType": "LocalDate"
+    },
+    {
       "fieldName": "approved",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "featured",
       "fieldType": "Boolean"
     },
     {
@@ -37,16 +58,14 @@
       "otherEntityName": "customer",
       "relationshipName": "customer",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
+      "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "name",
+      "otherEntityField": "nameVi",
       "otherEntityName": "spaService",
       "relationshipName": "service",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
+      "relationshipType": "many-to-one"
     }
   ],
   "searchEngine": "no",

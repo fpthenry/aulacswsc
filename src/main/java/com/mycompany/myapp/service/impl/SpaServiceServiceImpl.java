@@ -2,6 +2,7 @@ package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.domain.SpaService;
 import com.mycompany.myapp.repository.SpaServiceRepository;
+import com.mycompany.myapp.service.SlugService;
 import com.mycompany.myapp.service.SpaServiceService;
 import com.mycompany.myapp.service.dto.SpaServiceDTO;
 import com.mycompany.myapp.service.mapper.SpaServiceMapper;
@@ -26,14 +27,19 @@ public class SpaServiceServiceImpl implements SpaServiceService {
 
     private final SpaServiceMapper spaServiceMapper;
 
-    public SpaServiceServiceImpl(SpaServiceRepository spaServiceRepository, SpaServiceMapper spaServiceMapper) {
+    private final SlugService slugService;
+
+    public SpaServiceServiceImpl(SpaServiceRepository spaServiceRepository, SpaServiceMapper spaServiceMapper, SlugService slugService) {
         this.spaServiceRepository = spaServiceRepository;
         this.spaServiceMapper = spaServiceMapper;
+        this.slugService = slugService;
     }
 
     @Override
     public SpaServiceDTO save(SpaServiceDTO spaServiceDTO) {
         LOG.debug("Request to save SpaService : {}", spaServiceDTO);
+        // slug luôn do server sinh: tiêu đề không dấu + ngày (không nhận slug từ form)
+        spaServiceDTO.setSlug(slugService.create(spaServiceDTO.getNameVi(), null, 220, spaServiceRepository::existsBySlug, "dich-vu"));
         SpaService spaService = spaServiceMapper.toEntity(spaServiceDTO);
         spaService = spaServiceRepository.save(spaService);
         return spaServiceMapper.toDto(spaService);
@@ -42,6 +48,8 @@ public class SpaServiceServiceImpl implements SpaServiceService {
     @Override
     public SpaServiceDTO update(SpaServiceDTO spaServiceDTO) {
         LOG.debug("Request to update SpaService : {}", spaServiceDTO);
+        // giữ nguyên slug đã có để link cũ không hỏng
+        spaServiceRepository.findById(spaServiceDTO.getId()).ifPresent(existing -> spaServiceDTO.setSlug(existing.getSlug()));
         SpaService spaService = spaServiceMapper.toEntity(spaServiceDTO);
         spaService = spaServiceRepository.save(spaService);
         return spaServiceMapper.toDto(spaService);
@@ -50,6 +58,7 @@ public class SpaServiceServiceImpl implements SpaServiceService {
     @Override
     public Optional<SpaServiceDTO> partialUpdate(SpaServiceDTO spaServiceDTO) {
         LOG.debug("Request to partially update SpaService : {}", spaServiceDTO);
+        spaServiceDTO.setSlug(null); // slug không đổi được qua PATCH (null = giữ nguyên)
 
         return spaServiceRepository
             .findById(spaServiceDTO.getId())

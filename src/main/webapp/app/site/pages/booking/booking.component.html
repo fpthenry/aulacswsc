@@ -1,0 +1,609 @@
+<site-page-hero [image]="state.heroImageFor('booking')">
+  <p class="eyebrow">{{ 'site.booking.eyebrow' | translate }}</p>
+  <h1>{{ (result() ? 'site.booking.successTitle' : 'site.booking.title') | translate }}</h1>
+  @if (!result()) {
+    <nav class="mode-switch" [attr.aria-label]="'site.booking.mode' | translate">
+      <a
+        [attr.aria-current]="!quick() ? 'page' : null"
+        [routerLink]="state.link('booking')"
+        [queryParams]="{ mode: null }"
+        queryParamsHandling="merge"
+        >{{ 'site.booking.modeFull' | translate }}</a
+      >
+      <a
+        [attr.aria-current]="quick() ? 'page' : null"
+        [routerLink]="state.link('booking')"
+        [queryParams]="{ mode: 'quick' }"
+        queryParamsHandling="merge"
+        >{{ 'site.booking.modeQuick' | translate }}</a
+      >
+    </nav>
+  }
+</site-page-hero>
+
+<div class="section booking-section">
+  <div class="container">
+    @if (result(); as r) {
+      <!-- ===================== THÀNH CÔNG ===================== -->
+      <div class="success card" role="status">
+        <div class="card-body">
+          <span class="success-icon"><site-icon name="check" [size]="30" /></span>
+          <p class="lead">{{ 'site.booking.successText' | translate }}</p>
+          <p class="code-label">{{ 'site.booking.code' | translate }}</p>
+          <p class="code">{{ r.code }}</p>
+          <p class="muted small">{{ 'site.booking.codeHint' | translate }}</p>
+
+          <dl class="summary">
+            <div>
+              <dt>{{ 'site.booking.steps.branch' | translate }}</dt>
+              <dd>
+                {{ state.lang() === 'vi' ? r.branch.nameVi : r.branch.nameEn }}<br /><span class="muted">{{
+                  state.lang() === 'vi' ? r.branch.addressVi : r.branch.addressEn || r.branch.addressVi
+                }}</span>
+              </dd>
+            </div>
+            <div>
+              <dt>{{ 'site.booking.when' | translate }}</dt>
+              <dd>{{ time(r.startTime) }} – {{ time(r.endTime) }}, {{ longDate(r.startTime) }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'site.booking.steps.services' | translate }}</dt>
+              <dd>
+                @for (s of r.services; track s.id) {
+                  <div>{{ state.lang() === 'vi' ? s.nameVi : s.nameEn || s.nameVi }} · {{ price(s.unitPrice) }} × {{ s.quantity }}</div>
+                }
+              </dd>
+            </div>
+            <div>
+              <dt>{{ 'site.booking.steps.people' | translate }}</dt>
+              <dd>{{ r.numberOfPeople }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'site.booking.total' | translate }}</dt>
+              <dd class="total">{{ price(r.totalAmount) }}</dd>
+            </div>
+          </dl>
+
+          <div class="success-actions">
+            <button type="button" class="btn-site btn-primary" (click)="downloadIcs()">
+              <site-icon name="calendar" [size]="18" />{{ 'site.booking.addToCalendar' | translate }}
+            </button>
+            @if (whatsappShare(); as wa) {
+              <a class="btn-site btn-outline" [href]="wa" target="_blank" rel="noopener"
+                ><site-icon name="whatsapp" [size]="18" />{{ 'site.booking.sendWhatsapp' | translate }}</a
+              >
+            }
+            <button type="button" class="btn-site btn-outline" (click)="shareZalo()">
+              <site-icon name="chat" [size]="18" />{{ 'site.booking.sendZalo' | translate }}
+            </button>
+          </div>
+          @if (copied()) {
+            <p class="muted small" role="status">{{ 'site.booking.copied' | translate }}</p>
+          }
+          <div class="success-links">
+            <a [routerLink]="state.link('booking', 'lookup')">{{ 'site.nav.lookup' | translate }}</a>
+            <button type="button" class="btn-site btn-ghost" (click)="newBooking()">{{ 'site.booking.another' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    } @else if (quick()) {
+      <!-- ===================== ĐẶT NHANH ===================== -->
+      <form class="card quick" (submit)="$event.preventDefault(); submit()" novalidate>
+        <div class="card-body">
+          <p class="muted">{{ 'site.booking.quickIntro' | translate }}</p>
+          <input
+            class="hp"
+            type="text"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            [value]="honeypot()"
+            (input)="honeypot.set($any($event.target).value)"
+          />
+
+          <fieldset class="field">
+            <legend>{{ 'site.booking.steps.services' | translate }}</legend>
+            <div class="chips">
+              @for (s of state.services(); track s.id) {
+                <button type="button" class="chip" [attr.aria-pressed]="booking.has(s.id)" (click)="booking.toggle(s.id)">
+                  {{ state.t(s, 'name') }}
+                </button>
+              }
+            </div>
+            @if (showErrors() && !booking.count()) {
+              <span class="error-text" role="alert">{{ 'site.booking.errors.services' | translate }}</span>
+            }
+          </fieldset>
+
+          <div class="quick-row">
+            <div class="field">
+              <label for="q-date">{{ 'site.booking.steps.date' | translate }}</label>
+              <input
+                id="q-date"
+                class="input"
+                type="date"
+                [min]="today"
+                [max]="maxDate"
+                [value]="d().date ?? ''"
+                (change)="chooseDate($any($event.target).value)"
+                [attr.aria-invalid]="showErrors() && !dateOk()"
+                aria-describedby="q-date-err"
+              />
+              @if (showErrors() && !dateOk()) {
+                <span id="q-date-err" class="error-text" role="alert">{{ 'site.booking.errors.date' | translate }}</span>
+              }
+            </div>
+            <div class="field">
+              <label for="q-time">{{ 'site.booking.steps.time' | translate }}</label>
+              <select
+                id="q-time"
+                class="input"
+                [disabled]="!d().date || !booking.count() || slotsLoading()"
+                (change)="booking.update({ time: $any($event.target).value || null })"
+                [attr.aria-invalid]="showErrors() && !selectedSlotOk()"
+                aria-describedby="q-time-err"
+              >
+                <option value="">{{ (slotsLoading() ? 'site.booking.loadingSlots' : 'site.booking.chooseTime') | translate }}</option>
+                @for (s of visibleSlots(); track s.time) {
+                  <option [value]="s.time" [disabled]="s.status !== 'AVAILABLE'" [selected]="s.time === d().time">
+                    {{ s.time }}{{ s.status === 'FULL' ? ' – ' + ('site.booking.full' | translate) : '' }}
+                  </option>
+                }
+              </select>
+              @if (showErrors() && !selectedSlotOk()) {
+                <span id="q-time-err" class="error-text" role="alert">{{ 'site.booking.errors.time' | translate }}</span>
+              }
+            </div>
+            <div class="field">
+              <label for="q-phone">{{ 'site.booking.phone' | translate }}</label>
+              <input
+                id="q-phone"
+                class="input"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                [value]="d().phone"
+                (input)="field('phone', $any($event.target).value)"
+                [attr.aria-invalid]="showErrors() && !phoneOk()"
+                aria-describedby="q-phone-err"
+                placeholder="09xx xxx xxx"
+              />
+              @if (showErrors() && !phoneOk()) {
+                <span id="q-phone-err" class="error-text" role="alert">{{ 'site.booking.errors.phone' | translate }}</span>
+              }
+            </div>
+          </div>
+
+          @if (booking.count()) {
+            <p class="estimate">
+              {{ 'site.booking.estimate' | translate }}: <strong>{{ price(booking.totalPrice()) }}</strong> ·
+              {{ minutes(duration()) }}
+            </p>
+          }
+          @if (submitError(); as e) {
+            <div class="alert-box" role="alert">{{ 'site.booking.apiErrors.' + e | translate }}</div>
+          }
+          <button type="submit" class="btn-site btn-gold" [disabled]="submitting()">
+            @if (submitting()) {
+              <span class="spinner small-spinner" aria-hidden="true"></span>
+            }
+            {{ 'site.booking.submit' | translate }}
+          </button>
+        </div>
+      </form>
+    } @else {
+      <!-- ===================== ĐẶT LỊCH ĐẦY ĐỦ ===================== -->
+      <nav class="steps-progress" [attr.aria-label]="'site.booking.progress' | translate">
+        <ol>
+          @for (s of steps; track s; let i = $index) {
+            <li [class.done]="i + 1 < step()" [class.current]="i + 1 === step()">
+              <button
+                type="button"
+                (click)="goTo(i + 1)"
+                [disabled]="i + 1 > maxReachable()"
+                [attr.aria-current]="i + 1 === step() ? 'step' : null"
+              >
+                <span class="num">
+                  @if (i + 1 < step()) {
+                    <site-icon name="check" [size]="14" />
+                  } @else {
+                    {{ i + 1 }}
+                  }
+                </span>
+                <span class="label">{{ 'site.booking.steps.' + s | translate }}</span>
+              </button>
+            </li>
+          }
+        </ol>
+        <div class="bar" aria-hidden="true"><span [style.width.%]="((step() - 1) / (steps.length - 1)) * 100"></span></div>
+      </nav>
+
+      <div class="wizard">
+        <div class="card step-card">
+          <div class="card-body">
+            <h2 #stepHeading tabindex="-1">
+              <span class="muted step-no">{{ 'site.booking.stepOf' | translate: { step: step(), total: steps.length } }}</span>
+              {{ 'site.booking.titles.' + stepKey() | translate }}
+            </h2>
+
+            @switch (stepKey()) {
+              <!-- 1. Cơ sở -->
+              @case ('branch') {
+                <div class="options" role="radiogroup" [attr.aria-label]="'site.booking.steps.branch' | translate">
+                  @for (b of state.branches(); track b.id) {
+                    <button
+                      type="button"
+                      class="option"
+                      role="radio"
+                      [attr.aria-checked]="branchId() === b.id"
+                      (click)="chooseBranch(b.id)"
+                    >
+                      <strong>{{ state.t(b, 'name') }}</strong>
+                      <span class="muted">{{ state.t(b, 'address') }}</span>
+                      <span class="muted small"><site-icon name="clock" [size]="14" /> {{ b.openTime }} – {{ b.closeTime }}</span>
+                    </button>
+                  }
+                </div>
+              }
+
+              <!-- 2. Dịch vụ -->
+              @case ('services') {
+                @for (c of state.categories(); track c.id) {
+                  <fieldset class="svc-group">
+                    <legend>{{ state.t(c, 'name') }}</legend>
+                    <div class="options">
+                      @for (s of state.services(); track s.id) {
+                        @if (s.category?.id === c.id) {
+                          <button
+                            type="button"
+                            class="option svc"
+                            role="checkbox"
+                            [attr.aria-checked]="booking.has(s.id)"
+                            (click)="booking.toggle(s.id)"
+                          >
+                            <span class="svc-name"
+                              ><strong>{{ state.t(s, 'name') }}</strong
+                              ><span class="muted small">{{ minutes(s.durationMinutes) }}</span></span
+                            >
+                            <span class="svc-price">
+                              {{ price(unit(s)) }}
+                              @if ((s.salePrice ?? s.price) < s.price) {
+                                <s class="muted small">{{ price(s.price) }}</s>
+                              }
+                            </span>
+                          </button>
+                        }
+                      }
+                    </div>
+                  </fieldset>
+                }
+              }
+
+              <!-- 3. Ngày -->
+              @case ('date') {
+                <div class="calendar">
+                  <div class="cal-head">
+                    <button
+                      type="button"
+                      class="icon-btn"
+                      (click)="shiftMonth(-1)"
+                      [disabled]="!canPrevMonth()"
+                      [attr.aria-label]="'site.booking.prevMonth' | translate"
+                    >
+                      <site-icon name="left" />
+                    </button>
+                    <p class="cal-title" aria-live="polite">{{ monthLabel() }}</p>
+                    <button
+                      type="button"
+                      class="icon-btn"
+                      (click)="shiftMonth(1)"
+                      [disabled]="!canNextMonth()"
+                      [attr.aria-label]="'site.booking.nextMonth' | translate"
+                    >
+                      <site-icon name="right" />
+                    </button>
+                  </div>
+                  <div class="cal-grid">
+                    @for (w of weekdays(); track $index) {
+                      <span class="cal-wd" aria-hidden="true">{{ w }}</span>
+                    }
+                    @for (c of calendar(); track $index) {
+                      @if (c) {
+                        <button
+                          type="button"
+                          class="cal-day"
+                          [disabled]="c.disabled"
+                          [class.today]="c.today"
+                          [attr.aria-pressed]="d().date === c.iso"
+                          [attr.aria-label]="longDate(c.iso)"
+                          (click)="chooseDate(c.iso)"
+                        >
+                          {{ c.day }}
+                        </button>
+                      } @else {
+                        <span aria-hidden="true"></span>
+                      }
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- 4. Giờ -->
+              @case ('time') {
+                <p class="muted">{{ longDate(d().date) }} · {{ minutes(duration()) }} · {{ state.t(selectedBranch(), 'name') }}</p>
+                @if (slotsLoading()) {
+                  <div class="loading"><span class="spinner" aria-hidden="true"></span>{{ 'site.booking.loadingSlots' | translate }}</div>
+                } @else if (slotsError()) {
+                  <div class="alert-box" role="alert">{{ 'site.booking.apiErrors.server' | translate }}</div>
+                } @else if (!visibleSlots().length) {
+                  <p>{{ 'site.booking.noSlots' | translate }}</p>
+                } @else {
+                  <div class="slots" role="radiogroup" [attr.aria-label]="'site.booking.steps.time' | translate">
+                    @for (s of visibleSlots(); track s.time) {
+                      <button
+                        type="button"
+                        class="slot"
+                        role="radio"
+                        [attr.aria-checked]="d().time === s.time"
+                        [disabled]="s.status !== 'AVAILABLE'"
+                        [attr.aria-label]="s.time + (s.status === 'FULL' ? ' – ' + ('site.booking.full' | translate) : '')"
+                        (click)="chooseTime(s)"
+                      >
+                        {{ s.time }}
+                      </button>
+                    }
+                  </div>
+                  <p class="muted small legend"><span class="dot full"></span>{{ 'site.booking.full' | translate }}</p>
+                }
+              }
+
+              <!-- 5. Số người -->
+              @case ('people') {
+                <div class="people">
+                  <button
+                    type="button"
+                    class="icon-btn"
+                    (click)="setPeople(d().people - 1)"
+                    [disabled]="d().people <= 1"
+                    [attr.aria-label]="'site.booking.fewer' | translate"
+                  >
+                    <site-icon name="minus" />
+                  </button>
+                  <label class="visually-hidden" for="people">{{ 'site.booking.steps.people' | translate }}</label>
+                  <input
+                    id="people"
+                    class="input people-input"
+                    type="number"
+                    min="1"
+                    [max]="maxPeople"
+                    [value]="d().people"
+                    (change)="setPeople(+$any($event.target).value)"
+                  />
+                  <button
+                    type="button"
+                    class="icon-btn"
+                    (click)="setPeople(d().people + 1)"
+                    [disabled]="d().people >= maxPeople"
+                    [attr.aria-label]="'site.booking.more' | translate"
+                  >
+                    <site-icon name="plus" />
+                  </button>
+                </div>
+                <p class="muted" aria-live="polite">
+                  @if (slotsLoading()) {
+                    {{ 'site.booking.checking' | translate }}
+                  } @else if (!selectedSlotOk()) {
+                    <span class="error-text">{{ 'site.booking.errors.peopleFull' | translate }}</span>
+                  } @else {
+                    {{ 'site.booking.peopleOk' | translate: { time: d().time } }}
+                  }
+                </p>
+              }
+
+              <!-- 6. Thông tin -->
+              @case ('info') {
+                <form class="info-form" (submit)="$event.preventDefault(); next()" novalidate>
+                  <input
+                    class="hp"
+                    type="text"
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-hidden="true"
+                    [value]="honeypot()"
+                    (input)="honeypot.set($any($event.target).value)"
+                  />
+                  <div class="field">
+                    <label for="b-name">{{ 'site.booking.fullName' | translate }} <span aria-hidden="true">*</span></label>
+                    <input
+                      id="b-name"
+                      class="input"
+                      autocomplete="name"
+                      required
+                      [value]="d().fullName"
+                      (input)="field('fullName', $any($event.target).value)"
+                      [attr.aria-invalid]="showErrors() && !nameOk()"
+                      aria-describedby="b-name-err"
+                    />
+                    @if (showErrors() && !nameOk()) {
+                      <span id="b-name-err" class="error-text" role="alert">{{ 'site.booking.errors.name' | translate }}</span>
+                    }
+                  </div>
+                  <div class="field">
+                    <label for="b-phone">{{ 'site.booking.phone' | translate }} <span aria-hidden="true">*</span></label>
+                    <input
+                      id="b-phone"
+                      class="input"
+                      type="tel"
+                      inputmode="tel"
+                      autocomplete="tel"
+                      required
+                      placeholder="09xx xxx xxx"
+                      [value]="d().phone"
+                      (input)="field('phone', $any($event.target).value)"
+                      [attr.aria-invalid]="showErrors() && !phoneOk()"
+                      aria-describedby="b-phone-hint b-phone-err"
+                    />
+                    <span id="b-phone-hint" class="hint">{{ 'site.booking.phoneHint' | translate }}</span>
+                    @if (showErrors() && !phoneOk()) {
+                      <span id="b-phone-err" class="error-text" role="alert">{{ 'site.booking.errors.phone' | translate }}</span>
+                    }
+                  </div>
+                  <div class="field">
+                    <label for="b-email"
+                      >{{ 'site.booking.email' | translate }} <span class="muted">({{ 'site.booking.optional' | translate }})</span></label
+                    >
+                    <input
+                      id="b-email"
+                      class="input"
+                      type="email"
+                      autocomplete="email"
+                      [value]="d().email"
+                      (input)="field('email', $any($event.target).value)"
+                      [attr.aria-invalid]="showErrors() && !emailOk()"
+                      aria-describedby="b-email-err"
+                    />
+                    @if (showErrors() && !emailOk()) {
+                      <span id="b-email-err" class="error-text" role="alert">{{ 'site.booking.errors.email' | translate }}</span>
+                    }
+                  </div>
+                  <div class="field">
+                    <label for="b-note"
+                      >{{ 'site.booking.note' | translate }} <span class="muted">({{ 'site.booking.optional' | translate }})</span></label
+                    >
+                    <textarea
+                      id="b-note"
+                      class="input"
+                      maxlength="1000"
+                      [value]="d().note"
+                      (input)="field('note', $any($event.target).value)"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="visually-hidden" tabindex="-1">{{ 'site.booking.next' | translate }}</button>
+                </form>
+              }
+
+              <!-- 7. Xác nhận -->
+              @case ('confirm') {
+                <dl class="summary">
+                  <div>
+                    <dt>{{ 'site.booking.steps.branch' | translate }}</dt>
+                    <dd>
+                      {{ state.t(selectedBranch(), 'name') }}<br /><span class="muted">{{ state.t(selectedBranch(), 'address') }}</span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>{{ 'site.booking.when' | translate }}</dt>
+                    <dd>{{ d().time }}, {{ longDate(d().date) }} · {{ minutes(duration()) }}</dd>
+                  </div>
+                  <div>
+                    <dt>{{ 'site.booking.steps.services' | translate }}</dt>
+                    <dd>
+                      @for (s of booking.selectedServices(); track s.id) {
+                        <div>{{ state.t(s, 'name') }} · {{ price(unit(s)) }} × {{ d().people }}</div>
+                      }
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>{{ 'site.booking.customer' | translate }}</dt>
+                    <dd>
+                      {{ d().fullName }} · {{ d().phone }}
+                      @if (d().email) {
+                        <br />{{ d().email }}
+                      }
+                    </dd>
+                  </div>
+                  @if (d().note) {
+                    <div>
+                      <dt>{{ 'site.booking.note' | translate }}</dt>
+                      <dd>{{ d().note }}</dd>
+                    </div>
+                  }
+                  <div>
+                    <dt>{{ 'site.booking.total' | translate }}</dt>
+                    <dd class="total">{{ price(booking.totalPrice()) }}</dd>
+                  </div>
+                </dl>
+                <p class="muted small">{{ 'site.booking.confirmNote' | translate }}</p>
+                @if (submitError(); as e) {
+                  <div class="alert-box" role="alert">{{ 'site.booking.apiErrors.' + e | translate }}</div>
+                }
+              }
+            }
+
+            @if (showErrors() && !valid()[stepKey()] && stepKey() !== 'info') {
+              <p class="error-text" role="alert">{{ 'site.booking.errors.' + stepKey() | translate }}</p>
+            }
+
+            <div class="nav-buttons">
+              @if (step() > 1) {
+                <button type="button" class="btn-site btn-outline" (click)="back()">
+                  <site-icon name="left" [size]="16" />{{ 'site.booking.back' | translate }}
+                </button>
+              }
+              @if (stepKey() === 'confirm') {
+                <button type="button" class="btn-site btn-gold" (click)="submit()" [disabled]="submitting()">
+                  @if (submitting()) {
+                    <span class="spinner small-spinner" aria-hidden="true"></span>
+                  }
+                  {{ 'site.booking.submit' | translate }}
+                </button>
+              } @else {
+                <button type="button" class="btn-site btn-primary" (click)="next()">
+                  {{ 'site.booking.next' | translate }}<site-icon name="right" [size]="16" />
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Tóm tắt luôn hiển thị -->
+        <aside class="card summary-card" [attr.aria-label]="'site.booking.summary' | translate">
+          <div class="card-body">
+            <h2 class="summary-title">{{ 'site.booking.summary' | translate }}</h2>
+            @if (booking.count()) {
+              <ul class="mini-list">
+                @for (s of booking.selectedServices(); track s.id) {
+                  <li>
+                    <span>{{ state.t(s, 'name') }}</span>
+                    <button
+                      type="button"
+                      class="remove"
+                      (click)="booking.toggle(s.id)"
+                      [attr.aria-label]="('site.booking.remove' | translate) + ' ' + state.t(s, 'name')"
+                    >
+                      <site-icon name="close" [size]="14" />
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <p class="muted">{{ 'site.booking.noServices' | translate }}</p>
+            }
+            <dl class="mini">
+              <div>
+                <dt>{{ 'site.services.duration' | translate }}</dt>
+                <dd>{{ minutes(duration()) }}</dd>
+              </div>
+              <div>
+                <dt>{{ 'site.booking.steps.people' | translate }}</dt>
+                <dd>{{ d().people }}</dd>
+              </div>
+              @if (d().date) {
+                <div>
+                  <dt>{{ 'site.booking.when' | translate }}</dt>
+                  <dd>{{ d().time ?? '--:--' }} · {{ longDate(d().date) }}</dd>
+                </div>
+              }
+              <div class="sum">
+                <dt>{{ 'site.booking.estimate' | translate }}</dt>
+                <dd>{{ price(booking.totalPrice()) }}</dd>
+              </div>
+            </dl>
+          </div>
+        </aside>
+      </div>
+    }
+  </div>
+</div>

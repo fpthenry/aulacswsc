@@ -1,0 +1,239 @@
+.branches-section {
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+.branches-layout {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  }
+}
+
+/* ---------- danh sách cơ sở ---------- */
+.branch-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.branch-card {
+  padding: 1.1rem 1.25rem 1.25rem;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-surface);
+  box-shadow: var(--site-shadow-sm);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &.active {
+    border-color: var(--site-gold);
+    box-shadow:
+      0 0 0 1px var(--site-gold),
+      var(--site-shadow);
+  }
+}
+.branch-top {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+/* nút chọn cơ sở = tên cơ sở; vùng bấm phủ cả thẻ phía trên */
+.branch-select {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 110px;
+  }
+}
+.branch-card {
+  position: relative;
+}
+.branch-facts,
+.branch-actions {
+  position: relative;
+  z-index: 1;
+}
+.thumb {
+  flex: none;
+  width: 76px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.branch-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.branch-no {
+  color: var(--site-gold-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+.branch-head h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.branch-addr {
+  color: var(--site-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.branch-facts {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1rem 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px dashed var(--site-border);
+  font-size: 0.92rem;
+  div {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+  dt {
+    margin-top: 0.2rem;
+    color: var(--site-herb-strong);
+  }
+  dd {
+    margin: 0;
+  }
+  a {
+    font-weight: 600;
+  }
+}
+.branch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.chip-link {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--site-border);
+  border-radius: 999px;
+  color: var(--site-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    border-color: var(--site-gold);
+    color: var(--site-wood);
+  }
+}
+
+/* ---------- bản đồ dùng chung ---------- */
+.map-panel {
+  overflow: hidden;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-surface);
+  box-shadow: var(--site-shadow);
+  @media (min-width: 960px) {
+    position: sticky;
+    top: calc(var(--site-header-h) + 1rem);
+  }
+}
+.map-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--site-surface-2);
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  > site-image {
+    position: absolute;
+    inset: 0;
+    ::ng-deep .frame {
+      height: 100%;
+    }
+  }
+}
+.map-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  site-image {
+    position: absolute;
+    inset: 0;
+    filter: brightness(0.7);
+    ::ng-deep .frame {
+      height: 100%;
+    }
+  }
+}
+.map-cta {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--site-wood);
+  color: var(--site-on-wood);
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--site-shadow);
+}
+.map-caption {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  site-icon {
+    margin-top: 0.15rem;
+    color: var(--site-gold-text);
+  }
+}
+
+.contact {
+  max-width: 760px;
+}
+.contact-form:hover {
+  transform: none;
+}
+.contact-form .card-body {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+.row2 {
+  display: grid;
+  gap: 0 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+.alert-box.ok {
+  margin-bottom: 1rem;
+}

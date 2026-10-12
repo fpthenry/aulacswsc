@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...)
+ * Danh mục dịch vụ (Massage, Chăm sóc tóc, Chăm sóc da, Combo...)
  */
 @Entity
 @Table(name = "service_category")
@@ -24,17 +24,26 @@ public class ServiceCategory implements Serializable {
 
     @NotNull
     @Size(max = 150)
-    @Column(name = "name", length = 150, nullable = false)
-    private String name;
+    @Column(name = "name_vi", length = 150, nullable = false)
+    private String nameVi;
+
+    @NotNull
+    @Size(max = 150)
+    @Column(name = "name_en", length = 150, nullable = false)
+    private String nameEn;
 
     @NotNull
     @Size(max = 180)
     @Column(name = "slug", length = 180, nullable = false, unique = true)
     private String slug;
 
-    @Lob
-    @Column(name = "description")
-    private String description;
+    @Size(max = 1000)
+    @Column(name = "description_vi", length = 1000)
+    private String descriptionVi;
+
+    @Size(max = 1000)
+    @Column(name = "description_en", length = 1000)
+    private String descriptionEn;
 
     @Size(max = 500)
     @Column(name = "image_url", length = 500)
@@ -66,17 +75,30 @@ public class ServiceCategory implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getNameVi() {
+        return this.nameVi;
     }
 
-    public ServiceCategory name(String name) {
-        this.setName(name);
+    public ServiceCategory nameVi(String nameVi) {
+        this.setNameVi(nameVi);
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameVi(String nameVi) {
+        this.nameVi = nameVi;
+    }
+
+    public String getNameEn() {
+        return this.nameEn;
+    }
+
+    public ServiceCategory nameEn(String nameEn) {
+        this.setNameEn(nameEn);
+        return this;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
     public String getSlug() {
@@ -92,17 +114,30 @@ public class ServiceCategory implements Serializable {
         this.slug = slug;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getDescriptionVi() {
+        return this.descriptionVi;
     }
 
-    public ServiceCategory description(String description) {
-        this.setDescription(description);
+    public ServiceCategory descriptionVi(String descriptionVi) {
+        this.setDescriptionVi(descriptionVi);
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionVi(String descriptionVi) {
+        this.descriptionVi = descriptionVi;
+    }
+
+    public String getDescriptionEn() {
+        return this.descriptionEn;
+    }
+
+    public ServiceCategory descriptionEn(String descriptionEn) {
+        this.setDescriptionEn(descriptionEn);
+        return this;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     public String getImageUrl() {
@@ -199,9 +234,11 @@ public class ServiceCategory implements Serializable {
     public String toString() {
         return "ServiceCategory{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", nameVi='" + getNameVi() + "'" +
+            ", nameEn='" + getNameEn() + "'" +
             ", slug='" + getSlug() + "'" +
-            ", description='" + getDescription() + "'" +
+            ", descriptionVi='" + getDescriptionVi() + "'" +
+            ", descriptionEn='" + getDescriptionEn() + "'" +
             ", imageUrl='" + getImageUrl() + "'" +
             ", displayOrder=" + getDisplayOrder() +
             ", active='" + getActive() + "'" +

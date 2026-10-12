@@ -48,17 +48,30 @@ public class SpaServiceAsserts {
     public static void assertSpaServiceUpdatableFieldsEquals(SpaService expected, SpaService actual) {
         assertThat(actual)
             .as("Verify SpaService relevant properties")
-            .satisfies(a -> assertThat(a.getName()).as("check name").isEqualTo(expected.getName()))
+            .satisfies(a -> assertThat(a.getNameVi()).as("check nameVi").isEqualTo(expected.getNameVi()))
+            .satisfies(a -> assertThat(a.getNameEn()).as("check nameEn").isEqualTo(expected.getNameEn()))
             .satisfies(a -> assertThat(a.getSlug()).as("check slug").isEqualTo(expected.getSlug()))
-            .satisfies(a -> assertThat(a.getShortDescription()).as("check shortDescription").isEqualTo(expected.getShortDescription()))
-            .satisfies(a -> assertThat(a.getDescription()).as("check description").isEqualTo(expected.getDescription()))
+            .satisfies(a -> assertThat(a.getShortDescriptionVi()).as("check shortDescriptionVi").isEqualTo(expected.getShortDescriptionVi())
+            )
+            .satisfies(a -> assertThat(a.getShortDescriptionEn()).as("check shortDescriptionEn").isEqualTo(expected.getShortDescriptionEn())
+            )
+            .satisfies(a -> assertThat(a.getDescriptionVi()).as("check descriptionVi").isEqualTo(expected.getDescriptionVi()))
+            .satisfies(a -> assertThat(a.getDescriptionEn()).as("check descriptionEn").isEqualTo(expected.getDescriptionEn()))
+            .satisfies(a -> assertThat(a.getBenefitsVi()).as("check benefitsVi").isEqualTo(expected.getBenefitsVi()))
+            .satisfies(a -> assertThat(a.getBenefitsEn()).as("check benefitsEn").isEqualTo(expected.getBenefitsEn()))
+            .satisfies(a -> assertThat(a.getNotesVi()).as("check notesVi").isEqualTo(expected.getNotesVi()))
+            .satisfies(a -> assertThat(a.getNotesEn()).as("check notesEn").isEqualTo(expected.getNotesEn()))
             .satisfies(a -> assertThat(a.getPrice()).as("check price").usingComparator(bigDecimalCompareTo).isEqualTo(expected.getPrice()))
             .satisfies(a ->
                 assertThat(a.getSalePrice()).as("check salePrice").usingComparator(bigDecimalCompareTo).isEqualTo(expected.getSalePrice())
             )
+            .satisfies(a ->
+                assertThat(a.getPriceMax()).as("check priceMax").usingComparator(bigDecimalCompareTo).isEqualTo(expected.getPriceMax())
+            )
             .satisfies(a -> assertThat(a.getDurationMinutes()).as("check durationMinutes").isEqualTo(expected.getDurationMinutes()))
             .satisfies(a -> assertThat(a.getImageUrl()).as("check imageUrl").isEqualTo(expected.getImageUrl()))
             .satisfies(a -> assertThat(a.getFeatured()).as("check featured").isEqualTo(expected.getFeatured()))
+            .satisfies(a -> assertThat(a.getDisplayOrder()).as("check displayOrder").isEqualTo(expected.getDisplayOrder()))
             .satisfies(a -> assertThat(a.getActive()).as("check active").isEqualTo(expected.getActive()));
     }
 

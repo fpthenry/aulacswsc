@@ -39,4 +39,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSp
     Optional<Customer> findOneWithToOneRelationships(@Param("id") Long id);
 
     Optional<Customer> findOneByUserLogin(String login);
+
+    Optional<Customer> findOneByPhone(String phone);
 }

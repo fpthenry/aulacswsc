@@ -21,6 +21,10 @@
     <include file="config/liquibase/changelog/20261011043052_added_entity_Promotion.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011043053_added_entity_Review.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011043054_added_entity_ContactMessage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011074607_added_entity_SiteSetting.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011074608_added_entity_Branch.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011074609_added_entity_GalleryImage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011074610_added_entity_BlogPost.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20261011043047_added_entity_constraints_SpaService.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011043048_added_entity_constraints_Customer.xml" relativeToChangelogFile="false"/>
@@ -28,7 +32,10 @@
     <include file="config/liquibase/changelog/20261011043050_added_entity_constraints_Booking.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011043051_added_entity_constraints_BookingItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011043053_added_entity_constraints_Review.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011074609_added_entity_constraints_GalleryImage.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="config/liquibase/changelog/20261011120000_added_spa_authorities.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261011130000_seed_spa_content.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261012090000_added_site_setting_hero_slides.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

@@ -40,9 +40,16 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="name">
+            <th scope="col" jhiSortBy="nameVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.name">Name</span>
+                <span jhiTranslate="aulacswscApp.serviceCategory.nameVi">Name Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="nameEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.nameEn">Name En</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -54,9 +61,16 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="description">
+            <th scope="col" jhiSortBy="descriptionVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.description">Description</span>
+                <span jhiTranslate="aulacswscApp.serviceCategory.descriptionVi">Description Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="descriptionEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.serviceCategory.descriptionEn">Description En</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -91,9 +105,11 @@
               <td>
                 <a [routerLink]="['/service-category', serviceCategory.id, 'view']">{{ serviceCategory.id }}</a>
               </td>
-              <td>{{ serviceCategory.name }}</td>
+              <td>{{ serviceCategory.nameVi }}</td>
+              <td>{{ serviceCategory.nameEn }}</td>
               <td>{{ serviceCategory.slug }}</td>
-              <td>{{ serviceCategory.description }}</td>
+              <td>{{ serviceCategory.descriptionVi }}</td>
+              <td>{{ serviceCategory.descriptionEn }}</td>
               <td>{{ serviceCategory.imageUrl }}</td>
               <td>{{ serviceCategory.displayOrder }}</td>
               <td>{{ serviceCategory.active }}</td>

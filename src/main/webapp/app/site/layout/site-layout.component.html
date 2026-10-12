@@ -1,0 +1,210 @@
+<div class="site" [attr.data-theme]="theme()">
+  <a class="skip-link" href="#main-content">{{ 'site.a11y.skip' | translate }}</a>
+  <span #sentinel class="scroll-sentinel" aria-hidden="true"></span>
+  <span class="scroll-progress" aria-hidden="true"></span>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header" [class.scrolled]="scrolled() || menuOpen()" [class.on-hero]="state.darkHero() && !scrolled() && !menuOpen()">
+    <div class="container header-inner">
+      <a class="brand" [routerLink]="state.link()" [attr.aria-label]="state.siteName() + ' – ' + ('site.nav.home' | translate)">
+        @if (setting().logoUrl) {
+          <img [src]="setting().logoUrl" [alt]="state.siteName()" height="40" />
+        } @else {
+          <span class="brand-mark" aria-hidden="true"><site-icon name="leaf" [size]="22" /></span>
+          <span class="brand-name">{{ state.siteName() }}</span>
+        }
+      </a>
+
+      <nav class="main-nav" [class.open]="menuOpen()" id="site-menu" [attr.aria-label]="'site.a11y.mainNav' | translate">
+        <ul>
+          @for (item of nav; track item.key) {
+            <li>
+              <a
+                [routerLink]="state.path(item.path)"
+                [fragment]="item.fragment"
+                [routerLinkActive]="item.path.length ? 'active' : ''"
+                (click)="closeMenu()"
+                >{{ 'site.nav.' + item.key | translate }}</a
+              >
+            </li>
+          }
+          <li class="nav-mobile-only">
+            <a [routerLink]="state.link('booking', 'lookup')" (click)="closeMenu()">{{ 'site.nav.lookup' | translate }}</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a
+          class="lang-switch"
+          [href]="otherLangUrl()"
+          (click)="switchLang($event)"
+          [attr.hreflang]="otherLang()"
+          [attr.aria-label]="'site.a11y.switchLang' | translate"
+        >
+          <span [class.current]="state.lang() === 'vi'">VI</span><span aria-hidden="true">/</span
+          ><span [class.current]="state.lang() === 'en'">EN</span>
+        </a>
+
+        @if (setting().backgroundMusicUrl) {
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="toggleMusic()"
+            [attr.aria-pressed]="musicOn()"
+            [attr.aria-label]="(musicOn() ? 'site.a11y.musicOff' : 'site.a11y.musicOn') | translate"
+          >
+            <site-icon [name]="musicOn() ? 'pause' : 'music'" [size]="18" />
+          </button>
+        }
+
+        <button
+          type="button"
+          class="icon-btn"
+          (click)="toggleTheme()"
+          [attr.aria-label]="(isDark() ? 'site.a11y.lightMode' : 'site.a11y.darkMode') | translate"
+        >
+          <site-icon [name]="isDark() ? 'sun' : 'moon'" [size]="18" />
+        </button>
+
+        <a class="btn-site btn-gold btn-sm book-cta" [routerLink]="state.link('booking')">
+          <site-icon name="calendar" [size]="16" />
+          <span>{{ 'site.cta.bookNow' | translate }}</span>
+          @if (draft.count()) {
+            <span class="badge" [attr.aria-label]="'site.a11y.selectedCount' | translate: { count: draft.count() }">{{
+              draft.count()
+            }}</span>
+          }
+        </a>
+
+        <button
+          type="button"
+          class="icon-btn menu-toggle"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="menuOpen()"
+          aria-controls="site-menu"
+          [attr.aria-label]="(menuOpen() ? 'site.a11y.closeMenu' : 'site.a11y.openMenu') | translate"
+        >
+          <site-icon [name]="menuOpen() ? 'close' : 'menu'" />
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    @if (state.loadError()) {
+      <div class="container load-error" role="alert">
+        <p>{{ 'site.error.load' | translate }}</p>
+      </div>
+    }
+    <router-outlet />
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-brand">{{ state.siteName() }}</p>
+        <p class="muted">{{ state.t(setting(), 'slogan') }}</p>
+        <div class="socials">
+          @if (setting().facebookUrl) {
+            <a [href]="setting().facebookUrl" target="_blank" rel="noopener" aria-label="Facebook"><site-icon name="facebook" /></a>
+          }
+          @if (setting().instagramUrl) {
+            <a [href]="setting().instagramUrl" target="_blank" rel="noopener" aria-label="Instagram"><site-icon name="instagram" /></a>
+          }
+          @if (setting().tiktokUrl) {
+            <a [href]="setting().tiktokUrl" target="_blank" rel="noopener" aria-label="TikTok"><site-icon name="tiktok" /></a>
+          }
+          @if (setting().youtubeUrl) {
+            <a [href]="setting().youtubeUrl" target="_blank" rel="noopener" aria-label="YouTube"><site-icon name="youtube" /></a>
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="footer-title">{{ 'site.footer.contact' | translate }}</h2>
+        <ul class="footer-list">
+          @if (hotline()) {
+            <li>
+              <site-icon name="phone" [size]="16" /><a [href]="telHref()">{{ hotline() }}</a>
+            </li>
+          }
+          @if (setting().email) {
+            <li>
+              <site-icon name="mail" [size]="16" /><a [href]="'mailto:' + setting().email">{{ setting().email }}</a>
+            </li>
+          }
+          @if (state.t(setting(), 'openingHours')) {
+            <li><site-icon name="clock" [size]="16" />{{ state.t(setting(), 'openingHours') }}</li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer-title">{{ 'site.footer.branches' | translate }}</h2>
+        <ul class="footer-list">
+          @for (b of state.branches(); track b.id) {
+            <li>
+              <site-icon name="pin" [size]="16" /><span
+                ><strong>{{ state.t(b, 'name') }}</strong
+                ><br />{{ state.t(b, 'address') }}</span
+              >
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer-title">{{ 'site.footer.links' | translate }}</h2>
+        <ul class="footer-list plain">
+          <li>
+            <a [routerLink]="state.link('services')">{{ 'site.nav.services' | translate }}</a>
+          </li>
+          <li>
+            <a [routerLink]="state.link('booking')">{{ 'site.nav.booking' | translate }}</a>
+          </li>
+          <li>
+            <a [routerLink]="state.link('booking', 'lookup')">{{ 'site.nav.lookup' | translate }}</a>
+          </li>
+          <li>
+            <a [routerLink]="state.link('policy')">{{ 'site.nav.policy' | translate }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© {{ year }} {{ state.siteName() }}</span>
+      <a routerLink="/login" class="admin-link">{{ 'site.footer.admin' | translate }}</a>
+    </div>
+  </footer>
+
+  <!-- ===================== NÚT LIÊN HỆ NỔI ===================== -->
+  <div class="float-contact" role="group" [attr.aria-label]="'site.a11y.quickContact' | translate">
+    @if (whatsappHref()) {
+      <a
+        class="fc fc-whatsapp"
+        [href]="whatsappHref()"
+        target="_blank"
+        rel="noopener"
+        [attr.aria-label]="'site.contact.whatsapp' | translate"
+      >
+        <site-icon name="whatsapp" [size]="22" />
+      </a>
+    }
+    @if (zaloHref()) {
+      <a class="fc fc-zalo" [href]="zaloHref()" target="_blank" rel="noopener" [attr.aria-label]="'site.contact.zalo' | translate">
+        <span class="zalo-text" aria-hidden="true">Zalo</span>
+      </a>
+    }
+    @if (telHref()) {
+      <a class="fc fc-phone" [href]="telHref()" [attr.aria-label]="'site.contact.call' | translate: { phone: hotline() }">
+        <site-icon name="phone" [size]="22" />
+      </a>
+    }
+  </div>
+
+  @if (setting().backgroundMusicUrl) {
+    <audio #audio [src]="setting().backgroundMusicUrl" loop preload="none"></audio>
+  }
+</div>

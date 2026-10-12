@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (galleryImage(); as galleryImageRef) {
+      <div>
+        <h2 data-cy="galleryImageDetailsHeading"><span jhiTranslate="aulacswscApp.galleryImage.detail.title">Gallery Image</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.imageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.captionVi">Caption Vi</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.captionVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.captionEn">Caption En</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.captionEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.altVi">Alt Vi</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.altVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.altEn">Alt En</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.altEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.width">Width</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.width }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.height">Height</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.height }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.displayOrder">Display Order</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.displayOrder }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.active">Active</span></dt>
+          <dd>
+            <span>{{ galleryImageRef.active }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.galleryImage.branch">Branch</span></dt>
+          <dd>
+            @if (galleryImage()!.branch) {
+              <div>
+                <a [routerLink]="['/branch', galleryImage()!.branch?.id, 'view']">{{ galleryImageRef.branch?.nameVi }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/gallery-image', galleryImageRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

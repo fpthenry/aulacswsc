@@ -17,7 +17,11 @@
         "bookingItem": "Booking Item",
         "promotion": "Promotion",
         "review": "Review",
-        "contactMessage": "Contact Message"
+        "contactMessage": "Contact Message",
+        "siteSetting": "Site Setting",
+        "branch": "Branch",
+        "galleryImage": "Gallery Image",
+        "blogPost": "Blog Post"
       },
       "account": {
         "main": "Account",

@@ -2,33 +2,38 @@ import { IServiceCategory, NewServiceCategory } from './service-category.model';
 
 export const sampleWithRequiredData: IServiceCategory = {
   id: 10681,
-  name: 'drat',
-  slug: 'fond',
+  nameVi: 'drat',
+  nameEn: 'fond',
+  slug: 'concentration split oh',
   active: false,
 };
 
 export const sampleWithPartialData: IServiceCategory = {
-  id: 26927,
-  name: 'whoever',
-  slug: 'imaginary department',
-  imageUrl: 'inasmuch whereas',
-  active: false,
+  id: 6137,
+  nameVi: 'since',
+  nameEn: 'consequently',
+  slug: 'access outnumber',
+  descriptionEn: 'questionable boo',
+  active: true,
 };
 
 export const sampleWithFullData: IServiceCategory = {
   id: 1300,
-  name: 'wherever',
-  slug: 'psst',
-  description: '../fake-data/blob/hipster.txt',
-  imageUrl: 'ack',
-  displayOrder: 16495,
-  active: false,
+  nameVi: 'wherever',
+  nameEn: 'psst',
+  slug: 'ack',
+  descriptionVi: 'converse not',
+  descriptionEn: 'bashfully busy or',
+  imageUrl: 'blah',
+  displayOrder: 3394,
+  active: true,
 };
 
 export const sampleWithNewData: NewServiceCategory = {
-  name: 'whenever why',
-  slug: 'fax weekly factorise',
-  active: true,
+  nameVi: 'whenever why',
+  nameEn: 'fax weekly factorise',
+  slug: 'bah',
+  active: false,
   id: null,
 };
 

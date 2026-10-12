@@ -1,0 +1,47 @@
+export interface ISiteSetting {
+  id: number;
+  siteName?: string | null;
+  logoUrl?: string | null;
+  sloganVi?: string | null;
+  sloganEn?: string | null;
+  heroSubtitleVi?: string | null;
+  heroSubtitleEn?: string | null;
+  heroImageUrl?: string | null;
+  heroVideoUrl?: string | null;
+  heroSlides?: string | null;
+  heroVideoEnabled?: boolean | null;
+  backgroundMusicUrl?: string | null;
+  aboutTitleVi?: string | null;
+  aboutTitleEn?: string | null;
+  aboutContentVi?: string | null;
+  aboutContentEn?: string | null;
+  highlight1TitleVi?: string | null;
+  highlight1TitleEn?: string | null;
+  highlight1TextVi?: string | null;
+  highlight1TextEn?: string | null;
+  highlight2TitleVi?: string | null;
+  highlight2TitleEn?: string | null;
+  highlight2TextVi?: string | null;
+  highlight2TextEn?: string | null;
+  highlight3TitleVi?: string | null;
+  highlight3TitleEn?: string | null;
+  highlight3TextVi?: string | null;
+  highlight3TextEn?: string | null;
+  hotline?: string | null;
+  email?: string | null;
+  whatsappNumber?: string | null;
+  zaloNumber?: string | null;
+  messengerUrl?: string | null;
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  tiktokUrl?: string | null;
+  youtubeUrl?: string | null;
+  openingHoursVi?: string | null;
+  openingHoursEn?: string | null;
+  metaDescriptionVi?: string | null;
+  metaDescriptionEn?: string | null;
+  policyContentVi?: string | null;
+  policyContentEn?: string | null;
+}
+
+export type NewSiteSetting = Omit<ISiteSetting, 'id'> & { id: null };

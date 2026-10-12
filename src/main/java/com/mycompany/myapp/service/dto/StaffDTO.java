@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.Staff} entity.
  */
-@Schema(description = "Kỹ thuật viên / nhân viên spa, gắn với tài khoản User")
+@Schema(description = "Kỹ thuật viên / nhân viên spa")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class StaffDTO implements Serializable {
 
@@ -37,6 +37,8 @@ public class StaffDTO implements Serializable {
     private Boolean active;
 
     private UserDTO user;
+
+    private BranchDTO branch;
 
     private Set<SpaServiceDTO> services = new HashSet<>();
 
@@ -104,6 +106,14 @@ public class StaffDTO implements Serializable {
         this.user = user;
     }
 
+    public BranchDTO getBranch() {
+        return branch;
+    }
+
+    public void setBranch(BranchDTO branch) {
+        this.branch = branch;
+    }
+
     public Set<SpaServiceDTO> getServices() {
         return services;
     }
@@ -145,6 +155,7 @@ public class StaffDTO implements Serializable {
             ", avatarUrl='" + getAvatarUrl() + "'" +
             ", active='" + getActive() + "'" +
             ", user=" + getUser() +
+            ", branch=" + getBranch() +
             ", services=" + getServices() +
             "}";
     }

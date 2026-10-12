@@ -3,6 +3,7 @@ package com.mycompany.myapp.service.impl;
 import com.mycompany.myapp.domain.ServiceCategory;
 import com.mycompany.myapp.repository.ServiceCategoryRepository;
 import com.mycompany.myapp.service.ServiceCategoryService;
+import com.mycompany.myapp.service.SlugService;
 import com.mycompany.myapp.service.dto.ServiceCategoryDTO;
 import com.mycompany.myapp.service.mapper.ServiceCategoryMapper;
 import java.util.Optional;
@@ -24,14 +25,25 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
     private final ServiceCategoryMapper serviceCategoryMapper;
 
-    public ServiceCategoryServiceImpl(ServiceCategoryRepository serviceCategoryRepository, ServiceCategoryMapper serviceCategoryMapper) {
+    private final SlugService slugService;
+
+    public ServiceCategoryServiceImpl(
+        ServiceCategoryRepository serviceCategoryRepository,
+        ServiceCategoryMapper serviceCategoryMapper,
+        SlugService slugService
+    ) {
         this.serviceCategoryRepository = serviceCategoryRepository;
         this.serviceCategoryMapper = serviceCategoryMapper;
+        this.slugService = slugService;
     }
 
     @Override
     public ServiceCategoryDTO save(ServiceCategoryDTO serviceCategoryDTO) {
         LOG.debug("Request to save ServiceCategory : {}", serviceCategoryDTO);
+        // slug luôn do server sinh: tiêu đề không dấu + ngày (không nhận slug từ form)
+        serviceCategoryDTO.setSlug(
+            slugService.create(serviceCategoryDTO.getNameVi(), null, 180, serviceCategoryRepository::existsBySlug, "danh-muc")
+        );
         ServiceCategory serviceCategory = serviceCategoryMapper.toEntity(serviceCategoryDTO);
         serviceCategory = serviceCategoryRepository.save(serviceCategory);
         return serviceCategoryMapper.toDto(serviceCategory);
@@ -40,6 +52,10 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     @Override
     public ServiceCategoryDTO update(ServiceCategoryDTO serviceCategoryDTO) {
         LOG.debug("Request to update ServiceCategory : {}", serviceCategoryDTO);
+        // giữ nguyên slug đã có để link cũ không hỏng
+        serviceCategoryRepository
+            .findById(serviceCategoryDTO.getId())
+            .ifPresent(existing -> serviceCategoryDTO.setSlug(existing.getSlug()));
         ServiceCategory serviceCategory = serviceCategoryMapper.toEntity(serviceCategoryDTO);
         serviceCategory = serviceCategoryRepository.save(serviceCategory);
         return serviceCategoryMapper.toDto(serviceCategory);
@@ -48,6 +64,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     @Override
     public Optional<ServiceCategoryDTO> partialUpdate(ServiceCategoryDTO serviceCategoryDTO) {
         LOG.debug("Request to partially update ServiceCategory : {}", serviceCategoryDTO);
+        serviceCategoryDTO.setSlug(null); // slug không đổi được qua PATCH (null = giữ nguyên)
 
         return serviceCategoryRepository
             .findById(serviceCategoryDTO.getId())

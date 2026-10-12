@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Hồ sơ khách hàng, gắn với tài khoản User (có thể null nếu khách đặt lịch không đăng ký)
+ * Hồ sơ khách hàng; khách đặt lịch trên website được tạo tự động theo số điện thoại
  */
 @Entity
 @Table(name = "customer")
@@ -62,7 +62,7 @@ public class Customer implements Serializable {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    @JsonIgnoreProperties(value = { "items", "promotion", "customer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "items", "branch", "promotion", "customer" }, allowSetters = true)
     private Set<Booking> bookings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

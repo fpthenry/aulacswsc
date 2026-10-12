@@ -80,6 +80,7 @@ public class StaffQueryService extends QueryService<Staff> {
                 buildStringSpecification(criteria.getAvatarUrl(), Staff_.avatarUrl),
                 buildSpecification(criteria.getActive(), Staff_.active),
                 buildSpecification(criteria.getUserId(), root -> root.join(Staff_.user, JoinType.LEFT).get(User_.id)),
+                buildSpecification(criteria.getBranchId(), root -> root.join(Staff_.branch, JoinType.LEFT).get(Branch_.id)),
                 buildSpecification(criteria.getServicesId(), root -> root.join(Staff_.services, JoinType.LEFT).get(SpaService_.id))
             );
         }

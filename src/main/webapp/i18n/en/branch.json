@@ -1,0 +1,47 @@
+{
+  "aulacswscApp": {
+    "branch": {
+      "home": {
+        "title": "Branches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Branch",
+        "createOrEditLabel": "Create or edit a Branch",
+        "notFound": "No Branches found"
+      },
+      "created": "A new Branch is created with identifier {{ param }}",
+      "updated": "A Branch is updated with identifier {{ param }}",
+      "deleted": "A Branch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Branch {{ id }}?"
+      },
+      "detail": {
+        "title": "Branch"
+      },
+      "id": "ID",
+      "nameVi": "Name Vi",
+      "nameEn": "Name En",
+      "slug": "Slug",
+      "addressVi": "Address Vi",
+      "addressEn": "Address En",
+      "phone": "Phone",
+      "whatsapp": "Whatsapp",
+      "zalo": "Zalo",
+      "email": "Email",
+      "openTime": "Open Time",
+      "closeTime": "Close Time",
+      "lastBookingTime": "Last Booking Time",
+      "capacity": "Capacity",
+      "mapEmbedUrl": "Map Embed Url",
+      "mapDirectionUrl": "Map Direction Url",
+      "imageUrl": "Image Url",
+      "displayOrder": "Display Order",
+      "active": "Active",
+      "help": {
+        "openTime": "Giờ mở cửa dạng HH:mm, vd 10:00",
+        "closeTime": "Giờ đóng cửa dạng HH:mm, vd 22:00",
+        "lastBookingTime": "Khung giờ nhận khách cuối cùng, vd 21:30",
+        "capacity": "Số khách tối đa phục vụ đồng thời"
+      }
+    }
+  }
+}

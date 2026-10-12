@@ -61,7 +61,7 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="service.name">
+            <th scope="col" jhiSortBy="service.nameVi">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.bookingItem.service">Service</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -94,7 +94,7 @@
               <td>
                 @if (bookingItem.service) {
                   <div>
-                    <a [routerLink]="['/spa-service', bookingItem.service.id, 'view']">{{ bookingItem.service.name }}</a>
+                    <a [routerLink]="['/spa-service', bookingItem.service.id, 'view']">{{ bookingItem.service.nameVi }}</a>
                   </div>
                 }
               </td>

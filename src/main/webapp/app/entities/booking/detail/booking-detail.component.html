@@ -27,6 +27,10 @@
           <dd>
             <span>{{ bookingRef.endTime | formatMediumDatetime }}</span>
           </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.numberOfPeople">Number Of People</span></dt>
+          <dd>
+            <span>{{ bookingRef.numberOfPeople }}</span>
+          </dd>
           <dt><span jhiTranslate="aulacswscApp.booking.status">Status</span></dt>
           <dd>
             <span [jhiTranslate]="'aulacswscApp.BookingStatus.' + (bookingRef.status ?? 'null')">{{
@@ -39,6 +43,14 @@
                 CANCELLED: 'CANCELLED',
                 NO_SHOW: 'NO_SHOW',
               }[bookingRef.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.source">Source</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.BookingSource.' + (bookingRef.source ?? 'null')">{{
+              { null: '', WEBSITE: 'WEBSITE', QUICK: 'QUICK', ADMIN: 'ADMIN', PHONE: 'PHONE', WALK_IN: 'WALK_IN' }[
+                bookingRef.source ?? 'null'
+              ]
             }}</span>
           </dd>
           <dt><span jhiTranslate="aulacswscApp.booking.totalAmount">Total Amount</span></dt>
@@ -70,6 +82,14 @@
           <dt><span jhiTranslate="aulacswscApp.booking.createdDate">Created Date</span></dt>
           <dd>
             <span>{{ bookingRef.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.booking.branch">Branch</span></dt>
+          <dd>
+            @if (booking()!.branch) {
+              <div>
+                <a [routerLink]="['/branch', booking()!.branch?.id, 'view']">{{ bookingRef.branch?.nameVi }}</a>
+              </div>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.booking.promotion">Promotion</span></dt>
           <dd>

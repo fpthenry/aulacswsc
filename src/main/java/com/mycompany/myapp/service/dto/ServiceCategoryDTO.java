@@ -1,7 +1,6 @@
 package com.mycompany.myapp.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.ServiceCategory} entity.
  */
-@Schema(description = "Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...)")
+@Schema(description = "Danh mục dịch vụ (Massage, Chăm sóc tóc, Chăm sóc da, Combo...)")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ServiceCategoryDTO implements Serializable {
 
@@ -17,14 +16,21 @@ public class ServiceCategoryDTO implements Serializable {
 
     @NotNull
     @Size(max = 150)
-    private String name;
+    private String nameVi;
 
     @NotNull
+    @Size(max = 150)
+    private String nameEn;
+
+    /** do server sinh khi tạo mới (SlugService) */
     @Size(max = 180)
     private String slug;
 
-    @Lob
-    private String description;
+    @Size(max = 1000)
+    private String descriptionVi;
+
+    @Size(max = 1000)
+    private String descriptionEn;
 
     @Size(max = 500)
     private String imageUrl;
@@ -42,12 +48,20 @@ public class ServiceCategoryDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameVi() {
+        return nameVi;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameVi(String nameVi) {
+        this.nameVi = nameVi;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
     public String getSlug() {
@@ -58,12 +72,20 @@ public class ServiceCategoryDTO implements Serializable {
         this.slug = slug;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionVi() {
+        return descriptionVi;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionVi(String descriptionVi) {
+        this.descriptionVi = descriptionVi;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     public String getImageUrl() {
@@ -116,9 +138,11 @@ public class ServiceCategoryDTO implements Serializable {
     public String toString() {
         return "ServiceCategoryDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", nameVi='" + getNameVi() + "'" +
+            ", nameEn='" + getNameEn() + "'" +
             ", slug='" + getSlug() + "'" +
-            ", description='" + getDescription() + "'" +
+            ", descriptionVi='" + getDescriptionVi() + "'" +
+            ", descriptionEn='" + getDescriptionEn() + "'" +
             ", imageUrl='" + getImageUrl() + "'" +
             ", displayOrder=" + getDisplayOrder() +
             ", active='" + getActive() + "'" +

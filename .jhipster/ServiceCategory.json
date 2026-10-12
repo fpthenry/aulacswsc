@@ -3,11 +3,17 @@
     "changelogDate": "20261011043046"
   },
   "applications": ["aulacswsc"],
-  "documentation": "Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...)",
+  "documentation": "Danh mục dịch vụ (Massage, Chăm sóc tóc, Chăm sóc da, Combo...)",
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "nameVi",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "150"
+    },
+    {
+      "fieldName": "nameEn",
       "fieldType": "String",
       "fieldValidateRules": ["required", "maxlength"],
       "fieldValidateRulesMaxlength": "150"
@@ -19,8 +25,16 @@
       "fieldValidateRulesMaxlength": "180"
     },
     {
-      "fieldName": "description",
-      "fieldType": "TextBlob"
+      "fieldName": "descriptionVi",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
+    },
+    {
+      "fieldName": "descriptionEn",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
     },
     {
       "fieldName": "imageUrl",

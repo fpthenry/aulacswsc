@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Dữ liệu ban đầu cho website spa.
+        - Changeset 1 (mọi môi trường): 1 bản ghi SiteSetting để website luôn có cấu hình; admin sửa trong "Site Setting".
+        - Changeset 2 (chỉ dev): cơ sở, danh mục, dịch vụ, đánh giá, bài viết MẪU để xem giao diện.
+          Production: nhập nội dung thật trong trang quản trị.
+        Nội dung tự viết, không sao chép website khác.
+    -->
+    <changeSet id="20261011130000-1" author="jhipster">
+        <insert tableName="site_setting">
+            <column name="id" valueNumeric="1"/>
+            <column name="site_name" value="Âu Lạc Spa"/>
+            <column name="slogan_vi" value="Hương gỗ, thảo mộc và một khoảng lặng cho riêng bạn"/>
+            <column name="slogan_en" value="Wood, herbs and a quiet moment just for you"/>
+            <column name="hero_subtitle_vi" value="Liệu trình thảo mộc Việt trong không gian gỗ ấm, giữa lòng phố cổ."/>
+            <column name="hero_subtitle_en" value="Vietnamese herbal treatments in a warm wooden space, in the heart of the Old Quarter."/>
+            <column name="hero_video_enabled" valueBoolean="false"/>
+            <column name="about_title_vi" value="Trút bỏ muộn phiền, tìm về an yên"/>
+            <column name="about_title_en" value="Let go of the rush, return to calm"/>
+            <column name="about_content_vi" value="Âu Lạc Spa được dựng nên từ gỗ mộc, tiếng nước và mùi thảo mộc quen thuộc của làng quê Việt. Mỗi liệu trình bắt đầu bằng một tách trà ấm và kết thúc khi bạn thấy nhẹ nhõm thật sự.&#10;&#10;Đội ngũ kỹ thuật viên được đào tạo bài bản, lắng nghe cơ thể bạn và điều chỉnh lực tay theo từng người."/>
+            <column name="about_content_en" value="Âu Lạc Spa is built from raw wood, the sound of water and the familiar scent of Vietnamese countryside herbs. Every treatment starts with a warm cup of tea and ends when you truly feel lighter.&#10;&#10;Our well-trained therapists listen to your body and adjust their pressure for each guest."/>
+            <column name="highlight_1_title_vi" value="Vị trí trung tâm"/>
+            <column name="highlight_1_title_en" value="Central location"/>
+            <column name="highlight_1_text_vi" value="Nằm giữa phố cổ, dễ dàng ghé thăm sau một ngày dạo phố."/>
+            <column name="highlight_1_text_en" value="Right in the Old Quarter, easy to drop by after a day of exploring."/>
+            <column name="highlight_2_title_vi" value="Kỹ thuật viên tận tâm"/>
+            <column name="highlight_2_title_en" value="Caring therapists"/>
+            <column name="highlight_2_text_vi" value="Được đào tạo chuyên sâu về massage và trị liệu thảo dược."/>
+            <column name="highlight_2_text_en" value="Professionally trained in massage and herbal therapy."/>
+            <column name="highlight_3_title_vi" value="Trải nghiệm riêng"/>
+            <column name="highlight_3_title_en" value="Tailored experience"/>
+            <column name="highlight_3_text_vi" value="Tinh dầu, nhiệt độ và lực tay được chọn theo sở thích của bạn."/>
+            <column name="highlight_3_text_en" value="Oils, temperature and pressure chosen to suit you."/>
+            <column name="hotline" value="0901234567"/>
+            <column name="email" value="hello@aulacspa.vn"/>
+            <column name="whatsapp_number" value="84901234567"/>
+            <column name="zalo_number" value="0901234567"/>
+            <column name="facebook_url" value="https://facebook.com/"/>
+            <column name="instagram_url" value="https://instagram.com/"/>
+            <column name="tiktok_url" value="https://tiktok.com/"/>
+            <column name="opening_hours_vi" value="Mở cửa hằng ngày 10:00 – 22:00 (nhận khách cuối 21:30)"/>
+            <column name="opening_hours_en" value="Open daily 10:00 AM – 10:00 PM (last booking 9:30 PM)"/>
+            <column name="meta_description_vi" value="Âu Lạc Spa – massage, gội đầu dưỡng sinh và chăm sóc da bằng thảo mộc Việt tại phố cổ Hà Nội. Đặt lịch online nhanh chóng."/>
+            <column name="meta_description_en" value="Âu Lạc Spa – massage, herbal head spa and facials with Vietnamese herbs in Hanoi Old Quarter. Book online in minutes."/>
+            <column name="policy_content_vi" value="Vui lòng đến trước giờ hẹn 10 phút. Lịch hẹn được giữ 15 phút sau giờ đặt. Hủy hoặc đổi lịch xin báo trước ít nhất 2 giờ."/>
+            <column name="policy_content_en" value="Please arrive 10 minutes before your appointment. Bookings are held for 15 minutes. Please cancel or reschedule at least 2 hours in advance."/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20261011130000-2" author="jhipster" context="dev">
+        <insert tableName="branch">
+            <column name="id" valueNumeric="1"/>
+            <column name="name_vi" value="Âu Lạc Spa – Hàng Bè"/>
+            <column name="name_en" value="Âu Lạc Spa – Hang Be"/>
+            <column name="slug" value="hang-be"/>
+            <column name="address_vi" value="Số 1 phố Mẫu, Hàng Bè, Hoàn Kiếm, Hà Nội (địa chỉ mẫu)"/>
+            <column name="address_en" value="1 Sample St, Hang Be, Hoan Kiem, Hanoi (sample address)"/>
+            <column name="phone" value="0901234567"/>
+            <column name="whatsapp" value="84901234567"/>
+            <column name="zalo" value="0901234567"/>
+            <column name="email" value="hangbe@aulacspa.vn"/>
+            <column name="open_time" value="10:00"/>
+            <column name="close_time" value="22:00"/>
+            <column name="last_booking_time" value="21:30"/>
+            <column name="capacity" valueNumeric="6"/>
+            <column name="map_embed_url" value="https://www.google.com/maps?q=Hoan+Kiem+Lake,Hanoi&amp;output=embed"/>
+            <column name="map_direction_url" value="https://www.google.com/maps/dir/?api=1&amp;destination=Hoan+Kiem+Lake,Hanoi"/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="branch">
+            <column name="id" valueNumeric="2"/>
+            <column name="name_vi" value="Âu Lạc Spa – Tây Hồ"/>
+            <column name="name_en" value="Âu Lạc Spa – Tay Ho"/>
+            <column name="slug" value="tay-ho"/>
+            <column name="address_vi" value="Số 2 đường Mẫu, Quảng An, Tây Hồ, Hà Nội (địa chỉ mẫu)"/>
+            <column name="address_en" value="2 Sample Rd, Quang An, Tay Ho, Hanoi (sample address)"/>
+            <column name="phone" value="0907654321"/>
+            <column name="whatsapp" value="84907654321"/>
+            <column name="zalo" value="0907654321"/>
+            <column name="email" value="tayho@aulacspa.vn"/>
+            <column name="open_time" value="09:30"/>
+            <column name="close_time" value="22:00"/>
+            <column name="last_booking_time" value="21:30"/>
+            <column name="capacity" valueNumeric="4"/>
+            <column name="map_embed_url" value="https://www.google.com/maps?q=West+Lake,Hanoi&amp;output=embed"/>
+            <column name="map_direction_url" value="https://www.google.com/maps/dir/?api=1&amp;destination=West+Lake,Hanoi"/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="service_category">
+            <column name="id" valueNumeric="1"/>
+            <column name="name_vi" value="Massage"/>
+            <column name="name_en" value="Massage"/>
+            <column name="slug" value="massage"/>
+            <column name="description_vi" value="Thả lỏng cơ thể với tinh dầu và thảo mộc ấm."/>
+            <column name="description_en" value="Release tension with warm oils and herbs."/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="service_category">
+            <column name="id" valueNumeric="2"/>
+            <column name="name_vi" value="Chăm sóc tóc"/>
+            <column name="name_en" value="Hair care"/>
+            <column name="slug" value="cham-soc-toc"/>
+            <column name="description_vi" value="Gội đầu dưỡng sinh với thảo dược Việt."/>
+            <column name="description_en" value="Herbal head spa with Vietnamese botanicals."/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="service_category">
+            <column name="id" valueNumeric="3"/>
+            <column name="name_vi" value="Chăm sóc da"/>
+            <column name="name_en" value="Skin care"/>
+            <column name="slug" value="cham-soc-da"/>
+            <column name="description_vi" value="Làm sạch, cấp ẩm và phục hồi làn da."/>
+            <column name="description_en" value="Cleanse, hydrate and restore your skin."/>
+            <column name="display_order" valueNumeric="3"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="service_category">
+            <column name="id" valueNumeric="4"/>
+            <column name="name_vi" value="Combo"/>
+            <column name="name_en" value="Combo"/>
+            <column name="slug" value="combo"/>
+            <column name="description_vi" value="Kết hợp nhiều liệu trình, tiết kiệm hơn."/>
+            <column name="description_en" value="Combined treatments at a better price."/>
+            <column name="display_order" valueNumeric="4"/>
+            <column name="active" valueBoolean="true"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="1"/>
+            <column name="name_vi" value="Massage thảo mộc toàn thân"/>
+            <column name="name_en" value="Herbal full-body massage"/>
+            <column name="slug" value="massage-thao-moc-toan-than"/>
+            <column name="short_description_vi" value="Massage toàn thân với tinh dầu sả chanh và túi thảo mộc ấm."/>
+            <column name="short_description_en" value="Full-body massage with lemongrass oil and warm herbal compresses."/>
+            <column name="description_vi" value="Massage toàn thân với tinh dầu sả chanh và túi thảo mộc ấm."/>
+            <column name="description_en" value="Full-body massage with lemongrass oil and warm herbal compresses."/>
+            <column name="benefits_vi" value="Giảm đau mỏi vai gáy và lưng&#10;Thúc đẩy tuần hoàn máu&#10;Giúp ngủ sâu hơn"/>
+            <column name="benefits_en" value="Relieves neck, shoulder and back pain&#10;Improves blood circulation&#10;Helps you sleep better"/>
+            <column name="notes_vi" value="Không nên thực hiện khi vừa ăn no hoặc đang sốt.&#10;Phụ nữ mang thai vui lòng báo trước cho lễ tân."/>
+            <column name="notes_en" value="Not recommended right after a heavy meal or when you have a fever.&#10;Pregnant guests please inform reception in advance."/>
+            <column name="price" valueNumeric="450000"/>
+            <column name="sale_price" valueNumeric="390000"/>
+            <column name="duration_minutes" valueNumeric="60"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="2"/>
+            <column name="name_vi" value="Massage đá nóng"/>
+            <column name="name_en" value="Hot stone massage"/>
+            <column name="slug" value="massage-da-nong"/>
+            <column name="short_description_vi" value="Đá bazan làm ấm giúp thư giãn sâu các nhóm cơ."/>
+            <column name="short_description_en" value="Warm basalt stones melt away deep muscle tension."/>
+            <column name="description_vi" value="Đá bazan làm ấm giúp thư giãn sâu các nhóm cơ."/>
+            <column name="description_en" value="Warm basalt stones melt away deep muscle tension."/>
+            <column name="benefits_vi" value="Thư giãn cơ sâu&#10;Giảm căng thẳng&#10;Làm ấm cơ thể"/>
+            <column name="benefits_en" value="Deep muscle relaxation&#10;Reduces stress&#10;Warms the body"/>
+            <column name="notes_vi" value="Không nên thực hiện khi vừa ăn no hoặc đang sốt.&#10;Phụ nữ mang thai vui lòng báo trước cho lễ tân."/>
+            <column name="notes_en" value="Not recommended right after a heavy meal or when you have a fever.&#10;Pregnant guests please inform reception in advance."/>
+            <column name="price" valueNumeric="650000"/>
+            <column name="duration_minutes" valueNumeric="90"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="3"/>
+            <column name="name_vi" value="Massage chân thảo dược"/>
+            <column name="name_en" value="Herbal foot massage"/>
+            <column name="slug" value="massage-chan-thao-duoc"/>
+            <column name="short_description_vi" value="Ngâm chân nước gừng, bấm huyệt bàn chân."/>
+            <column name="short_description_en" value="Ginger foot soak followed by reflexology."/>
+            <column name="description_vi" value="Ngâm chân nước gừng, bấm huyệt bàn chân."/>
+            <column name="description_en" value="Ginger foot soak followed by reflexology."/>
+            <column name="benefits_vi" value="Giảm mỏi chân sau khi đi bộ nhiều&#10;Kích thích huyệt đạo"/>
+            <column name="benefits_en" value="Soothes tired feet after long walks&#10;Stimulates reflex points"/>
+            <column name="price" valueNumeric="250000"/>
+            <column name="price_max" valueNumeric="350000"/>
+            <column name="duration_minutes" valueNumeric="45"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="display_order" valueNumeric="3"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="4"/>
+            <column name="name_vi" value="Gội đầu dưỡng sinh ngải cứu"/>
+            <column name="name_en" value="Mugwort herbal head spa"/>
+            <column name="slug" value="goi-dau-duong-sinh-ngai-cuu"/>
+            <column name="short_description_vi" value="Gội thảo dược, massage đầu – cổ – vai và xông ngải cứu."/>
+            <column name="short_description_en" value="Herbal wash, head-neck-shoulder massage and mugwort steam."/>
+            <column name="description_vi" value="Gội thảo dược, massage đầu – cổ – vai và xông ngải cứu."/>
+            <column name="description_en" value="Herbal wash, head-neck-shoulder massage and mugwort steam."/>
+            <column name="benefits_vi" value="Giảm đau đầu, căng thẳng&#10;Nuôi dưỡng da đầu và tóc&#10;Thư giãn vùng cổ vai"/>
+            <column name="benefits_en" value="Eases headaches and stress&#10;Nourishes scalp and hair&#10;Relaxes neck and shoulders"/>
+            <column name="price" valueNumeric="400000"/>
+            <column name="sale_price" valueNumeric="350000"/>
+            <column name="duration_minutes" valueNumeric="60"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="5"/>
+            <column name="name_vi" value="Gội đầu bồ kết"/>
+            <column name="name_en" value="Soapberry hair wash"/>
+            <column name="slug" value="goi-dau-bo-ket"/>
+            <column name="short_description_vi" value="Gội bồ kết truyền thống, sấy và tạo kiểu nhẹ."/>
+            <column name="short_description_en" value="Traditional soapberry wash with blow-dry."/>
+            <column name="description_vi" value="Gội bồ kết truyền thống, sấy và tạo kiểu nhẹ."/>
+            <column name="description_en" value="Traditional soapberry wash with blow-dry."/>
+            <column name="price" valueNumeric="250000"/>
+            <column name="duration_minutes" valueNumeric="45"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="6"/>
+            <column name="name_vi" value="Chăm sóc da cấp ẩm"/>
+            <column name="name_en" value="Hydrating facial"/>
+            <column name="slug" value="cham-soc-da-cap-am"/>
+            <column name="short_description_vi" value="Làm sạch, tẩy da chết dịu nhẹ và mặt nạ cấp ẩm."/>
+            <column name="short_description_en" value="Cleanse, gentle exfoliation and hydrating mask."/>
+            <column name="description_vi" value="Làm sạch, tẩy da chết dịu nhẹ và mặt nạ cấp ẩm."/>
+            <column name="description_en" value="Cleanse, gentle exfoliation and hydrating mask."/>
+            <column name="benefits_vi" value="Da mềm mịn, căng bóng&#10;Cân bằng độ ẩm"/>
+            <column name="benefits_en" value="Soft, glowing skin&#10;Balanced hydration"/>
+            <column name="notes_vi" value="Không trang điểm đậm trước khi đến.&#10;Báo trước nếu da đang kích ứng."/>
+            <column name="notes_en" value="Please avoid heavy make-up before your visit.&#10;Tell us if your skin is irritated."/>
+            <column name="price" valueNumeric="550000"/>
+            <column name="duration_minutes" valueNumeric="60"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="7"/>
+            <column name="name_vi" value="Làm sạch sâu"/>
+            <column name="name_en" value="Deep cleansing facial"/>
+            <column name="slug" value="lam-sach-sau"/>
+            <column name="short_description_vi" value="Hút dầu, lấy nhân mụn nhẹ và đắp mặt nạ thảo mộc."/>
+            <column name="short_description_en" value="Oil extraction, gentle blackhead removal and herbal mask."/>
+            <column name="description_vi" value="Hút dầu, lấy nhân mụn nhẹ và đắp mặt nạ thảo mộc."/>
+            <column name="description_en" value="Oil extraction, gentle blackhead removal and herbal mask."/>
+            <column name="price" valueNumeric="700000"/>
+            <column name="duration_minutes" valueNumeric="75"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="8"/>
+            <column name="name_vi" value="Combo An Nhiên"/>
+            <column name="name_en" value="An Nhien combo"/>
+            <column name="slug" value="combo-an-nhien"/>
+            <column name="short_description_vi" value="Massage thảo mộc 60 phút + gội đầu dưỡng sinh 60 phút."/>
+            <column name="short_description_en" value="60-min herbal massage + 60-min herbal head spa."/>
+            <column name="description_vi" value="Massage thảo mộc 60 phút + gội đầu dưỡng sinh 60 phút."/>
+            <column name="description_en" value="60-min herbal massage + 60-min herbal head spa."/>
+            <column name="benefits_vi" value="Thư giãn toàn diện từ đầu đến chân&#10;Tiết kiệm hơn đặt lẻ"/>
+            <column name="benefits_en" value="Head-to-toe relaxation&#10;Better value than booking separately"/>
+            <column name="notes_vi" value="Không nên thực hiện khi vừa ăn no hoặc đang sốt.&#10;Phụ nữ mang thai vui lòng báo trước cho lễ tân."/>
+            <column name="notes_en" value="Not recommended right after a heavy meal or when you have a fever.&#10;Pregnant guests please inform reception in advance."/>
+            <column name="price" valueNumeric="900000"/>
+            <column name="sale_price" valueNumeric="820000"/>
+            <column name="duration_minutes" valueNumeric="120"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="display_order" valueNumeric="1"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="spa_service">
+            <column name="id" valueNumeric="9"/>
+            <column name="name_vi" value="Combo Thư Thái"/>
+            <column name="name_en" value="Thu Thai combo"/>
+            <column name="slug" value="combo-thu-thai"/>
+            <column name="short_description_vi" value="Chăm sóc da cấp ẩm + gội đầu bồ kết."/>
+            <column name="short_description_en" value="Hydrating facial + soapberry hair wash."/>
+            <column name="description_vi" value="Chăm sóc da cấp ẩm + gội đầu bồ kết."/>
+            <column name="description_en" value="Hydrating facial + soapberry hair wash."/>
+            <column name="price" valueNumeric="950000"/>
+            <column name="sale_price" valueNumeric="880000"/>
+            <column name="duration_minutes" valueNumeric="105"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="display_order" valueNumeric="2"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="review">
+            <column name="id" valueNumeric="1"/>
+            <column name="author_name" value="Minh Anh"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="comment" value="Không gian rất thơm mùi gỗ và thảo mộc, kỹ thuật viên nhẹ nhàng. Gội đầu ngải cứu là phần mình thích nhất!"/>
+            <column name="review_date" valueDate="2026-09-20"/>
+            <column name="approved" valueBoolean="true"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="created_date" valueDate="2026-09-20T00:00:00"/>
+            <column name="service_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="review">
+            <column name="id" valueNumeric="2"/>
+            <column name="author_name" value="Sarah K."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="comment" value="The best massage I had in Hanoi. Calm, clean and the staff were so kind. Booked online in a minute."/>
+            <column name="review_date" valueDate="2026-09-28"/>
+            <column name="approved" valueBoolean="true"/>
+            <column name="featured" valueBoolean="true"/>
+            <column name="created_date" valueDate="2026-09-28T00:00:00"/>
+            <column name="service_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="review">
+            <column name="id" valueNumeric="3"/>
+            <column name="author_name" value="Hoàng Nam"/>
+            <column name="rating" valueNumeric="4"/>
+            <column name="comment" value="Massage đá nóng rất đã, phòng ấm. Cuối tuần nên đặt trước vì khá đông."/>
+            <column name="review_date" valueDate="2026-10-02"/>
+            <column name="approved" valueBoolean="true"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="created_date" valueDate="2026-10-02T00:00:00"/>
+            <column name="service_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="review">
+            <column name="id" valueNumeric="4"/>
+            <column name="author_name" value="Lucas M."/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="comment" value="Lovely combo, great value. The herbal tea at the end was a nice touch."/>
+            <column name="review_date" valueDate="2026-10-05"/>
+            <column name="approved" valueBoolean="true"/>
+            <column name="featured" valueBoolean="false"/>
+            <column name="created_date" valueDate="2026-10-05T00:00:00"/>
+            <column name="service_id" valueNumeric="8"/>
+        </insert>
+        <insert tableName="blog_post">
+            <column name="id" valueNumeric="1"/>
+            <column name="title_vi" value="Gội đầu dưỡng sinh: vì sao ngải cứu được ưa chuộng?"/>
+            <column name="title_en" value="Herbal head spa: why mugwort?"/>
+            <column name="slug" value="goi-dau-duong-sinh-vi-sao-ngai-cuu"/>
+            <column name="excerpt_vi" value="Ngải cứu từ lâu đã gắn với những bài thuốc dân gian giúp ấm người và giảm đau đầu."/>
+            <column name="excerpt_en" value="Mugwort has long been part of Vietnamese folk remedies for warmth and headache relief."/>
+            <column name="content_vi" value="Ngải cứu từ lâu đã gắn với những bài thuốc dân gian giúp ấm người và giảm đau đầu.&#10;&#10;Trong liệu trình gội đầu dưỡng sinh, lá ngải cứu tươi được xông hơi cùng gừng và sả, giúp da đầu thư giãn và lưu thông máu tốt hơn.&#10;&#10;Đây là nội dung mẫu — hãy thay bằng bài viết của spa trong trang quản trị."/>
+            <column name="content_en" value="Mugwort has long been part of Vietnamese folk remedies for warmth and headache relief.&#10;&#10;In our herbal head spa, fresh mugwort is steamed with ginger and lemongrass to relax the scalp and boost circulation.&#10;&#10;This is sample content — replace it with your own article in the admin pages."/>
+            <column name="category" value="TIPS"/>
+            <column name="published" valueBoolean="true"/>
+            <column name="published_at" valueDate="2026-10-01T03:00:00"/>
+        </insert>
+        <insert tableName="blog_post">
+            <column name="id" valueNumeric="2"/>
+            <column name="title_vi" value="Khai trương cơ sở Tây Hồ"/>
+            <column name="title_en" value="Our Tay Ho branch is open"/>
+            <column name="slug" value="khai-truong-co-so-tay-ho"/>
+            <column name="excerpt_vi" value="Cơ sở thứ hai với không gian hướng hồ, ưu đãi 10% trong tháng đầu tiên."/>
+            <column name="excerpt_en" value="Our second branch overlooks the lake — 10% off during the first month."/>
+            <column name="content_vi" value="Cơ sở thứ hai với không gian hướng hồ đã chính thức đón khách.&#10;&#10;Đây là nội dung mẫu."/>
+            <column name="content_en" value="Our second, lake-view branch is now open.&#10;&#10;This is sample content."/>
+            <column name="category" value="EVENT"/>
+            <column name="published" valueBoolean="true"/>
+            <column name="published_at" valueDate="2026-10-08T03:00:00"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -79,7 +79,9 @@ class BookingCriteriaTest {
         bookingCriteria.code();
         bookingCriteria.startTime();
         bookingCriteria.endTime();
+        bookingCriteria.numberOfPeople();
         bookingCriteria.status();
+        bookingCriteria.source();
         bookingCriteria.totalAmount();
         bookingCriteria.discountAmount();
         bookingCriteria.paymentStatus();
@@ -87,6 +89,7 @@ class BookingCriteriaTest {
         bookingCriteria.note();
         bookingCriteria.createdDate();
         bookingCriteria.itemsId();
+        bookingCriteria.branchId();
         bookingCriteria.promotionId();
         bookingCriteria.customerId();
         bookingCriteria.distinct();
@@ -99,7 +102,9 @@ class BookingCriteriaTest {
                 condition.apply(criteria.getCode()) &&
                 condition.apply(criteria.getStartTime()) &&
                 condition.apply(criteria.getEndTime()) &&
+                condition.apply(criteria.getNumberOfPeople()) &&
                 condition.apply(criteria.getStatus()) &&
+                condition.apply(criteria.getSource()) &&
                 condition.apply(criteria.getTotalAmount()) &&
                 condition.apply(criteria.getDiscountAmount()) &&
                 condition.apply(criteria.getPaymentStatus()) &&
@@ -107,6 +112,7 @@ class BookingCriteriaTest {
                 condition.apply(criteria.getNote()) &&
                 condition.apply(criteria.getCreatedDate()) &&
                 condition.apply(criteria.getItemsId()) &&
+                condition.apply(criteria.getBranchId()) &&
                 condition.apply(criteria.getPromotionId()) &&
                 condition.apply(criteria.getCustomerId()) &&
                 condition.apply(criteria.getDistinct()),
@@ -121,7 +127,9 @@ class BookingCriteriaTest {
                 condition.apply(criteria.getCode(), copy.getCode()) &&
                 condition.apply(criteria.getStartTime(), copy.getStartTime()) &&
                 condition.apply(criteria.getEndTime(), copy.getEndTime()) &&
+                condition.apply(criteria.getNumberOfPeople(), copy.getNumberOfPeople()) &&
                 condition.apply(criteria.getStatus(), copy.getStatus()) &&
+                condition.apply(criteria.getSource(), copy.getSource()) &&
                 condition.apply(criteria.getTotalAmount(), copy.getTotalAmount()) &&
                 condition.apply(criteria.getDiscountAmount(), copy.getDiscountAmount()) &&
                 condition.apply(criteria.getPaymentStatus(), copy.getPaymentStatus()) &&
@@ -129,6 +137,7 @@ class BookingCriteriaTest {
                 condition.apply(criteria.getNote(), copy.getNote()) &&
                 condition.apply(criteria.getCreatedDate(), copy.getCreatedDate()) &&
                 condition.apply(criteria.getItemsId(), copy.getItemsId()) &&
+                condition.apply(criteria.getBranchId(), copy.getBranchId()) &&
                 condition.apply(criteria.getPromotionId(), copy.getPromotionId()) &&
                 condition.apply(criteria.getCustomerId(), copy.getCustomerId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),

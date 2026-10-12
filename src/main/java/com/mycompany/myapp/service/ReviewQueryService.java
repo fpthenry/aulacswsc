@@ -74,9 +74,13 @@ public class ReviewQueryService extends QueryService<Review> {
             specification = Specification.allOf(
                 Boolean.TRUE.equals(criteria.getDistinct()) ? distinct(criteria.getDistinct()) : null,
                 buildRangeSpecification(criteria.getId(), Review_.id),
+                buildStringSpecification(criteria.getAuthorName(), Review_.authorName),
                 buildRangeSpecification(criteria.getRating(), Review_.rating),
                 buildStringSpecification(criteria.getComment(), Review_.comment),
+                buildStringSpecification(criteria.getVideoUrl(), Review_.videoUrl),
+                buildRangeSpecification(criteria.getReviewDate(), Review_.reviewDate),
                 buildSpecification(criteria.getApproved(), Review_.approved),
+                buildSpecification(criteria.getFeatured(), Review_.featured),
                 buildRangeSpecification(criteria.getCreatedDate(), Review_.createdDate),
                 buildSpecification(criteria.getCustomerId(), root -> root.join(Review_.customer, JoinType.LEFT).get(Customer_.id)),
                 buildSpecification(criteria.getServiceId(), root -> root.join(Review_.service, JoinType.LEFT).get(SpaService_.id))

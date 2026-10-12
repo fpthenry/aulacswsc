@@ -62,6 +62,8 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/app/**")).permitAll()
                     .requestMatchers(mvc.pattern("/i18n/**")).permitAll()
                     .requestMatchers(mvc.pattern("/content/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/uploads/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/sitemap.xml")).permitAll()
                     .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
@@ -76,13 +78,18 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/promotions/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/staff/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/reviews/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/contact-messages")).permitAll()
+                    // đặt lịch, tra cứu, liên hệ cho khách vãng lai (có honeypot + giới hạn tần suất)
+                    .requestMatchers(mvc.pattern("/api/public/**")).permitAll()
                     // ===== Danh mục, dịch vụ, khuyến mãi, nhân viên, liên hệ: chỉ ADMIN quản lý =====
                     .requestMatchers(mvc.pattern("/api/service-categories/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/spa-services/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/promotions/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/staff/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/contact-messages/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/branches/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/gallery-images/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/blog-posts/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    .requestMatchers(mvc.pattern("/api/site-settings/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     // ===== Khách hàng: ADMIN & STAFF =====
                     .requestMatchers(mvc.pattern("/api/customers/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF)
                     // ===== Lịch hẹn: CUSTOMER chỉ được tạo & xem lịch của mình (lọc trong BookingResource) =====

@@ -6,6 +6,8 @@ import { Subject, from, of } from 'rxjs';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/service/user.service';
+import { IBranch } from 'app/entities/branch/branch.model';
+import { BranchService } from 'app/entities/branch/service/branch.service';
 import { ISpaService } from 'app/entities/spa-service/spa-service.model';
 import { SpaServiceService } from 'app/entities/spa-service/service/spa-service.service';
 import { IStaff } from '../staff.model';
@@ -21,6 +23,7 @@ describe('Staff Management Update Component', () => {
   let staffFormService: StaffFormService;
   let staffService: StaffService;
   let userService: UserService;
+  let branchService: BranchService;
   let spaServiceService: SpaServiceService;
 
   beforeEach(() => {
@@ -45,6 +48,7 @@ describe('Staff Management Update Component', () => {
     staffFormService = TestBed.inject(StaffFormService);
     staffService = TestBed.inject(StaffService);
     userService = TestBed.inject(UserService);
+    branchService = TestBed.inject(BranchService);
     spaServiceService = TestBed.inject(SpaServiceService);
 
     comp = fixture.componentInstance;
@@ -73,6 +77,28 @@ describe('Staff Management Update Component', () => {
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
+    it('should call Branch query and add missing value', () => {
+      const staff: IStaff = { id: 8575 };
+      const branch: IBranch = { id: 23953 };
+      staff.branch = branch;
+
+      const branchCollection: IBranch[] = [{ id: 23953 }];
+      jest.spyOn(branchService, 'query').mockReturnValue(of(new HttpResponse({ body: branchCollection })));
+      const additionalBranches = [branch];
+      const expectedCollection: IBranch[] = [...additionalBranches, ...branchCollection];
+      jest.spyOn(branchService, 'addBranchToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ staff });
+      comp.ngOnInit();
+
+      expect(branchService.query).toHaveBeenCalled();
+      expect(branchService.addBranchToCollectionIfMissing).toHaveBeenCalledWith(
+        branchCollection,
+        ...additionalBranches.map(expect.objectContaining),
+      );
+      expect(comp.branchesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('should call SpaService query and add missing value', () => {
       const staff: IStaff = { id: 8575 };
       const services: ISpaService[] = [{ id: 19409 }];
@@ -99,6 +125,8 @@ describe('Staff Management Update Component', () => {
       const staff: IStaff = { id: 8575 };
       const user: IUser = { id: 3944 };
       staff.user = user;
+      const branch: IBranch = { id: 23953 };
+      staff.branch = branch;
       const services: ISpaService = { id: 19409 };
       staff.services = [services];
 
@@ -106,6 +134,7 @@ describe('Staff Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.usersSharedCollection).toContainEqual(user);
+      expect(comp.branchesSharedCollection).toContainEqual(branch);
       expect(comp.spaServicesSharedCollection).toContainEqual(services);
       expect(comp.staff).toEqual(staff);
     });
@@ -187,6 +216,16 @@ describe('Staff Management Update Component', () => {
         jest.spyOn(userService, 'compareUser');
         comp.compareUser(entity, entity2);
         expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareBranch', () => {
+      it('should forward to branchService', () => {
+        const entity = { id: 23953 };
+        const entity2 = { id: 1770 };
+        jest.spyOn(branchService, 'compareBranch');
+        comp.compareBranch(entity, entity2);
+        expect(branchService.compareBranch).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

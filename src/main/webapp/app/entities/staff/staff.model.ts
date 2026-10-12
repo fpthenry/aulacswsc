@@ -1,4 +1,5 @@
 import { IUser } from 'app/entities/user/user.model';
+import { IBranch } from 'app/entities/branch/branch.model';
 import { ISpaService } from 'app/entities/spa-service/spa-service.model';
 
 export interface IStaff {
@@ -10,7 +11,8 @@ export interface IStaff {
   avatarUrl?: string | null;
   active?: boolean | null;
   user?: Pick<IUser, 'id' | 'login'> | null;
-  services?: Pick<ISpaService, 'id' | 'name'>[] | null;
+  branch?: Pick<IBranch, 'id' | 'nameVi'> | null;
+  services?: Pick<ISpaService, 'id' | 'nameVi'>[] | null;
 }
 
 export type NewStaff = Omit<IStaff, 'id'> & { id: null };

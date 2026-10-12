@@ -42,6 +42,13 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="authorName">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.review.authorName">Author Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="rating">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.review.rating">Rating</span>
@@ -56,9 +63,30 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="videoUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.review.videoUrl">Video Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="reviewDate">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.review.reviewDate">Review Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="approved">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.review.approved">Approved</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="featured">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.review.featured">Featured</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -76,7 +104,7 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="service.name">
+            <th scope="col" jhiSortBy="service.nameVi">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.review.service">Service</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -91,9 +119,13 @@
               <td>
                 <a [routerLink]="['/review', review.id, 'view']">{{ review.id }}</a>
               </td>
+              <td>{{ review.authorName }}</td>
               <td>{{ review.rating }}</td>
               <td>{{ review.comment }}</td>
+              <td>{{ review.videoUrl }}</td>
+              <td>{{ review.reviewDate | formatMediumDate }}</td>
               <td>{{ review.approved }}</td>
+              <td>{{ review.featured }}</td>
               <td>{{ review.createdDate | formatMediumDatetime }}</td>
               <td>
                 @if (review.customer) {
@@ -105,7 +137,7 @@
               <td>
                 @if (review.service) {
                   <div>
-                    <a [routerLink]="['/spa-service', review.service.id, 'view']">{{ review.service.name }}</a>
+                    <a [routerLink]="['/spa-service', review.service.id, 'view']">{{ review.service.nameVi }}</a>
                   </div>
                 }
               </td>

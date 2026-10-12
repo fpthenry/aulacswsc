@@ -19,6 +19,8 @@ import com.mycompany.myapp.service.dto.ReviewDTO;
 import com.mycompany.myapp.service.mapper.ReviewMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,6 +49,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ReviewResourceIT {
 
+    private static final String DEFAULT_AUTHOR_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR_NAME = "BBBBBBBBBB";
+
     private static final Integer DEFAULT_RATING = 1;
     private static final Integer UPDATED_RATING = 2;
     private static final Integer SMALLER_RATING = 1 - 1;
@@ -54,8 +59,18 @@ class ReviewResourceIT {
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_VIDEO_URL = "AAAAAAAAAA";
+    private static final String UPDATED_VIDEO_URL = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_REVIEW_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_REVIEW_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_REVIEW_DATE = LocalDate.ofEpochDay(-1L);
+
     private static final Boolean DEFAULT_APPROVED = false;
     private static final Boolean UPDATED_APPROVED = true;
+
+    private static final Boolean DEFAULT_FEATURED = false;
+    private static final Boolean UPDATED_FEATURED = true;
 
     private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -97,33 +112,16 @@ class ReviewResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Review createEntity(EntityManager em) {
-        Review review = new Review()
+    public static Review createEntity() {
+        return new Review()
+            .authorName(DEFAULT_AUTHOR_NAME)
             .rating(DEFAULT_RATING)
             .comment(DEFAULT_COMMENT)
+            .videoUrl(DEFAULT_VIDEO_URL)
+            .reviewDate(DEFAULT_REVIEW_DATE)
             .approved(DEFAULT_APPROVED)
+            .featured(DEFAULT_FEATURED)
             .createdDate(DEFAULT_CREATED_DATE);
-        // Add required entity
-        Customer customer;
-        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
-            customer = CustomerResourceIT.createEntity();
-            em.persist(customer);
-            em.flush();
-        } else {
-            customer = TestUtil.findAll(em, Customer.class).get(0);
-        }
-        review.setCustomer(customer);
-        // Add required entity
-        SpaService spaService;
-        if (TestUtil.findAll(em, SpaService.class).isEmpty()) {
-            spaService = SpaServiceResourceIT.createEntity(em);
-            em.persist(spaService);
-            em.flush();
-        } else {
-            spaService = TestUtil.findAll(em, SpaService.class).get(0);
-        }
-        review.setService(spaService);
-        return review;
     }
 
     /**
@@ -132,38 +130,21 @@ class ReviewResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Review createUpdatedEntity(EntityManager em) {
-        Review updatedReview = new Review()
+    public static Review createUpdatedEntity() {
+        return new Review()
+            .authorName(UPDATED_AUTHOR_NAME)
             .rating(UPDATED_RATING)
             .comment(UPDATED_COMMENT)
+            .videoUrl(UPDATED_VIDEO_URL)
+            .reviewDate(UPDATED_REVIEW_DATE)
             .approved(UPDATED_APPROVED)
+            .featured(UPDATED_FEATURED)
             .createdDate(UPDATED_CREATED_DATE);
-        // Add required entity
-        Customer customer;
-        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
-            customer = CustomerResourceIT.createUpdatedEntity();
-            em.persist(customer);
-            em.flush();
-        } else {
-            customer = TestUtil.findAll(em, Customer.class).get(0);
-        }
-        updatedReview.setCustomer(customer);
-        // Add required entity
-        SpaService spaService;
-        if (TestUtil.findAll(em, SpaService.class).isEmpty()) {
-            spaService = SpaServiceResourceIT.createUpdatedEntity(em);
-            em.persist(spaService);
-            em.flush();
-        } else {
-            spaService = TestUtil.findAll(em, SpaService.class).get(0);
-        }
-        updatedReview.setService(spaService);
-        return updatedReview;
     }
 
     @BeforeEach
     void initTest() {
-        review = createEntity(em);
+        review = createEntity();
     }
 
     @AfterEach
@@ -218,6 +199,23 @@ class ReviewResourceIT {
 
     @Test
     @Transactional
+    void checkAuthorNameIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        review.setAuthorName(null);
+
+        // Create the Review, which fails.
+        ReviewDTO reviewDTO = reviewMapper.toDto(review);
+
+        restReviewMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(reviewDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkRatingIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
@@ -245,9 +243,13 @@ class ReviewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(review.getId().intValue())))
+            .andExpect(jsonPath("$.[*].authorName").value(hasItem(DEFAULT_AUTHOR_NAME)))
             .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
+            .andExpect(jsonPath("$.[*].videoUrl").value(hasItem(DEFAULT_VIDEO_URL)))
+            .andExpect(jsonPath("$.[*].reviewDate").value(hasItem(DEFAULT_REVIEW_DATE.toString())))
             .andExpect(jsonPath("$.[*].approved").value(hasItem(DEFAULT_APPROVED)))
+            .andExpect(jsonPath("$.[*].featured").value(hasItem(DEFAULT_FEATURED)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())));
     }
 
@@ -280,9 +282,13 @@ class ReviewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(review.getId().intValue()))
+            .andExpect(jsonPath("$.authorName").value(DEFAULT_AUTHOR_NAME))
             .andExpect(jsonPath("$.rating").value(DEFAULT_RATING))
             .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
+            .andExpect(jsonPath("$.videoUrl").value(DEFAULT_VIDEO_URL))
+            .andExpect(jsonPath("$.reviewDate").value(DEFAULT_REVIEW_DATE.toString()))
             .andExpect(jsonPath("$.approved").value(DEFAULT_APPROVED))
+            .andExpect(jsonPath("$.featured").value(DEFAULT_FEATURED))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()));
     }
 
@@ -299,6 +305,56 @@ class ReviewResourceIT {
         defaultReviewFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
 
         defaultReviewFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByAuthorNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where authorName equals to
+        defaultReviewFiltering("authorName.equals=" + DEFAULT_AUTHOR_NAME, "authorName.equals=" + UPDATED_AUTHOR_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByAuthorNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where authorName in
+        defaultReviewFiltering("authorName.in=" + DEFAULT_AUTHOR_NAME + "," + UPDATED_AUTHOR_NAME, "authorName.in=" + UPDATED_AUTHOR_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByAuthorNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where authorName is not null
+        defaultReviewFiltering("authorName.specified=true", "authorName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByAuthorNameContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where authorName contains
+        defaultReviewFiltering("authorName.contains=" + DEFAULT_AUTHOR_NAME, "authorName.contains=" + UPDATED_AUTHOR_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByAuthorNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where authorName does not contain
+        defaultReviewFiltering("authorName.doesNotContain=" + UPDATED_AUTHOR_NAME, "authorName.doesNotContain=" + DEFAULT_AUTHOR_NAME);
     }
 
     @Test
@@ -423,6 +479,129 @@ class ReviewResourceIT {
 
     @Test
     @Transactional
+    void getAllReviewsByVideoUrlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where videoUrl equals to
+        defaultReviewFiltering("videoUrl.equals=" + DEFAULT_VIDEO_URL, "videoUrl.equals=" + UPDATED_VIDEO_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByVideoUrlIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where videoUrl in
+        defaultReviewFiltering("videoUrl.in=" + DEFAULT_VIDEO_URL + "," + UPDATED_VIDEO_URL, "videoUrl.in=" + UPDATED_VIDEO_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByVideoUrlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where videoUrl is not null
+        defaultReviewFiltering("videoUrl.specified=true", "videoUrl.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByVideoUrlContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where videoUrl contains
+        defaultReviewFiltering("videoUrl.contains=" + DEFAULT_VIDEO_URL, "videoUrl.contains=" + UPDATED_VIDEO_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByVideoUrlNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where videoUrl does not contain
+        defaultReviewFiltering("videoUrl.doesNotContain=" + UPDATED_VIDEO_URL, "videoUrl.doesNotContain=" + DEFAULT_VIDEO_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate equals to
+        defaultReviewFiltering("reviewDate.equals=" + DEFAULT_REVIEW_DATE, "reviewDate.equals=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate in
+        defaultReviewFiltering("reviewDate.in=" + DEFAULT_REVIEW_DATE + "," + UPDATED_REVIEW_DATE, "reviewDate.in=" + UPDATED_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate is not null
+        defaultReviewFiltering("reviewDate.specified=true", "reviewDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate is greater than or equal to
+        defaultReviewFiltering(
+            "reviewDate.greaterThanOrEqual=" + DEFAULT_REVIEW_DATE,
+            "reviewDate.greaterThanOrEqual=" + UPDATED_REVIEW_DATE
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate is less than or equal to
+        defaultReviewFiltering("reviewDate.lessThanOrEqual=" + DEFAULT_REVIEW_DATE, "reviewDate.lessThanOrEqual=" + SMALLER_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate is less than
+        defaultReviewFiltering("reviewDate.lessThan=" + UPDATED_REVIEW_DATE, "reviewDate.lessThan=" + DEFAULT_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByReviewDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where reviewDate is greater than
+        defaultReviewFiltering("reviewDate.greaterThan=" + SMALLER_REVIEW_DATE, "reviewDate.greaterThan=" + DEFAULT_REVIEW_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllReviewsByApprovedIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedReview = reviewRepository.saveAndFlush(review);
@@ -449,6 +628,36 @@ class ReviewResourceIT {
 
         // Get all the reviewList where approved is not null
         defaultReviewFiltering("approved.specified=true", "approved.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByFeaturedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where featured equals to
+        defaultReviewFiltering("featured.equals=" + DEFAULT_FEATURED, "featured.equals=" + UPDATED_FEATURED);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByFeaturedIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where featured in
+        defaultReviewFiltering("featured.in=" + DEFAULT_FEATURED + "," + UPDATED_FEATURED, "featured.in=" + UPDATED_FEATURED);
+    }
+
+    @Test
+    @Transactional
+    void getAllReviewsByFeaturedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedReview = reviewRepository.saveAndFlush(review);
+
+        // Get all the reviewList where featured is not null
+        defaultReviewFiltering("featured.specified=true", "featured.specified=false");
     }
 
     @Test
@@ -542,9 +751,13 @@ class ReviewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(review.getId().intValue())))
+            .andExpect(jsonPath("$.[*].authorName").value(hasItem(DEFAULT_AUTHOR_NAME)))
             .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
+            .andExpect(jsonPath("$.[*].videoUrl").value(hasItem(DEFAULT_VIDEO_URL)))
+            .andExpect(jsonPath("$.[*].reviewDate").value(hasItem(DEFAULT_REVIEW_DATE.toString())))
             .andExpect(jsonPath("$.[*].approved").value(hasItem(DEFAULT_APPROVED)))
+            .andExpect(jsonPath("$.[*].featured").value(hasItem(DEFAULT_FEATURED)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())));
 
         // Check, that the count call also returns 1
@@ -593,7 +806,15 @@ class ReviewResourceIT {
         Review updatedReview = reviewRepository.findById(review.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedReview are not directly saved in db
         em.detach(updatedReview);
-        updatedReview.rating(UPDATED_RATING).comment(UPDATED_COMMENT).approved(UPDATED_APPROVED).createdDate(UPDATED_CREATED_DATE);
+        updatedReview
+            .authorName(UPDATED_AUTHOR_NAME)
+            .rating(UPDATED_RATING)
+            .comment(UPDATED_COMMENT)
+            .videoUrl(UPDATED_VIDEO_URL)
+            .reviewDate(UPDATED_REVIEW_DATE)
+            .approved(UPDATED_APPROVED)
+            .featured(UPDATED_FEATURED)
+            .createdDate(UPDATED_CREATED_DATE);
         ReviewDTO reviewDTO = reviewMapper.toDto(updatedReview);
 
         restReviewMockMvc
@@ -679,7 +900,11 @@ class ReviewResourceIT {
         Review partialUpdatedReview = new Review();
         partialUpdatedReview.setId(review.getId());
 
-        partialUpdatedReview.rating(UPDATED_RATING).createdDate(UPDATED_CREATED_DATE);
+        partialUpdatedReview
+            .authorName(UPDATED_AUTHOR_NAME)
+            .videoUrl(UPDATED_VIDEO_URL)
+            .approved(UPDATED_APPROVED)
+            .createdDate(UPDATED_CREATED_DATE);
 
         restReviewMockMvc
             .perform(
@@ -707,7 +932,15 @@ class ReviewResourceIT {
         Review partialUpdatedReview = new Review();
         partialUpdatedReview.setId(review.getId());
 
-        partialUpdatedReview.rating(UPDATED_RATING).comment(UPDATED_COMMENT).approved(UPDATED_APPROVED).createdDate(UPDATED_CREATED_DATE);
+        partialUpdatedReview
+            .authorName(UPDATED_AUTHOR_NAME)
+            .rating(UPDATED_RATING)
+            .comment(UPDATED_COMMENT)
+            .videoUrl(UPDATED_VIDEO_URL)
+            .reviewDate(UPDATED_REVIEW_DATE)
+            .approved(UPDATED_APPROVED)
+            .featured(UPDATED_FEATURED)
+            .createdDate(UPDATED_CREATED_DATE);
 
         restReviewMockMvc
             .perform(

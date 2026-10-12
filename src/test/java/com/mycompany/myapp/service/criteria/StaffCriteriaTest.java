@@ -82,6 +82,7 @@ class StaffCriteriaTest {
         staffCriteria.avatarUrl();
         staffCriteria.active();
         staffCriteria.userId();
+        staffCriteria.branchId();
         staffCriteria.servicesId();
         staffCriteria.distinct();
     }
@@ -96,6 +97,7 @@ class StaffCriteriaTest {
                 condition.apply(criteria.getAvatarUrl()) &&
                 condition.apply(criteria.getActive()) &&
                 condition.apply(criteria.getUserId()) &&
+                condition.apply(criteria.getBranchId()) &&
                 condition.apply(criteria.getServicesId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
@@ -112,6 +114,7 @@ class StaffCriteriaTest {
                 condition.apply(criteria.getAvatarUrl(), copy.getAvatarUrl()) &&
                 condition.apply(criteria.getActive(), copy.getActive()) &&
                 condition.apply(criteria.getUserId(), copy.getUserId()) &&
+                condition.apply(criteria.getBranchId(), copy.getBranchId()) &&
                 condition.apply(criteria.getServicesId(), copy.getServicesId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"

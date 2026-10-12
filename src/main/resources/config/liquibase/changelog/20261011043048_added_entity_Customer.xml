@@ -10,7 +10,7 @@
         Added the entity Customer.
     -->
     <changeSet id="20261011043048-1" author="jhipster">
-        <createTable tableName="customer" remarks="Hồ sơ khách hàng, gắn với tài khoản User (có thể null nếu khách đặt lịch không đăng ký)">
+        <createTable tableName="customer" remarks="Hồ sơ khách hàng; khách đặt lịch trên website được tạo tự động theo số điện thoại">
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

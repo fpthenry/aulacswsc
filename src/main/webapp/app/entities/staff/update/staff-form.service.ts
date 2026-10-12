@@ -25,6 +25,7 @@ type StaffFormGroupContent = {
   avatarUrl: FormControl<IStaff['avatarUrl']>;
   active: FormControl<IStaff['active']>;
   user: FormControl<IStaff['user']>;
+  branch: FormControl<IStaff['branch']>;
   services: FormControl<IStaff['services']>;
 };
 
@@ -62,6 +63,7 @@ export class StaffFormService {
         validators: [Validators.required],
       }),
       user: new FormControl(staffRawValue.user),
+      branch: new FormControl(staffRawValue.branch),
       services: new FormControl(staffRawValue.services ?? []),
     });
   }

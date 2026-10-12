@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import static com.mycompany.myapp.domain.BranchTestSamples.*;
 import static com.mycompany.myapp.domain.SpaServiceTestSamples.*;
 import static com.mycompany.myapp.domain.StaffTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,6 +24,18 @@ class StaffTest {
 
         staff2 = getStaffSample2();
         assertThat(staff1).isNotEqualTo(staff2);
+    }
+
+    @Test
+    void branchTest() {
+        Staff staff = getStaffRandomSampleGenerator();
+        Branch branchBack = getBranchRandomSampleGenerator();
+
+        staff.setBranch(branchBack);
+        assertThat(staff.getBranch()).isEqualTo(branchBack);
+
+        staff.branch(null);
+        assertThat(staff.getBranch()).isNull();
     }
 
     @Test

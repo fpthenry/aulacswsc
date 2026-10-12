@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 
 /**
- * Đánh giá dịch vụ
+ * Đánh giá của khách (admin nhập hoặc khách viết, cần duyệt)
  */
 @Entity
 @Table(name = "review")
@@ -22,6 +23,11 @@ public class Review implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(max = 150)
+    @Column(name = "author_name", length = 150, nullable = false)
+    private String authorName;
+
+    @NotNull
     @Min(value = 1)
     @Max(value = 5)
     @Column(name = "rating", nullable = false)
@@ -31,19 +37,30 @@ public class Review implements Serializable {
     @Column(name = "comment", length = 2000)
     private String comment;
 
+    /**
+     * Link video review (YouTube / TikTok)
+     */
+    @Size(max = 500)
+    @Column(name = "video_url", length = 500)
+    private String videoUrl;
+
+    @Column(name = "review_date")
+    private LocalDate reviewDate;
+
     @Column(name = "approved")
     private Boolean approved;
+
+    @Column(name = "featured")
+    private Boolean featured;
 
     @Column(name = "created_date")
     private Instant createdDate;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "user", "bookings" }, allowSetters = true)
     private Customer customer;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "category", "staffs" }, allowSetters = true)
     private SpaService service;
 
@@ -60,6 +77,19 @@ public class Review implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAuthorName() {
+        return this.authorName;
+    }
+
+    public Review authorName(String authorName) {
+        this.setAuthorName(authorName);
+        return this;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public Integer getRating() {
@@ -88,6 +118,32 @@ public class Review implements Serializable {
         this.comment = comment;
     }
 
+    public String getVideoUrl() {
+        return this.videoUrl;
+    }
+
+    public Review videoUrl(String videoUrl) {
+        this.setVideoUrl(videoUrl);
+        return this;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public LocalDate getReviewDate() {
+        return this.reviewDate;
+    }
+
+    public Review reviewDate(LocalDate reviewDate) {
+        this.setReviewDate(reviewDate);
+        return this;
+    }
+
+    public void setReviewDate(LocalDate reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
     public Boolean getApproved() {
         return this.approved;
     }
@@ -99,6 +155,19 @@ public class Review implements Serializable {
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
+    }
+
+    public Boolean getFeatured() {
+        return this.featured;
+    }
+
+    public Review featured(Boolean featured) {
+        this.setFeatured(featured);
+        return this;
+    }
+
+    public void setFeatured(Boolean featured) {
+        this.featured = featured;
     }
 
     public Instant getCreatedDate() {
@@ -164,9 +233,13 @@ public class Review implements Serializable {
     public String toString() {
         return "Review{" +
             "id=" + getId() +
+            ", authorName='" + getAuthorName() + "'" +
             ", rating=" + getRating() +
             ", comment='" + getComment() + "'" +
+            ", videoUrl='" + getVideoUrl() + "'" +
+            ", reviewDate='" + getReviewDate() + "'" +
             ", approved='" + getApproved() + "'" +
+            ", featured='" + getFeatured() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             "}";
     }

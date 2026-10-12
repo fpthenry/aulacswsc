@@ -20,9 +20,11 @@ describe('ServiceCategory Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            nameVi: expect.any(Object),
+            nameEn: expect.any(Object),
             slug: expect.any(Object),
-            description: expect.any(Object),
+            descriptionVi: expect.any(Object),
+            descriptionEn: expect.any(Object),
             imageUrl: expect.any(Object),
             displayOrder: expect.any(Object),
             active: expect.any(Object),
@@ -36,9 +38,11 @@ describe('ServiceCategory Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            name: expect.any(Object),
+            nameVi: expect.any(Object),
+            nameEn: expect.any(Object),
             slug: expect.any(Object),
-            description: expect.any(Object),
+            descriptionVi: expect.any(Object),
+            descriptionEn: expect.any(Object),
             imageUrl: expect.any(Object),
             displayOrder: expect.any(Object),
             active: expect.any(Object),

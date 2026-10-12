@@ -18,9 +18,11 @@ type ServiceCategoryFormDefaults = Pick<NewServiceCategory, 'id' | 'active'>;
 
 type ServiceCategoryFormGroupContent = {
   id: FormControl<IServiceCategory['id'] | NewServiceCategory['id']>;
-  name: FormControl<IServiceCategory['name']>;
+  nameVi: FormControl<IServiceCategory['nameVi']>;
+  nameEn: FormControl<IServiceCategory['nameEn']>;
   slug: FormControl<IServiceCategory['slug']>;
-  description: FormControl<IServiceCategory['description']>;
+  descriptionVi: FormControl<IServiceCategory['descriptionVi']>;
+  descriptionEn: FormControl<IServiceCategory['descriptionEn']>;
   imageUrl: FormControl<IServiceCategory['imageUrl']>;
   displayOrder: FormControl<IServiceCategory['displayOrder']>;
   active: FormControl<IServiceCategory['active']>;
@@ -43,13 +45,21 @@ export class ServiceCategoryFormService {
           validators: [Validators.required],
         },
       ),
-      name: new FormControl(serviceCategoryRawValue.name, {
+      nameVi: new FormControl(serviceCategoryRawValue.nameVi, {
+        validators: [Validators.required, Validators.maxLength(150)],
+      }),
+      nameEn: new FormControl(serviceCategoryRawValue.nameEn, {
         validators: [Validators.required, Validators.maxLength(150)],
       }),
       slug: new FormControl(serviceCategoryRawValue.slug, {
-        validators: [Validators.required, Validators.maxLength(180)],
+        validators: [Validators.maxLength(180)],
       }),
-      description: new FormControl(serviceCategoryRawValue.description),
+      descriptionVi: new FormControl(serviceCategoryRawValue.descriptionVi, {
+        validators: [Validators.maxLength(1000)],
+      }),
+      descriptionEn: new FormControl(serviceCategoryRawValue.descriptionEn, {
+        validators: [Validators.maxLength(1000)],
+      }),
       imageUrl: new FormControl(serviceCategoryRawValue.imageUrl, {
         validators: [Validators.maxLength(500)],
       }),

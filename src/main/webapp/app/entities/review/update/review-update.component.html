@@ -15,6 +15,31 @@
           </div>
         }
 
+        @let authorNameRef = editForm.get('authorName')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_authorName" jhiTranslate="aulacswscApp.review.authorName">Author Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="authorName"
+            id="field_authorName"
+            data-cy="authorName"
+            formControlName="authorName"
+          />
+          @if (authorNameRef.invalid && (authorNameRef.dirty || authorNameRef.touched)) {
+            <div>
+              @if (editForm.get('authorName')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('authorName')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                  >This field cannot be longer than 150 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
         @let ratingRef = editForm.get('rating')!;
         <div class="mb-3">
           <label class="form-label" for="field_rating" jhiTranslate="aulacswscApp.review.rating">Rating</label>
@@ -59,9 +84,52 @@
           }
         </div>
 
+        @let videoUrlRef = editForm.get('videoUrl')!;
+        <div class="mb-3">
+          <label
+            class="form-label"
+            for="field_videoUrl"
+            [ngbTooltip]="'aulacswscApp.review.help.videoUrl' | translate"
+            jhiTranslate="aulacswscApp.review.videoUrl"
+            >Video Url</label
+          >
+          <input type="text" class="form-control" name="videoUrl" id="field_videoUrl" data-cy="videoUrl" formControlName="videoUrl" />
+          @if (videoUrlRef.invalid && (videoUrlRef.dirty || videoUrlRef.touched)) {
+            <div>
+              @if (editForm.get('videoUrl')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                  >This field cannot be longer than 500 characters.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_reviewDate" jhiTranslate="aulacswscApp.review.reviewDate">Review Date</label>
+          <div class="input-group">
+            <input
+              id="field_reviewDate"
+              data-cy="reviewDate"
+              type="text"
+              class="form-control"
+              name="reviewDate"
+              ngbDatepicker
+              #reviewDateDp="ngbDatepicker"
+              formControlName="reviewDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="reviewDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
         <div class="mb-3">
           <label class="form-label" for="field_approved" jhiTranslate="aulacswscApp.review.approved">Approved</label>
           <input type="checkbox" class="form-check" name="approved" id="field_approved" data-cy="approved" formControlName="approved" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_featured" jhiTranslate="aulacswscApp.review.featured">Featured</label>
+          <input type="checkbox" class="form-check" name="featured" id="field_featured" data-cy="featured" formControlName="featured" />
         </div>
 
         <div class="mb-3">
@@ -89,21 +157,12 @@
             formControlName="customer"
             [compareWith]="compareCustomer"
           >
-            @if (!editForm.get('customer')!.value) {
-              <option [ngValue]="null" selected></option>
-            }
+            <option [ngValue]="null"></option>
             @for (customerOption of customersSharedCollection; track $index) {
               <option [ngValue]="customerOption">{{ customerOption.fullName }}</option>
             }
           </select>
         </div>
-        @if (editForm.get(['customer'])!.invalid && (editForm.get(['customer'])!.dirty || editForm.get(['customer'])!.touched)) {
-          <div>
-            @if (editForm.get(['customer'])?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
-          </div>
-        }
 
         <div class="mb-3">
           <label class="form-label" for="field_service" jhiTranslate="aulacswscApp.review.service">Service</label>
@@ -115,21 +174,12 @@
             formControlName="service"
             [compareWith]="compareSpaService"
           >
-            @if (!editForm.get('service')!.value) {
-              <option [ngValue]="null" selected></option>
-            }
+            <option [ngValue]="null"></option>
             @for (spaServiceOption of spaServicesSharedCollection; track $index) {
-              <option [ngValue]="spaServiceOption">{{ spaServiceOption.name }}</option>
+              <option [ngValue]="spaServiceOption">{{ spaServiceOption.nameVi }}</option>
             }
           </select>
         </div>
-        @if (editForm.get(['service'])!.invalid && (editForm.get(['service'])!.dirty || editForm.get(['service'])!.touched)) {
-          <div>
-            @if (editForm.get(['service'])?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
-          </div>
-        }
       </div>
 
       <div>

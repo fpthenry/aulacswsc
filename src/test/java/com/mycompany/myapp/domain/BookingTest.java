@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain;
 
 import static com.mycompany.myapp.domain.BookingItemTestSamples.*;
 import static com.mycompany.myapp.domain.BookingTestSamples.*;
+import static com.mycompany.myapp.domain.BranchTestSamples.*;
 import static com.mycompany.myapp.domain.CustomerTestSamples.*;
 import static com.mycompany.myapp.domain.PromotionTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +48,18 @@ class BookingTest {
         booking.setItems(new HashSet<>());
         assertThat(booking.getItems()).doesNotContain(bookingItemBack);
         assertThat(bookingItemBack.getBooking()).isNull();
+    }
+
+    @Test
+    void branchTest() {
+        Booking booking = getBookingRandomSampleGenerator();
+        Branch branchBack = getBranchRandomSampleGenerator();
+
+        booking.setBranch(branchBack);
+        assertThat(booking.getBranch()).isEqualTo(branchBack);
+
+        booking.branch(null);
+        assertThat(booking.getBranch()).isNull();
     }
 
     @Test

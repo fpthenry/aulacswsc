@@ -1,0 +1,74 @@
+{
+  "annotations": {
+    "changelogDate": "20261011074610"
+  },
+  "applications": ["aulacswsc"],
+  "documentation": "Bài viết tin tức / blog",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "titleVi",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "250"
+    },
+    {
+      "fieldName": "titleEn",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "250"
+    },
+    {
+      "fieldName": "slug",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "280"
+    },
+    {
+      "fieldName": "excerptVi",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "excerptEn",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "contentVi",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "contentEn",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "coverImageUrl",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "BlogCategory",
+      "fieldValues": "NEWS,EVENT,REVIEW,TIPS"
+    },
+    {
+      "fieldName": "published",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "publishedAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "BlogPost",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

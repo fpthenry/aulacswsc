@@ -22,10 +22,23 @@
       "fieldType": "Instant"
     },
     {
+      "fieldName": "numberOfPeople",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "20",
+      "fieldValidateRulesMin": "1"
+    },
+    {
       "fieldName": "status",
       "fieldType": "BookingStatus",
       "fieldValidateRules": ["required"],
       "fieldValues": "PENDING,CONFIRMED,IN_PROGRESS,COMPLETED,CANCELLED,NO_SHOW"
+    },
+    {
+      "fieldName": "source",
+      "fieldType": "BookingSource",
+      "fieldTypeDocumentation": "Nguồn tạo lịch hẹn",
+      "fieldValues": "WEBSITE,QUICK,ADMIN,PHONE,WALK_IN"
     },
     {
       "fieldName": "totalAmount",
@@ -70,6 +83,14 @@
       "relationshipName": "items",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "nameVi",
+      "otherEntityName": "branch",
+      "relationshipName": "branch",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
       "otherEntityField": "code",

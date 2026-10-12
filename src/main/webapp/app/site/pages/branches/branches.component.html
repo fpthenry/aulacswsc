@@ -1,0 +1,207 @@
+<site-page-hero [image]="heroImage()">
+  <p class="eyebrow">{{ 'site.branches.eyebrow' | translate }}</p>
+  <h1>{{ 'site.branches.title' | translate }}</h1>
+  @if (state.t(state.setting(), 'openingHours')) {
+    <p class="lead">{{ state.t(state.setting(), 'openingHours') }}</p>
+  }
+</site-page-hero>
+
+<section class="section branches-section">
+  <div class="container branches-layout">
+    <!-- danh sách cơ sở -->
+    <ul class="branch-list" [attr.aria-label]="'site.branches.title' | translate">
+      @for (b of state.branches(); track b.id; let i = $index) {
+        <li siteReveal [revealDelay]="i * 90">
+          <article class="branch-card" [class.active]="selected()?.id === b.id" [attr.aria-labelledby]="'branch-' + b.id">
+            <div class="branch-top">
+              <site-image class="thumb" [url]="b.imageUrl" alt="" ratio="1 / 1" sizes="96px" />
+              <div class="branch-head">
+                <span class="branch-no" aria-hidden="true">{{ i + 1 < 10 ? '0' + (i + 1) : i + 1 }}</span>
+                <h2 [id]="'branch-' + b.id">
+                  <button type="button" class="branch-select" (click)="select(b)" [attr.aria-pressed]="selected()?.id === b.id">
+                    {{ state.t(b, 'name') }}
+                  </button>
+                </h2>
+                <span class="branch-addr">{{ state.t(b, 'address') }}</span>
+              </div>
+            </div>
+
+            <dl class="branch-facts">
+              <div>
+                <dt>
+                  <site-icon name="clock" [size]="16" /><span class="visually-hidden">{{ 'site.branches.hoursLabel' | translate }}</span>
+                </dt>
+                <dd>
+                  {{ b.openTime }} – {{ b.closeTime }}
+                  <span class="muted">· {{ 'site.branches.lastBooking' | translate: { time: b.lastBookingTime } }}</span>
+                </dd>
+              </div>
+              <div>
+                <dt>
+                  <site-icon name="phone" [size]="16" /><span class="visually-hidden">{{ 'site.booking.phone' | translate }}</span>
+                </dt>
+                <dd>
+                  <a [href]="tel(b.phone)">{{ b.phone }}</a>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="branch-actions">
+              <a class="btn-site btn-gold btn-sm" [routerLink]="state.link('booking')" [queryParams]="{ branch: b.slug }"
+                ><site-icon name="calendar" [size]="15" />{{ 'site.cta.book' | translate
+                }}<span class="visually-hidden"> – {{ state.t(b, 'name') }}</span></a
+              >
+              @if (b.mapDirectionUrl) {
+                <a class="btn-site btn-outline btn-sm" [href]="b.mapDirectionUrl" target="_blank" rel="noopener"
+                  ><site-icon name="external" [size]="15" />{{ 'site.cta.directions' | translate }}</a
+                >
+              }
+              @if (wa(b.whatsapp); as w) {
+                <a class="chip-link" [href]="w" target="_blank" rel="noopener" aria-label="WhatsApp"
+                  ><site-icon name="whatsapp" [size]="18"
+                /></a>
+              }
+              @if (zalo(b.zalo); as z) {
+                <a class="chip-link chip-zalo" [href]="z" target="_blank" rel="noopener" aria-label="Zalo">Zalo</a>
+              }
+            </div>
+          </article>
+        </li>
+      } @empty {
+        <li class="muted">{{ 'site.branches.empty' | translate }}</li>
+      }
+    </ul>
+
+    <!-- bản đồ dùng chung, dính khi cuộn -->
+    @if (selected(); as b) {
+      <aside class="map-panel" [attr.aria-label]="('site.branches.mapOf' | translate) + ' ' + state.t(b, 'name')">
+        <div class="map-frame">
+          @if (mapUrl(b); as url) {
+            @if (mapLoaded()) {
+              <iframe
+                [src]="url"
+                [title]="('site.branches.mapOf' | translate) + ' ' + state.t(b, 'name')"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            } @else {
+              <button type="button" class="map-placeholder" (click)="mapLoaded.set(true)">
+                <site-image [url]="b.imageUrl" alt="" ratio="auto" />
+                <span class="map-cta"><site-icon name="pin" />{{ 'site.branches.showMap' | translate }}</span>
+              </button>
+            }
+          } @else {
+            <site-image [url]="b.imageUrl" [alt]="state.t(b, 'name')" ratio="auto" />
+          }
+        </div>
+        <div class="map-caption">
+          <site-icon name="pin" [size]="18" />
+          <span
+            ><strong>{{ state.t(b, 'name') }}</strong
+            ><br /><span class="muted">{{ state.t(b, 'address') }}</span></span
+          >
+        </div>
+      </aside>
+    }
+  </div>
+</section>
+
+<!-- ===================== LIÊN HỆ ===================== -->
+<section class="section section--tint" aria-labelledby="contact-title">
+  <div class="container contact">
+    <div class="section-head">
+      <p class="eyebrow">{{ 'site.contact.eyebrow' | translate }}</p>
+      <h2 id="contact-title">{{ 'site.contact.title' | translate }}</h2>
+      <p class="muted">{{ 'site.contact.intro' | translate }}</p>
+    </div>
+
+    @if (sent()) {
+      <div class="alert-box ok" role="status">{{ 'site.contact.sent' | translate }}</div>
+    }
+
+    <form class="card contact-form" (submit)="$event.preventDefault(); send()" novalidate>
+      <div class="card-body">
+        <input
+          class="hp"
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          [value]="website()"
+          (input)="website.set($any($event.target).value)"
+        />
+        <div class="row2">
+          <div class="field">
+            <label for="c-name">{{ 'site.booking.fullName' | translate }} <span aria-hidden="true">*</span></label>
+            <input
+              id="c-name"
+              class="input"
+              autocomplete="name"
+              [value]="form().fullName"
+              (input)="set('fullName', $any($event.target).value)"
+              [attr.aria-invalid]="showErrors() && !nameOk()"
+              aria-describedby="c-name-err"
+            />
+            @if (showErrors() && !nameOk()) {
+              <span id="c-name-err" class="error-text" role="alert">{{ 'site.booking.errors.name' | translate }}</span>
+            }
+          </div>
+          <div class="field">
+            <label for="c-phone">{{ 'site.booking.phone' | translate }}</label>
+            <input
+              id="c-phone"
+              class="input"
+              type="tel"
+              autocomplete="tel"
+              [value]="form().phone"
+              (input)="set('phone', $any($event.target).value)"
+              [attr.aria-invalid]="showErrors() && (!phoneOk() || !contactOk())"
+              aria-describedby="c-phone-err"
+            />
+            @if (showErrors() && !phoneOk()) {
+              <span id="c-phone-err" class="error-text" role="alert">{{ 'site.booking.errors.phone' | translate }}</span>
+            } @else if (showErrors() && !contactOk()) {
+              <span id="c-phone-err" class="error-text" role="alert">{{ 'site.contact.needContact' | translate }}</span>
+            }
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-email">{{ 'site.booking.email' | translate }}</label>
+          <input
+            id="c-email"
+            class="input"
+            type="email"
+            autocomplete="email"
+            [value]="form().email"
+            (input)="set('email', $any($event.target).value)"
+            [attr.aria-invalid]="showErrors() && !emailOk()"
+            aria-describedby="c-email-err"
+          />
+          @if (showErrors() && !emailOk()) {
+            <span id="c-email-err" class="error-text" role="alert">{{ 'site.booking.errors.email' | translate }}</span>
+          }
+        </div>
+        <div class="field">
+          <label for="c-msg">{{ 'site.contact.message' | translate }} <span aria-hidden="true">*</span></label>
+          <textarea
+            id="c-msg"
+            class="input"
+            maxlength="2000"
+            [value]="form().message"
+            (input)="set('message', $any($event.target).value)"
+            [attr.aria-invalid]="showErrors() && !messageOk()"
+            aria-describedby="c-msg-err"
+          ></textarea>
+          @if (showErrors() && !messageOk()) {
+            <span id="c-msg-err" class="error-text" role="alert">{{ 'site.contact.messageRequired' | translate }}</span>
+          }
+        </div>
+        @if (sendError(); as e) {
+          <div class="alert-box" role="alert">{{ 'site.booking.apiErrors.' + e | translate }}</div>
+        }
+        <button type="submit" class="btn-site btn-primary" [disabled]="sending()">{{ 'site.contact.send' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</section>

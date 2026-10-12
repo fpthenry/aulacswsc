@@ -1,0 +1,33 @@
+{
+  "aulacswscApp": {
+    "galleryImage": {
+      "home": {
+        "title": "Gallery Images",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Gallery Image",
+        "createOrEditLabel": "Create or edit a Gallery Image",
+        "notFound": "No Gallery Images found"
+      },
+      "created": "A new Gallery Image is created with identifier {{ param }}",
+      "updated": "A Gallery Image is updated with identifier {{ param }}",
+      "deleted": "A Gallery Image is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Gallery Image {{ id }}?"
+      },
+      "detail": {
+        "title": "Gallery Image"
+      },
+      "id": "ID",
+      "imageUrl": "Image Url",
+      "captionVi": "Caption Vi",
+      "captionEn": "Caption En",
+      "altVi": "Alt Vi",
+      "altEn": "Alt En",
+      "width": "Width",
+      "height": "Height",
+      "displayOrder": "Display Order",
+      "active": "Active",
+      "branch": "Branch"
+    }
+  }
+}

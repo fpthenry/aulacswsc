@@ -71,7 +71,7 @@
         @let avatarUrlRef = editForm.get('avatarUrl')!;
         <div class="mb-3">
           <label class="form-label" for="field_avatarUrl" jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</label>
-          <input type="text" class="form-control" name="avatarUrl" id="field_avatarUrl" data-cy="avatarUrl" formControlName="avatarUrl" />
+          <jhi-image-upload [control]="editForm.controls.avatarUrl" inputId="field_avatarUrl" />
           @if (avatarUrlRef.invalid && (avatarUrlRef.dirty || avatarUrlRef.touched)) {
             <div>
               @if (editForm.get('avatarUrl')?.errors?.maxlength) {
@@ -107,6 +107,23 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.staff.branch">Branch</label>
+          <select
+            class="form-control"
+            id="field_branch"
+            data-cy="branch"
+            name="branch"
+            formControlName="branch"
+            [compareWith]="compareBranch"
+          >
+            <option [ngValue]="null"></option>
+            @for (branchOption of branchesSharedCollection; track $index) {
+              <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
           <label for="field_services" jhiTranslate="aulacswscApp.staff.services">Services</label>
           <select
             class="form-control"
@@ -118,7 +135,7 @@
             [compareWith]="compareSpaService"
           >
             @for (spaServiceOption of spaServicesSharedCollection; track $index) {
-              <option [ngValue]="spaServiceOption">{{ spaServiceOption.name }}</option>
+              <option [ngValue]="spaServiceOption">{{ spaServiceOption.nameVi }}</option>
             }
           </select>
         </div>

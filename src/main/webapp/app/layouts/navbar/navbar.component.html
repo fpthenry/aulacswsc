@@ -1,6 +1,6 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+    <a class="navbar-brand logo" routerLink="/dashboard" (click)="collapseNavbar()">
       <span class="logo-img"></span>
       <span class="navbar-title" jhiTranslate="global.title">Aulacswsc</span>
       <span class="navbar-version">{{ version }}</span>
@@ -20,10 +20,18 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed()">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <a class="nav-link" routerLink="/dashboard" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="home"></fa-icon>
               <span jhiTranslate="global.menu.home">Home</span>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vi" (click)="collapseNavbar()">
+            <span>
+              <fa-icon icon="eye"></fa-icon>
+              <span>Xem website</span>
             </span>
           </a>
         </li>
@@ -149,6 +157,54 @@
                 >
                   <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                   <span jhiTranslate="global.menu.entities.contactMessage">Contact Message</span>
+                </a>
+              </li>
+              <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a
+                  class="dropdown-item"
+                  routerLink="/site-setting"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.siteSetting">Site Setting</span>
+                </a>
+              </li>
+              <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a
+                  class="dropdown-item"
+                  routerLink="/branch"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.branch">Branch</span>
+                </a>
+              </li>
+              <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a
+                  class="dropdown-item"
+                  routerLink="/gallery-image"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.galleryImage">Gallery Image</span>
+                </a>
+              </li>
+              <li *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <a
+                  class="dropdown-item"
+                  routerLink="/blog-post"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.blogPost">Blog Post</span>
                 </a>
               </li>
               <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

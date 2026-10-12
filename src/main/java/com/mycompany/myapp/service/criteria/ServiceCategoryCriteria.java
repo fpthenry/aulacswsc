@@ -24,9 +24,15 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter name;
+    private StringFilter nameVi;
+
+    private StringFilter nameEn;
 
     private StringFilter slug;
+
+    private StringFilter descriptionVi;
+
+    private StringFilter descriptionEn;
 
     private StringFilter imageUrl;
 
@@ -42,8 +48,11 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
 
     public ServiceCategoryCriteria(ServiceCategoryCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
-        this.name = other.optionalName().map(StringFilter::copy).orElse(null);
+        this.nameVi = other.optionalNameVi().map(StringFilter::copy).orElse(null);
+        this.nameEn = other.optionalNameEn().map(StringFilter::copy).orElse(null);
         this.slug = other.optionalSlug().map(StringFilter::copy).orElse(null);
+        this.descriptionVi = other.optionalDescriptionVi().map(StringFilter::copy).orElse(null);
+        this.descriptionEn = other.optionalDescriptionEn().map(StringFilter::copy).orElse(null);
         this.imageUrl = other.optionalImageUrl().map(StringFilter::copy).orElse(null);
         this.displayOrder = other.optionalDisplayOrder().map(IntegerFilter::copy).orElse(null);
         this.active = other.optionalActive().map(BooleanFilter::copy).orElse(null);
@@ -75,23 +84,42 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getName() {
-        return name;
+    public StringFilter getNameVi() {
+        return nameVi;
     }
 
-    public Optional<StringFilter> optionalName() {
-        return Optional.ofNullable(name);
+    public Optional<StringFilter> optionalNameVi() {
+        return Optional.ofNullable(nameVi);
     }
 
-    public StringFilter name() {
-        if (name == null) {
-            setName(new StringFilter());
+    public StringFilter nameVi() {
+        if (nameVi == null) {
+            setNameVi(new StringFilter());
         }
-        return name;
+        return nameVi;
     }
 
-    public void setName(StringFilter name) {
-        this.name = name;
+    public void setNameVi(StringFilter nameVi) {
+        this.nameVi = nameVi;
+    }
+
+    public StringFilter getNameEn() {
+        return nameEn;
+    }
+
+    public Optional<StringFilter> optionalNameEn() {
+        return Optional.ofNullable(nameEn);
+    }
+
+    public StringFilter nameEn() {
+        if (nameEn == null) {
+            setNameEn(new StringFilter());
+        }
+        return nameEn;
+    }
+
+    public void setNameEn(StringFilter nameEn) {
+        this.nameEn = nameEn;
     }
 
     public StringFilter getSlug() {
@@ -111,6 +139,44 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
 
     public void setSlug(StringFilter slug) {
         this.slug = slug;
+    }
+
+    public StringFilter getDescriptionVi() {
+        return descriptionVi;
+    }
+
+    public Optional<StringFilter> optionalDescriptionVi() {
+        return Optional.ofNullable(descriptionVi);
+    }
+
+    public StringFilter descriptionVi() {
+        if (descriptionVi == null) {
+            setDescriptionVi(new StringFilter());
+        }
+        return descriptionVi;
+    }
+
+    public void setDescriptionVi(StringFilter descriptionVi) {
+        this.descriptionVi = descriptionVi;
+    }
+
+    public StringFilter getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public Optional<StringFilter> optionalDescriptionEn() {
+        return Optional.ofNullable(descriptionEn);
+    }
+
+    public StringFilter descriptionEn() {
+        if (descriptionEn == null) {
+            setDescriptionEn(new StringFilter());
+        }
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(StringFilter descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     public StringFilter getImageUrl() {
@@ -219,8 +285,11 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
         final ServiceCategoryCriteria that = (ServiceCategoryCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name) &&
+            Objects.equals(nameVi, that.nameVi) &&
+            Objects.equals(nameEn, that.nameEn) &&
             Objects.equals(slug, that.slug) &&
+            Objects.equals(descriptionVi, that.descriptionVi) &&
+            Objects.equals(descriptionEn, that.descriptionEn) &&
             Objects.equals(imageUrl, that.imageUrl) &&
             Objects.equals(displayOrder, that.displayOrder) &&
             Objects.equals(active, that.active) &&
@@ -231,7 +300,7 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, slug, imageUrl, displayOrder, active, servicesId, distinct);
+        return Objects.hash(id, nameVi, nameEn, slug, descriptionVi, descriptionEn, imageUrl, displayOrder, active, servicesId, distinct);
     }
 
     // prettier-ignore
@@ -239,8 +308,11 @@ public class ServiceCategoryCriteria implements Serializable, Criteria {
     public String toString() {
         return "ServiceCategoryCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
-            optionalName().map(f -> "name=" + f + ", ").orElse("") +
+            optionalNameVi().map(f -> "nameVi=" + f + ", ").orElse("") +
+            optionalNameEn().map(f -> "nameEn=" + f + ", ").orElse("") +
             optionalSlug().map(f -> "slug=" + f + ", ").orElse("") +
+            optionalDescriptionVi().map(f -> "descriptionVi=" + f + ", ").orElse("") +
+            optionalDescriptionEn().map(f -> "descriptionEn=" + f + ", ").orElse("") +
             optionalImageUrl().map(f -> "imageUrl=" + f + ", ").orElse("") +
             optionalDisplayOrder().map(f -> "displayOrder=" + f + ", ").orElse("") +
             optionalActive().map(f -> "active=" + f + ", ").orElse("") +

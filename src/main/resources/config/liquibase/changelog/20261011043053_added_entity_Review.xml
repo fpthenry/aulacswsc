@@ -10,9 +10,12 @@
         Added the entity Review.
     -->
     <changeSet id="20261011043053-1" author="jhipster">
-        <createTable tableName="review" remarks="Đánh giá dịch vụ">
+        <createTable tableName="review" remarks="Đánh giá của khách (admin nhập hoặc khách viết, cần duyệt)">
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="author_name" type="varchar(150)">
+                <constraints nullable="false" />
             </column>
             <column name="rating" type="integer">
                 <constraints nullable="false" />
@@ -20,17 +23,26 @@
             <column name="comment" type="varchar(2000)">
                 <constraints nullable="true" />
             </column>
+            <column name="video_url" type="varchar(500)" remarks="Link video review (YouTube / TikTok)">
+                <constraints nullable="true" />
+            </column>
+            <column name="review_date" type="date">
+                <constraints nullable="true" />
+            </column>
             <column name="approved" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="featured" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="created_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="customer_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="service_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -54,12 +66,14 @@
                   tableName="review"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="author_name" type="string"/>
             <column name="rating" type="numeric"/>
             <column name="comment" type="string"/>
+            <column name="video_url" type="string"/>
+            <column name="review_date" type="date"/>
             <column name="approved" type="boolean"/>
+            <column name="featured" type="boolean"/>
             <column name="created_date" type="date"/>
-            <column name="customer_id" type="numeric"/>
-            <column name="service_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.Customer} entity.
  */
-@Schema(description = "Hồ sơ khách hàng, gắn với tài khoản User (có thể null nếu khách đặt lịch không đăng ký)")
+@Schema(description = "Hồ sơ khách hàng; khách đặt lịch trên website được tạo tự động theo số điện thoại")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class CustomerDTO implements Serializable {
 

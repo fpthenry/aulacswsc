@@ -31,7 +31,7 @@
           <dd>
             @if (bookingItem()!.service) {
               <div>
-                <a [routerLink]="['/spa-service', bookingItem()!.service?.id, 'view']">{{ bookingItemRef.service?.name }}</a>
+                <a [routerLink]="['/spa-service', bookingItem()!.service?.id, 'view']">{{ bookingItemRef.service?.nameVi }}</a>
               </div>
             }
           </dd>

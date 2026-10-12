@@ -24,21 +24,29 @@ public class SpaServiceCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter name;
+    private StringFilter nameVi;
+
+    private StringFilter nameEn;
 
     private StringFilter slug;
 
-    private StringFilter shortDescription;
+    private StringFilter shortDescriptionVi;
+
+    private StringFilter shortDescriptionEn;
 
     private BigDecimalFilter price;
 
     private BigDecimalFilter salePrice;
+
+    private BigDecimalFilter priceMax;
 
     private IntegerFilter durationMinutes;
 
     private StringFilter imageUrl;
 
     private BooleanFilter featured;
+
+    private IntegerFilter displayOrder;
 
     private BooleanFilter active;
 
@@ -52,14 +60,18 @@ public class SpaServiceCriteria implements Serializable, Criteria {
 
     public SpaServiceCriteria(SpaServiceCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
-        this.name = other.optionalName().map(StringFilter::copy).orElse(null);
+        this.nameVi = other.optionalNameVi().map(StringFilter::copy).orElse(null);
+        this.nameEn = other.optionalNameEn().map(StringFilter::copy).orElse(null);
         this.slug = other.optionalSlug().map(StringFilter::copy).orElse(null);
-        this.shortDescription = other.optionalShortDescription().map(StringFilter::copy).orElse(null);
+        this.shortDescriptionVi = other.optionalShortDescriptionVi().map(StringFilter::copy).orElse(null);
+        this.shortDescriptionEn = other.optionalShortDescriptionEn().map(StringFilter::copy).orElse(null);
         this.price = other.optionalPrice().map(BigDecimalFilter::copy).orElse(null);
         this.salePrice = other.optionalSalePrice().map(BigDecimalFilter::copy).orElse(null);
+        this.priceMax = other.optionalPriceMax().map(BigDecimalFilter::copy).orElse(null);
         this.durationMinutes = other.optionalDurationMinutes().map(IntegerFilter::copy).orElse(null);
         this.imageUrl = other.optionalImageUrl().map(StringFilter::copy).orElse(null);
         this.featured = other.optionalFeatured().map(BooleanFilter::copy).orElse(null);
+        this.displayOrder = other.optionalDisplayOrder().map(IntegerFilter::copy).orElse(null);
         this.active = other.optionalActive().map(BooleanFilter::copy).orElse(null);
         this.categoryId = other.optionalCategoryId().map(LongFilter::copy).orElse(null);
         this.staffsId = other.optionalStaffsId().map(LongFilter::copy).orElse(null);
@@ -90,23 +102,42 @@ public class SpaServiceCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getName() {
-        return name;
+    public StringFilter getNameVi() {
+        return nameVi;
     }
 
-    public Optional<StringFilter> optionalName() {
-        return Optional.ofNullable(name);
+    public Optional<StringFilter> optionalNameVi() {
+        return Optional.ofNullable(nameVi);
     }
 
-    public StringFilter name() {
-        if (name == null) {
-            setName(new StringFilter());
+    public StringFilter nameVi() {
+        if (nameVi == null) {
+            setNameVi(new StringFilter());
         }
-        return name;
+        return nameVi;
     }
 
-    public void setName(StringFilter name) {
-        this.name = name;
+    public void setNameVi(StringFilter nameVi) {
+        this.nameVi = nameVi;
+    }
+
+    public StringFilter getNameEn() {
+        return nameEn;
+    }
+
+    public Optional<StringFilter> optionalNameEn() {
+        return Optional.ofNullable(nameEn);
+    }
+
+    public StringFilter nameEn() {
+        if (nameEn == null) {
+            setNameEn(new StringFilter());
+        }
+        return nameEn;
+    }
+
+    public void setNameEn(StringFilter nameEn) {
+        this.nameEn = nameEn;
     }
 
     public StringFilter getSlug() {
@@ -128,23 +159,42 @@ public class SpaServiceCriteria implements Serializable, Criteria {
         this.slug = slug;
     }
 
-    public StringFilter getShortDescription() {
-        return shortDescription;
+    public StringFilter getShortDescriptionVi() {
+        return shortDescriptionVi;
     }
 
-    public Optional<StringFilter> optionalShortDescription() {
-        return Optional.ofNullable(shortDescription);
+    public Optional<StringFilter> optionalShortDescriptionVi() {
+        return Optional.ofNullable(shortDescriptionVi);
     }
 
-    public StringFilter shortDescription() {
-        if (shortDescription == null) {
-            setShortDescription(new StringFilter());
+    public StringFilter shortDescriptionVi() {
+        if (shortDescriptionVi == null) {
+            setShortDescriptionVi(new StringFilter());
         }
-        return shortDescription;
+        return shortDescriptionVi;
     }
 
-    public void setShortDescription(StringFilter shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setShortDescriptionVi(StringFilter shortDescriptionVi) {
+        this.shortDescriptionVi = shortDescriptionVi;
+    }
+
+    public StringFilter getShortDescriptionEn() {
+        return shortDescriptionEn;
+    }
+
+    public Optional<StringFilter> optionalShortDescriptionEn() {
+        return Optional.ofNullable(shortDescriptionEn);
+    }
+
+    public StringFilter shortDescriptionEn() {
+        if (shortDescriptionEn == null) {
+            setShortDescriptionEn(new StringFilter());
+        }
+        return shortDescriptionEn;
+    }
+
+    public void setShortDescriptionEn(StringFilter shortDescriptionEn) {
+        this.shortDescriptionEn = shortDescriptionEn;
     }
 
     public BigDecimalFilter getPrice() {
@@ -183,6 +233,25 @@ public class SpaServiceCriteria implements Serializable, Criteria {
 
     public void setSalePrice(BigDecimalFilter salePrice) {
         this.salePrice = salePrice;
+    }
+
+    public BigDecimalFilter getPriceMax() {
+        return priceMax;
+    }
+
+    public Optional<BigDecimalFilter> optionalPriceMax() {
+        return Optional.ofNullable(priceMax);
+    }
+
+    public BigDecimalFilter priceMax() {
+        if (priceMax == null) {
+            setPriceMax(new BigDecimalFilter());
+        }
+        return priceMax;
+    }
+
+    public void setPriceMax(BigDecimalFilter priceMax) {
+        this.priceMax = priceMax;
     }
 
     public IntegerFilter getDurationMinutes() {
@@ -240,6 +309,25 @@ public class SpaServiceCriteria implements Serializable, Criteria {
 
     public void setFeatured(BooleanFilter featured) {
         this.featured = featured;
+    }
+
+    public IntegerFilter getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public Optional<IntegerFilter> optionalDisplayOrder() {
+        return Optional.ofNullable(displayOrder);
+    }
+
+    public IntegerFilter displayOrder() {
+        if (displayOrder == null) {
+            setDisplayOrder(new IntegerFilter());
+        }
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(IntegerFilter displayOrder) {
+        this.displayOrder = displayOrder;
     }
 
     public BooleanFilter getActive() {
@@ -329,14 +417,18 @@ public class SpaServiceCriteria implements Serializable, Criteria {
         final SpaServiceCriteria that = (SpaServiceCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name) &&
+            Objects.equals(nameVi, that.nameVi) &&
+            Objects.equals(nameEn, that.nameEn) &&
             Objects.equals(slug, that.slug) &&
-            Objects.equals(shortDescription, that.shortDescription) &&
+            Objects.equals(shortDescriptionVi, that.shortDescriptionVi) &&
+            Objects.equals(shortDescriptionEn, that.shortDescriptionEn) &&
             Objects.equals(price, that.price) &&
             Objects.equals(salePrice, that.salePrice) &&
+            Objects.equals(priceMax, that.priceMax) &&
             Objects.equals(durationMinutes, that.durationMinutes) &&
             Objects.equals(imageUrl, that.imageUrl) &&
             Objects.equals(featured, that.featured) &&
+            Objects.equals(displayOrder, that.displayOrder) &&
             Objects.equals(active, that.active) &&
             Objects.equals(categoryId, that.categoryId) &&
             Objects.equals(staffsId, that.staffsId) &&
@@ -348,14 +440,18 @@ public class SpaServiceCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            name,
+            nameVi,
+            nameEn,
             slug,
-            shortDescription,
+            shortDescriptionVi,
+            shortDescriptionEn,
             price,
             salePrice,
+            priceMax,
             durationMinutes,
             imageUrl,
             featured,
+            displayOrder,
             active,
             categoryId,
             staffsId,
@@ -368,14 +464,18 @@ public class SpaServiceCriteria implements Serializable, Criteria {
     public String toString() {
         return "SpaServiceCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
-            optionalName().map(f -> "name=" + f + ", ").orElse("") +
+            optionalNameVi().map(f -> "nameVi=" + f + ", ").orElse("") +
+            optionalNameEn().map(f -> "nameEn=" + f + ", ").orElse("") +
             optionalSlug().map(f -> "slug=" + f + ", ").orElse("") +
-            optionalShortDescription().map(f -> "shortDescription=" + f + ", ").orElse("") +
+            optionalShortDescriptionVi().map(f -> "shortDescriptionVi=" + f + ", ").orElse("") +
+            optionalShortDescriptionEn().map(f -> "shortDescriptionEn=" + f + ", ").orElse("") +
             optionalPrice().map(f -> "price=" + f + ", ").orElse("") +
             optionalSalePrice().map(f -> "salePrice=" + f + ", ").orElse("") +
+            optionalPriceMax().map(f -> "priceMax=" + f + ", ").orElse("") +
             optionalDurationMinutes().map(f -> "durationMinutes=" + f + ", ").orElse("") +
             optionalImageUrl().map(f -> "imageUrl=" + f + ", ").orElse("") +
             optionalFeatured().map(f -> "featured=" + f + ", ").orElse("") +
+            optionalDisplayOrder().map(f -> "displayOrder=" + f + ", ").orElse("") +
             optionalActive().map(f -> "active=" + f + ", ").orElse("") +
             optionalCategoryId().map(f -> "categoryId=" + f + ", ").orElse("") +
             optionalStaffsId().map(f -> "staffsId=" + f + ", ").orElse("") +

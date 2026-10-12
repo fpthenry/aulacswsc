@@ -4,26 +4,35 @@ import { IReview, NewReview } from './review.model';
 
 export const sampleWithRequiredData: IReview = {
   id: 6640,
+  authorName: 'quizzically',
   rating: 2,
 };
 
 export const sampleWithPartialData: IReview = {
-  id: 10136,
-  rating: 1,
-  approved: false,
-  createdDate: dayjs('2026-10-11T00:45'),
+  id: 27633,
+  authorName: 'tut ecstatic',
+  rating: 2,
+  videoUrl: 'utilization',
+  reviewDate: dayjs('2026-10-10'),
+  approved: true,
+  featured: false,
 };
 
 export const sampleWithFullData: IReview = {
   id: 30916,
-  rating: 4,
-  comment: 'yowza',
-  approved: true,
-  createdDate: dayjs('2026-10-10T08:30'),
+  authorName: 'cornet commodity keenly',
+  rating: 1,
+  comment: 'cosset',
+  videoUrl: 'upbeat acidly ugh',
+  reviewDate: dayjs('2026-10-11'),
+  approved: false,
+  featured: false,
+  createdDate: dayjs('2026-10-11T04:28'),
 };
 
 export const sampleWithNewData: NewReview = {
-  rating: 2,
+  authorName: 'private yuck',
+  rating: 5,
   id: null,
 };
 

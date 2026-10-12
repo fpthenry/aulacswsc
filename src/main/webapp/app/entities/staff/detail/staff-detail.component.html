@@ -43,11 +43,19 @@
           <dd>
             <span>{{ staffRef.user?.login }}</span>
           </dd>
+          <dt><span jhiTranslate="aulacswscApp.staff.branch">Branch</span></dt>
+          <dd>
+            @if (staff()!.branch) {
+              <div>
+                <a [routerLink]="['/branch', staff()!.branch?.id, 'view']">{{ staffRef.branch?.nameVi }}</a>
+              </div>
+            }
+          </dd>
           <dt><span jhiTranslate="aulacswscApp.staff.services">Services</span></dt>
           <dd>
             @for (services of staffRef.services; track $index; let last = $last) {
               <span>
-                <a [routerLink]="['/spa-service', services.id, 'view']">{{ services?.name }}</a
+                <a [routerLink]="['/spa-service', services.id, 'view']">{{ services?.nameVi }}</a
                 >{{ last ? '' : ', ' }}
               </span>
             }

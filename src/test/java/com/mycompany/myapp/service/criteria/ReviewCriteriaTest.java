@@ -76,9 +76,13 @@ class ReviewCriteriaTest {
 
     private static void setAllFilters(ReviewCriteria reviewCriteria) {
         reviewCriteria.id();
+        reviewCriteria.authorName();
         reviewCriteria.rating();
         reviewCriteria.comment();
+        reviewCriteria.videoUrl();
+        reviewCriteria.reviewDate();
         reviewCriteria.approved();
+        reviewCriteria.featured();
         reviewCriteria.createdDate();
         reviewCriteria.customerId();
         reviewCriteria.serviceId();
@@ -89,9 +93,13 @@ class ReviewCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId()) &&
+                condition.apply(criteria.getAuthorName()) &&
                 condition.apply(criteria.getRating()) &&
                 condition.apply(criteria.getComment()) &&
+                condition.apply(criteria.getVideoUrl()) &&
+                condition.apply(criteria.getReviewDate()) &&
                 condition.apply(criteria.getApproved()) &&
+                condition.apply(criteria.getFeatured()) &&
                 condition.apply(criteria.getCreatedDate()) &&
                 condition.apply(criteria.getCustomerId()) &&
                 condition.apply(criteria.getServiceId()) &&
@@ -104,9 +112,13 @@ class ReviewCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
+                condition.apply(criteria.getAuthorName(), copy.getAuthorName()) &&
                 condition.apply(criteria.getRating(), copy.getRating()) &&
                 condition.apply(criteria.getComment(), copy.getComment()) &&
+                condition.apply(criteria.getVideoUrl(), copy.getVideoUrl()) &&
+                condition.apply(criteria.getReviewDate(), copy.getReviewDate()) &&
                 condition.apply(criteria.getApproved(), copy.getApproved()) &&
+                condition.apply(criteria.getFeatured(), copy.getFeatured()) &&
                 condition.apply(criteria.getCreatedDate(), copy.getCreatedDate()) &&
                 condition.apply(criteria.getCustomerId(), copy.getCustomerId()) &&
                 condition.apply(criteria.getServiceId(), copy.getServiceId()) &&

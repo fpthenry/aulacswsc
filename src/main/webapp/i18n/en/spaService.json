@@ -18,18 +18,34 @@
         "title": "Spa Service"
       },
       "id": "ID",
-      "name": "Name",
+      "nameVi": "Name Vi",
+      "nameEn": "Name En",
       "slug": "Slug",
-      "shortDescription": "Short Description",
-      "description": "Description",
+      "shortDescriptionVi": "Short Description Vi",
+      "shortDescriptionEn": "Short Description En",
+      "descriptionVi": "Description Vi",
+      "descriptionEn": "Description En",
+      "benefitsVi": "Benefits Vi",
+      "benefitsEn": "Benefits En",
+      "notesVi": "Notes Vi",
+      "notesEn": "Notes En",
       "price": "Price",
       "salePrice": "Sale Price",
+      "priceMax": "Price Max",
       "durationMinutes": "Duration Minutes",
       "imageUrl": "Image Url",
       "featured": "Featured",
+      "displayOrder": "Display Order",
       "active": "Active",
       "category": "Category",
-      "staffs": "Staffs"
+      "staffs": "Staffs",
+      "help": {
+        "benefitsVi": "Công dụng / lợi ích, mỗi dòng một ý",
+        "notesVi": "Lưu ý, mỗi dòng một ý",
+        "price": "Giá gốc (hoặc giá thấp nhất nếu là khoảng giá)",
+        "salePrice": "Giá khuyến mãi, để trống nếu không giảm",
+        "priceMax": "Giá cao nhất nếu hiển thị dạng khoảng giá"
+      }
     }
   }
 }

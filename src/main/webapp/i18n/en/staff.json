@@ -25,6 +25,7 @@
       "avatarUrl": "Avatar Url",
       "active": "Active",
       "user": "User",
+      "branch": "Branch",
       "services": "Services"
     }
   }

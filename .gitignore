@@ -151,3 +151,11 @@ Desktop.ini
 ######################
 coverage/
 .nyc_output/
+
+######################
+# Ảnh upload (dữ liệu, không commit)
+######################
+/uploads/
+
+# Ảnh tải từ website khác để làm dữ liệu demo — KHÔNG commit (bản quyền)
+/images/

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Slideshow ảnh đầu trang: danh sách URL ảnh, mỗi dòng một ảnh -->
+    <changeSet id="20261012090000-1" author="jhipster">
+        <addColumn tableName="site_setting">
+            <column name="hero_slides" type="${clobType}"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

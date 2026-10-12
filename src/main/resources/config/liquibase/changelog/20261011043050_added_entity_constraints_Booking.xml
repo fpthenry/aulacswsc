@@ -10,6 +10,13 @@
     -->
     <changeSet id="20261011043050-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="branch_id"
+                                 baseTableName="booking"
+                                 constraintName="fk_booking__branch_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="branch"
+                                 />
+
         <addForeignKeyConstraint baseColumnNames="promotion_id"
                                  baseTableName="booking"
                                  constraintName="fk_booking__promotion_id"

@@ -45,7 +45,8 @@ spring:
         useServerPrepStmts: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    # bỏ "faker" để không nạp dữ liệu ngẫu nhiên; dữ liệu mẫu nằm trong changeset context "dev"
+    contexts: dev
   mail:
     host: localhost
     port: 25

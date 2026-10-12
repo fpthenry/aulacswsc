@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.IntegrationTest;
+import com.mycompany.myapp.domain.Branch;
 import com.mycompany.myapp.domain.SpaService;
 import com.mycompany.myapp.domain.Staff;
 import com.mycompany.myapp.domain.User;
@@ -541,6 +542,28 @@ class StaffResourceIT {
 
         // Get all the staffList where user equals to (userId + 1)
         defaultStaffShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllStaffByBranchIsEqualToSomething() throws Exception {
+        Branch branch;
+        if (TestUtil.findAll(em, Branch.class).isEmpty()) {
+            staffRepository.saveAndFlush(staff);
+            branch = BranchResourceIT.createEntity();
+        } else {
+            branch = TestUtil.findAll(em, Branch.class).get(0);
+        }
+        em.persist(branch);
+        em.flush();
+        staff.setBranch(branch);
+        staffRepository.saveAndFlush(staff);
+        Long branchId = branch.getId();
+        // Get all the staffList where branch equals to branchId
+        defaultStaffShouldBeFound("branchId.equals=" + branchId);
+
+        // Get all the staffList where branch equals to (branchId + 1)
+        defaultStaffShouldNotBeFound("branchId.equals=" + (branchId + 1));
     }
 
     @Test

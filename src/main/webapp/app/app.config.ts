@@ -8,7 +8,9 @@ import {
   provideRouter,
   withComponentInputBinding,
   withDebugTracing,
+  withInMemoryScrolling,
   withNavigationErrorHandler,
+  withViewTransitions,
 } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -26,6 +28,10 @@ import { AppPageTitleStrategy } from './app-page-title-strategy';
 
 const routerFeatures: RouterFeatures[] = [
   withComponentInputBinding(),
+  // cuộn về đầu trang khi chuyển trang, hỗ trợ link #anchor
+  withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+  // chuyển trang mượt (View Transitions API); tắt hiệu ứng bằng CSS khi prefers-reduced-motion
+  withViewTransitions({ skipInitialTransition: true }),
   withNavigationErrorHandler((e: NavigationError) => {
     const router = inject(Router);
     if (e.error.status === 403) {

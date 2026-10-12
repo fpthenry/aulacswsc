@@ -7,11 +7,14 @@ import { finalize, map } from 'rxjs/operators';
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { IBranch } from 'app/entities/branch/branch.model';
+import { BranchService } from 'app/entities/branch/service/branch.service';
 import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { PromotionService } from 'app/entities/promotion/service/promotion.service';
 import { ICustomer } from 'app/entities/customer/customer.model';
 import { CustomerService } from 'app/entities/customer/service/customer.service';
 import { BookingStatus } from 'app/entities/enumerations/booking-status.model';
+import { BookingSource } from 'app/entities/enumerations/booking-source.model';
 import { PaymentStatus } from 'app/entities/enumerations/payment-status.model';
 import { PaymentMethod } from 'app/entities/enumerations/payment-method.model';
 import { BookingService } from '../service/booking.service';
@@ -27,20 +30,25 @@ export class BookingUpdateComponent implements OnInit {
   isSaving = false;
   booking: IBooking | null = null;
   bookingStatusValues = Object.keys(BookingStatus);
+  bookingSourceValues = Object.keys(BookingSource);
   paymentStatusValues = Object.keys(PaymentStatus);
   paymentMethodValues = Object.keys(PaymentMethod);
 
+  branchesSharedCollection: IBranch[] = [];
   promotionsSharedCollection: IPromotion[] = [];
   customersSharedCollection: ICustomer[] = [];
 
   protected bookingService = inject(BookingService);
   protected bookingFormService = inject(BookingFormService);
+  protected branchService = inject(BranchService);
   protected promotionService = inject(PromotionService);
   protected customerService = inject(CustomerService);
   protected activatedRoute = inject(ActivatedRoute);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: BookingFormGroup = this.bookingFormService.createBookingFormGroup();
+
+  compareBranch = (o1: IBranch | null, o2: IBranch | null): boolean => this.branchService.compareBranch(o1, o2);
 
   comparePromotion = (o1: IPromotion | null, o2: IPromotion | null): boolean => this.promotionService.comparePromotion(o1, o2);
 
@@ -94,6 +102,10 @@ export class BookingUpdateComponent implements OnInit {
     this.booking = booking;
     this.bookingFormService.resetForm(this.editForm, booking);
 
+    this.branchesSharedCollection = this.branchService.addBranchToCollectionIfMissing<IBranch>(
+      this.branchesSharedCollection,
+      booking.branch,
+    );
     this.promotionsSharedCollection = this.promotionService.addPromotionToCollectionIfMissing<IPromotion>(
       this.promotionsSharedCollection,
       booking.promotion,
@@ -105,6 +117,12 @@ export class BookingUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
+    this.branchService
+      .query()
+      .pipe(map((res: HttpResponse<IBranch[]>) => res.body ?? []))
+      .pipe(map((branches: IBranch[]) => this.branchService.addBranchToCollectionIfMissing<IBranch>(branches, this.booking?.branch)))
+      .subscribe((branches: IBranch[]) => (this.branchesSharedCollection = branches));
+
     this.promotionService
       .query()
       .pipe(map((res: HttpResponse<IPromotion[]>) => res.body ?? []))

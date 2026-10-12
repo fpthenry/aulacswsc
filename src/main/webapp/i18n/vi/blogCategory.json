@@ -1,0 +1,11 @@
+{
+  "aulacswscApp": {
+    "BlogCategory": {
+      "null": "",
+      "NEWS": "NEWS",
+      "EVENT": "EVENT",
+      "REVIEW": "REVIEW",
+      "TIPS": "TIPS"
+    }
+  }
+}

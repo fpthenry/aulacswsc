@@ -2,6 +2,8 @@
  * JDL cho website Spa - aulacswsc
  * - Xác thực JWT, User/Authority có sẵn của JHipster (jhi_user)
  * - Khách hàng & nhân viên liên kết 1-1 với tài khoản User
+ * - Nội dung hiển thị trên website song ngữ: mỗi trường có cặp cột ...Vi / ...En
+ * - Trường ảnh (...ImageUrl, imageUrl) lưu đường dẫn ảnh đã upload (/uploads/...webp)
  */
 
 application {
@@ -44,35 +46,135 @@ enum PaymentMethod {
   CASH, BANK_TRANSFER, CARD, E_WALLET
 }
 
-// ===================== DỊCH VỤ =====================
+/** Nguồn tạo lịch hẹn */
+enum BookingSource {
+  WEBSITE, QUICK, ADMIN, PHONE, WALK_IN
+}
 
-/** Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...) */
-entity ServiceCategory {
-  name String required maxlength(150)
+enum BlogCategory {
+  NEWS, EVENT, REVIEW, TIPS
+}
+
+// ===================== CẤU HÌNH WEBSITE =====================
+
+/** Cài đặt chung của website (chỉ dùng 1 bản ghi) */
+entity SiteSetting {
+  siteName String required maxlength(150)
+  logoUrl String maxlength(500)
+  sloganVi String maxlength(300)
+  sloganEn String maxlength(300)
+  heroSubtitleVi String maxlength(500)
+  heroSubtitleEn String maxlength(500)
+  heroImageUrl String maxlength(500)
+  heroVideoUrl String maxlength(500)
+  heroVideoEnabled Boolean
+  /** Ảnh slideshow đầu trang: mỗi dòng một URL ảnh (trống = dùng heroImageUrl) */
+  heroSlides TextBlob
+  backgroundMusicUrl String maxlength(500)
+  aboutTitleVi String maxlength(300)
+  aboutTitleEn String maxlength(300)
+  aboutContentVi TextBlob
+  aboutContentEn TextBlob
+  highlight1TitleVi String maxlength(150)
+  highlight1TitleEn String maxlength(150)
+  highlight1TextVi String maxlength(500)
+  highlight1TextEn String maxlength(500)
+  highlight2TitleVi String maxlength(150)
+  highlight2TitleEn String maxlength(150)
+  highlight2TextVi String maxlength(500)
+  highlight2TextEn String maxlength(500)
+  highlight3TitleVi String maxlength(150)
+  highlight3TitleEn String maxlength(150)
+  highlight3TextVi String maxlength(500)
+  highlight3TextEn String maxlength(500)
+  hotline String maxlength(20)
+  email String maxlength(150)
+  whatsappNumber String maxlength(20)
+  zaloNumber String maxlength(20)
+  messengerUrl String maxlength(300)
+  facebookUrl String maxlength(300)
+  instagramUrl String maxlength(300)
+  tiktokUrl String maxlength(300)
+  youtubeUrl String maxlength(300)
+  openingHoursVi String maxlength(200)
+  openingHoursEn String maxlength(200)
+  metaDescriptionVi String maxlength(300)
+  metaDescriptionEn String maxlength(300)
+  policyContentVi TextBlob
+  policyContentEn TextBlob
+}
+
+/** Cơ sở / chi nhánh spa */
+entity Branch {
+  nameVi String required maxlength(150)
+  nameEn String required maxlength(150)
   slug String required unique maxlength(180)
-  description TextBlob
+  addressVi String required maxlength(300)
+  addressEn String maxlength(300)
+  phone String required maxlength(20)
+  whatsapp String maxlength(20)
+  zalo String maxlength(20)
+  email String maxlength(150)
+  /** Giờ mở cửa dạng HH:mm, vd 10:00 */
+  openTime String required pattern(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)
+  /** Giờ đóng cửa dạng HH:mm, vd 22:00 */
+  closeTime String required pattern(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)
+  /** Khung giờ nhận khách cuối cùng, vd 21:30 */
+  lastBookingTime String required pattern(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)
+  /** Số khách tối đa phục vụ đồng thời */
+  capacity Integer required min(1)
+  mapEmbedUrl String maxlength(1000)
+  mapDirectionUrl String maxlength(500)
   imageUrl String maxlength(500)
   displayOrder Integer
   active Boolean required
 }
 
-/** Dịch vụ spa cụ thể */
+// ===================== DỊCH VỤ =====================
+
+/** Danh mục dịch vụ (Massage, Chăm sóc tóc, Chăm sóc da, Combo...) */
+entity ServiceCategory {
+  nameVi String required maxlength(150)
+  nameEn String required maxlength(150)
+  slug String required unique maxlength(180)
+  descriptionVi String maxlength(1000)
+  descriptionEn String maxlength(1000)
+  imageUrl String maxlength(500)
+  displayOrder Integer
+  active Boolean required
+}
+
+/** Dịch vụ spa */
 entity SpaService {
-  name String required maxlength(200)
+  nameVi String required maxlength(200)
+  nameEn String required maxlength(200)
   slug String required unique maxlength(220)
-  shortDescription String maxlength(500)
-  description TextBlob
+  shortDescriptionVi String maxlength(500)
+  shortDescriptionEn String maxlength(500)
+  descriptionVi TextBlob
+  descriptionEn TextBlob
+  /** Công dụng / lợi ích, mỗi dòng một ý */
+  benefitsVi TextBlob
+  benefitsEn TextBlob
+  /** Lưu ý, mỗi dòng một ý */
+  notesVi TextBlob
+  notesEn TextBlob
+  /** Giá gốc (hoặc giá thấp nhất nếu là khoảng giá) */
   price BigDecimal required min(0)
+  /** Giá khuyến mãi, để trống nếu không giảm */
   salePrice BigDecimal min(0)
-  durationMinutes Integer required min(5)
+  /** Giá cao nhất nếu hiển thị dạng khoảng giá */
+  priceMax BigDecimal min(0)
+  durationMinutes Integer required min(15)
   imageUrl String maxlength(500)
   featured Boolean
+  displayOrder Integer
   active Boolean required
 }
 
 // ===================== CON NGƯỜI =====================
 
-/** Hồ sơ khách hàng, gắn với tài khoản User (có thể null nếu khách đặt lịch không đăng ký) */
+/** Hồ sơ khách hàng; khách đặt lịch trên website được tạo tự động theo số điện thoại */
 entity Customer {
   fullName String required maxlength(150)
   phone String required unique maxlength(20)
@@ -84,7 +186,7 @@ entity Customer {
   createdDate Instant
 }
 
-/** Kỹ thuật viên / nhân viên spa, gắn với tài khoản User */
+/** Kỹ thuật viên / nhân viên spa */
 entity Staff {
   fullName String required maxlength(150)
   phone String maxlength(20)
@@ -101,7 +203,9 @@ entity Booking {
   code String required unique maxlength(30)
   startTime Instant required
   endTime Instant
+  numberOfPeople Integer required min(1) max(20)
   status BookingStatus required
+  source BookingSource
   totalAmount BigDecimal min(0)
   discountAmount BigDecimal min(0)
   paymentStatus PaymentStatus
@@ -110,7 +214,7 @@ entity Booking {
   createdDate Instant
 }
 
-/** Chi tiết dịch vụ trong một lịch hẹn */
+/** Dịch vụ trong một lịch hẹn */
 entity BookingItem {
   price BigDecimal required min(0)
   quantity Integer required min(1)
@@ -131,12 +235,45 @@ entity Promotion {
 
 // ===================== NỘI DUNG WEBSITE =====================
 
-/** Đánh giá dịch vụ */
+/** Đánh giá của khách (admin nhập hoặc khách viết, cần duyệt) */
 entity Review {
+  authorName String required maxlength(150)
   rating Integer required min(1) max(5)
   comment String maxlength(2000)
+  /** Link video review (YouTube / TikTok) */
+  videoUrl String maxlength(500)
+  reviewDate LocalDate
   approved Boolean
+  featured Boolean
   createdDate Instant
+}
+
+/** Ảnh thư viện */
+entity GalleryImage {
+  imageUrl String required maxlength(500)
+  captionVi String maxlength(300)
+  captionEn String maxlength(300)
+  altVi String required maxlength(300)
+  altEn String maxlength(300)
+  width Integer
+  height Integer
+  displayOrder Integer
+  active Boolean required
+}
+
+/** Bài viết tin tức / blog */
+entity BlogPost {
+  titleVi String required maxlength(250)
+  titleEn String maxlength(250)
+  slug String required unique maxlength(280)
+  excerptVi String maxlength(500)
+  excerptEn String maxlength(500)
+  contentVi TextBlob
+  contentEn TextBlob
+  coverImageUrl String maxlength(500)
+  category BlogCategory
+  published Boolean required
+  publishedAt Instant
 }
 
 /** Liên hệ từ form trên website */
@@ -157,28 +294,31 @@ relationship OneToOne {
 }
 
 relationship OneToMany {
-  ServiceCategory{services} to SpaService{category(name) required}
+  ServiceCategory{services} to SpaService{category(nameVi) required}
   Customer{bookings} to Booking{customer(fullName) required}
   Booking{items} to BookingItem{booking(code) required}
 }
 
 relationship ManyToOne {
-  BookingItem{service(name) required} to SpaService
+  Booking{branch(nameVi) required} to Branch
+  Staff{branch(nameVi)} to Branch
+  GalleryImage{branch(nameVi)} to Branch
+  BookingItem{service(nameVi) required} to SpaService
   BookingItem{staff(fullName)} to Staff
   Booking{promotion(code)} to Promotion
-  Review{customer(fullName) required} to Customer
-  Review{service(name) required} to SpaService
+  Review{customer(fullName)} to Customer
+  Review{service(nameVi)} to SpaService
 }
 
 relationship ManyToMany {
-  Staff{services(name)} to SpaService{staffs}
+  Staff{services(nameVi)} to SpaService{staffs}
 }
 
 // ===================== TÙY CHỌN =====================
 
 dto * with mapstruct
 service * with serviceImpl
-filter ServiceCategory, SpaService, Customer, Staff, Booking, Promotion, Review, ContactMessage
+filter ServiceCategory, SpaService, Customer, Staff, Booking, Promotion, Review, ContactMessage, Branch, GalleryImage, BlogPost
 
-paginate SpaService, Customer, Booking, Review, ContactMessage with pagination
-paginate ServiceCategory, Staff, Promotion with infinite-scroll
+paginate SpaService, Customer, Booking, Review, ContactMessage, BlogPost with pagination
+paginate ServiceCategory, Staff, Promotion, Branch, GalleryImage with infinite-scroll

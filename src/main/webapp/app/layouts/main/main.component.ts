@@ -1,5 +1,7 @@
-import { Component, OnInit, Renderer2, RendererFactory2, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, OnInit, Renderer2, RendererFactory2, inject, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { isSiteUrl } from 'app/site/core/site-lang';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
@@ -15,6 +17,9 @@ import PageRibbonComponent from '../profiles/page-ribbon.component';
   imports: [RouterOutlet, FooterComponent, PageRibbonComponent],
 })
 export default class MainComponent implements OnInit {
+  /** true khi đang ở website khách /vi, /en → ẩn navbar/footer quản trị */
+  readonly isSite = signal(isSiteUrl(window.location.pathname));
+
   private readonly renderer: Renderer2;
 
   private readonly router = inject(Router);
@@ -28,6 +33,10 @@ export default class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd)).subscribe(e => {
+      this.isSite.set(isSiteUrl(e.urlAfterRedirects));
+    });
+
     // try to log in automatically
     this.accountService.identity().subscribe();
 

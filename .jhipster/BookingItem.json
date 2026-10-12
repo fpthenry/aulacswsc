@@ -3,7 +3,7 @@
     "changelogDate": "20261011043051"
   },
   "applications": ["aulacswsc"],
-  "documentation": "Chi tiết dịch vụ trong một lịch hẹn",
+  "documentation": "Dịch vụ trong một lịch hẹn",
   "dto": "mapstruct",
   "fields": [
     {
@@ -26,7 +26,7 @@
   "name": "BookingItem",
   "relationships": [
     {
-      "otherEntityField": "name",
+      "otherEntityField": "nameVi",
       "otherEntityName": "spaService",
       "relationshipName": "service",
       "relationshipSide": "left",

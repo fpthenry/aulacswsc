@@ -18,9 +18,11 @@
         "title": "Service Category"
       },
       "id": "ID",
-      "name": "Name",
+      "nameVi": "Name Vi",
+      "nameEn": "Name En",
       "slug": "Slug",
-      "description": "Description",
+      "descriptionVi": "Description Vi",
+      "descriptionEn": "Description En",
       "imageUrl": "Image Url",
       "displayOrder": "Display Order",
       "active": "Active",

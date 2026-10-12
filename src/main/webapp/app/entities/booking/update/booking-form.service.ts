@@ -36,13 +36,16 @@ type BookingFormGroupContent = {
   code: FormControl<BookingFormRawValue['code']>;
   startTime: FormControl<BookingFormRawValue['startTime']>;
   endTime: FormControl<BookingFormRawValue['endTime']>;
+  numberOfPeople: FormControl<BookingFormRawValue['numberOfPeople']>;
   status: FormControl<BookingFormRawValue['status']>;
+  source: FormControl<BookingFormRawValue['source']>;
   totalAmount: FormControl<BookingFormRawValue['totalAmount']>;
   discountAmount: FormControl<BookingFormRawValue['discountAmount']>;
   paymentStatus: FormControl<BookingFormRawValue['paymentStatus']>;
   paymentMethod: FormControl<BookingFormRawValue['paymentMethod']>;
   note: FormControl<BookingFormRawValue['note']>;
   createdDate: FormControl<BookingFormRawValue['createdDate']>;
+  branch: FormControl<BookingFormRawValue['branch']>;
   promotion: FormControl<BookingFormRawValue['promotion']>;
   customer: FormControl<BookingFormRawValue['customer']>;
 };
@@ -71,9 +74,13 @@ export class BookingFormService {
         validators: [Validators.required],
       }),
       endTime: new FormControl(bookingRawValue.endTime),
+      numberOfPeople: new FormControl(bookingRawValue.numberOfPeople, {
+        validators: [Validators.required, Validators.min(1), Validators.max(20)],
+      }),
       status: new FormControl(bookingRawValue.status, {
         validators: [Validators.required],
       }),
+      source: new FormControl(bookingRawValue.source),
       totalAmount: new FormControl(bookingRawValue.totalAmount, {
         validators: [Validators.min(0)],
       }),
@@ -86,6 +93,9 @@ export class BookingFormService {
         validators: [Validators.maxLength(1000)],
       }),
       createdDate: new FormControl(bookingRawValue.createdDate),
+      branch: new FormControl(bookingRawValue.branch, {
+        validators: [Validators.required],
+      }),
       promotion: new FormControl(bookingRawValue.promotion),
       customer: new FormControl(bookingRawValue.customer, {
         validators: [Validators.required],

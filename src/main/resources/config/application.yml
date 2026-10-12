@@ -92,6 +92,11 @@ management:
 spring:
   application:
     name: aulacswsc
+  servlet:
+    multipart:
+      # ảnh admin upload (đã nén WebP ở trình duyệt)
+      max-file-size: 10MB
+      max-request-size: 25MB
   docker:
     compose:
       enabled: true
@@ -212,7 +217,7 @@ jhipster:
     license: unlicensed
     license-url:
   security:
-    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
+    content-security-policy: "default-src 'self'; frame-src 'self' data: https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com https://www.tiktok.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://i.ytimg.com; font-src 'self' data: https://fonts.gstatic.com; media-src 'self' blob:"
 
 # jhipster-needle-add-application-yaml-document
 ---
@@ -226,3 +231,7 @@ jhipster:
 # ===================================================================
 
 # application:
+
+application:
+  # thư mục lưu ảnh upload; production nên đặt đường dẫn tuyệt đối ngoài thư mục build
+  upload-dir: uploads

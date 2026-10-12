@@ -4,6 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, from, of } from 'rxjs';
 
+import { IBranch } from 'app/entities/branch/branch.model';
+import { BranchService } from 'app/entities/branch/service/branch.service';
 import { IPromotion } from 'app/entities/promotion/promotion.model';
 import { PromotionService } from 'app/entities/promotion/service/promotion.service';
 import { ICustomer } from 'app/entities/customer/customer.model';
@@ -20,6 +22,7 @@ describe('Booking Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let bookingFormService: BookingFormService;
   let bookingService: BookingService;
+  let branchService: BranchService;
   let promotionService: PromotionService;
   let customerService: CustomerService;
 
@@ -44,6 +47,7 @@ describe('Booking Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     bookingFormService = TestBed.inject(BookingFormService);
     bookingService = TestBed.inject(BookingService);
+    branchService = TestBed.inject(BranchService);
     promotionService = TestBed.inject(PromotionService);
     customerService = TestBed.inject(CustomerService);
 
@@ -51,6 +55,28 @@ describe('Booking Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should call Branch query and add missing value', () => {
+      const booking: IBooking = { id: 4697 };
+      const branch: IBranch = { id: 23953 };
+      booking.branch = branch;
+
+      const branchCollection: IBranch[] = [{ id: 23953 }];
+      jest.spyOn(branchService, 'query').mockReturnValue(of(new HttpResponse({ body: branchCollection })));
+      const additionalBranches = [branch];
+      const expectedCollection: IBranch[] = [...additionalBranches, ...branchCollection];
+      jest.spyOn(branchService, 'addBranchToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ booking });
+      comp.ngOnInit();
+
+      expect(branchService.query).toHaveBeenCalled();
+      expect(branchService.addBranchToCollectionIfMissing).toHaveBeenCalledWith(
+        branchCollection,
+        ...additionalBranches.map(expect.objectContaining),
+      );
+      expect(comp.branchesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('should call Promotion query and add missing value', () => {
       const booking: IBooking = { id: 4697 };
       const promotion: IPromotion = { id: 30739 };
@@ -97,6 +123,8 @@ describe('Booking Management Update Component', () => {
 
     it('should update editForm', () => {
       const booking: IBooking = { id: 4697 };
+      const branch: IBranch = { id: 23953 };
+      booking.branch = branch;
       const promotion: IPromotion = { id: 30739 };
       booking.promotion = promotion;
       const customer: ICustomer = { id: 26915 };
@@ -105,6 +133,7 @@ describe('Booking Management Update Component', () => {
       activatedRoute.data = of({ booking });
       comp.ngOnInit();
 
+      expect(comp.branchesSharedCollection).toContainEqual(branch);
       expect(comp.promotionsSharedCollection).toContainEqual(promotion);
       expect(comp.customersSharedCollection).toContainEqual(customer);
       expect(comp.booking).toEqual(booking);
@@ -180,6 +209,16 @@ describe('Booking Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareBranch', () => {
+      it('should forward to branchService', () => {
+        const entity = { id: 23953 };
+        const entity2 = { id: 1770 };
+        jest.spyOn(branchService, 'compareBranch');
+        comp.compareBranch(entity, entity2);
+        expect(branchService.compareBranch).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('comparePromotion', () => {
       it('should forward to promotionService', () => {
         const entity = { id: 30739 };

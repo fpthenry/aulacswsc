@@ -15,7 +15,7 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface SpaServiceMapper extends EntityMapper<SpaServiceDTO, SpaService> {
-    @Mapping(target = "category", source = "category", qualifiedByName = "serviceCategoryName")
+    @Mapping(target = "category", source = "category", qualifiedByName = "serviceCategoryNameVi")
     @Mapping(target = "staffs", source = "staffs", qualifiedByName = "staffIdSet")
     SpaServiceDTO toDto(SpaService s);
 
@@ -23,11 +23,11 @@ public interface SpaServiceMapper extends EntityMapper<SpaServiceDTO, SpaService
     @Mapping(target = "removeStaffs", ignore = true)
     SpaService toEntity(SpaServiceDTO spaServiceDTO);
 
-    @Named("serviceCategoryName")
+    @Named("serviceCategoryNameVi")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    ServiceCategoryDTO toDtoServiceCategoryName(ServiceCategory serviceCategory);
+    @Mapping(target = "nameVi", source = "nameVi")
+    ServiceCategoryDTO toDtoServiceCategoryNameVi(ServiceCategory serviceCategory);
 
     @Named("staffId")
     @BeanMapping(ignoreByDefault = true)

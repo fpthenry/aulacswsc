@@ -51,6 +51,26 @@ const routes: Routes = [
     data: { pageTitle: 'aulacswscApp.contactMessage.home.title', authorities: ['ROLE_ADMIN'] },
     loadChildren: () => import('./contact-message/contact-message.routes'),
   },
+  {
+    path: 'site-setting',
+    data: { pageTitle: 'aulacswscApp.siteSetting.home.title', authorities: ['ROLE_ADMIN'] },
+    loadChildren: () => import('./site-setting/site-setting.routes'),
+  },
+  {
+    path: 'branch',
+    data: { pageTitle: 'aulacswscApp.branch.home.title', authorities: ['ROLE_ADMIN'] },
+    loadChildren: () => import('./branch/branch.routes'),
+  },
+  {
+    path: 'gallery-image',
+    data: { pageTitle: 'aulacswscApp.galleryImage.home.title', authorities: ['ROLE_ADMIN'] },
+    loadChildren: () => import('./gallery-image/gallery-image.routes'),
+  },
+  {
+    path: 'blog-post',
+    data: { pageTitle: 'aulacswscApp.blogPost.home.title', authorities: ['ROLE_ADMIN'] },
+    loadChildren: () => import('./blog-post/blog-post.routes'),
+  },
   /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
 ];
 

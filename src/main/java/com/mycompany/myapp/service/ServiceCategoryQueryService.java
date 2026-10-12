@@ -74,8 +74,11 @@ public class ServiceCategoryQueryService extends QueryService<ServiceCategory> {
             specification = Specification.allOf(
                 Boolean.TRUE.equals(criteria.getDistinct()) ? distinct(criteria.getDistinct()) : null,
                 buildRangeSpecification(criteria.getId(), ServiceCategory_.id),
-                buildStringSpecification(criteria.getName(), ServiceCategory_.name),
+                buildStringSpecification(criteria.getNameVi(), ServiceCategory_.nameVi),
+                buildStringSpecification(criteria.getNameEn(), ServiceCategory_.nameEn),
                 buildStringSpecification(criteria.getSlug(), ServiceCategory_.slug),
+                buildStringSpecification(criteria.getDescriptionVi(), ServiceCategory_.descriptionVi),
+                buildStringSpecification(criteria.getDescriptionEn(), ServiceCategory_.descriptionEn),
                 buildStringSpecification(criteria.getImageUrl(), ServiceCategory_.imageUrl),
                 buildRangeSpecification(criteria.getDisplayOrder(), ServiceCategory_.displayOrder),
                 buildSpecification(criteria.getActive(), ServiceCategory_.active),

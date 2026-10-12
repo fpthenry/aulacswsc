@@ -47,9 +47,11 @@ public class ServiceCategoryAsserts {
     public static void assertServiceCategoryUpdatableFieldsEquals(ServiceCategory expected, ServiceCategory actual) {
         assertThat(actual)
             .as("Verify ServiceCategory relevant properties")
-            .satisfies(a -> assertThat(a.getName()).as("check name").isEqualTo(expected.getName()))
+            .satisfies(a -> assertThat(a.getNameVi()).as("check nameVi").isEqualTo(expected.getNameVi()))
+            .satisfies(a -> assertThat(a.getNameEn()).as("check nameEn").isEqualTo(expected.getNameEn()))
             .satisfies(a -> assertThat(a.getSlug()).as("check slug").isEqualTo(expected.getSlug()))
-            .satisfies(a -> assertThat(a.getDescription()).as("check description").isEqualTo(expected.getDescription()))
+            .satisfies(a -> assertThat(a.getDescriptionVi()).as("check descriptionVi").isEqualTo(expected.getDescriptionVi()))
+            .satisfies(a -> assertThat(a.getDescriptionEn()).as("check descriptionEn").isEqualTo(expected.getDescriptionEn()))
             .satisfies(a -> assertThat(a.getImageUrl()).as("check imageUrl").isEqualTo(expected.getImageUrl()))
             .satisfies(a -> assertThat(a.getDisplayOrder()).as("check displayOrder").isEqualTo(expected.getDisplayOrder()))
             .satisfies(a -> assertThat(a.getActive()).as("check active").isEqualTo(expected.getActive()));

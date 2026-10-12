@@ -76,8 +76,11 @@ class ServiceCategoryCriteriaTest {
 
     private static void setAllFilters(ServiceCategoryCriteria serviceCategoryCriteria) {
         serviceCategoryCriteria.id();
-        serviceCategoryCriteria.name();
+        serviceCategoryCriteria.nameVi();
+        serviceCategoryCriteria.nameEn();
         serviceCategoryCriteria.slug();
+        serviceCategoryCriteria.descriptionVi();
+        serviceCategoryCriteria.descriptionEn();
         serviceCategoryCriteria.imageUrl();
         serviceCategoryCriteria.displayOrder();
         serviceCategoryCriteria.active();
@@ -89,8 +92,11 @@ class ServiceCategoryCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId()) &&
-                condition.apply(criteria.getName()) &&
+                condition.apply(criteria.getNameVi()) &&
+                condition.apply(criteria.getNameEn()) &&
                 condition.apply(criteria.getSlug()) &&
+                condition.apply(criteria.getDescriptionVi()) &&
+                condition.apply(criteria.getDescriptionEn()) &&
                 condition.apply(criteria.getImageUrl()) &&
                 condition.apply(criteria.getDisplayOrder()) &&
                 condition.apply(criteria.getActive()) &&
@@ -107,8 +113,11 @@ class ServiceCategoryCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
-                condition.apply(criteria.getName(), copy.getName()) &&
+                condition.apply(criteria.getNameVi(), copy.getNameVi()) &&
+                condition.apply(criteria.getNameEn(), copy.getNameEn()) &&
                 condition.apply(criteria.getSlug(), copy.getSlug()) &&
+                condition.apply(criteria.getDescriptionVi(), copy.getDescriptionVi()) &&
+                condition.apply(criteria.getDescriptionEn(), copy.getDescriptionEn()) &&
                 condition.apply(criteria.getImageUrl(), copy.getImageUrl()) &&
                 condition.apply(criteria.getDisplayOrder(), copy.getDisplayOrder()) &&
                 condition.apply(criteria.getActive(), copy.getActive()) &&

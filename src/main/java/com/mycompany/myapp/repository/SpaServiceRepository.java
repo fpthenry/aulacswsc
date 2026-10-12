@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.SpaService;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,14 @@ public interface SpaServiceRepository extends JpaRepository<SpaService, Long>, J
 
     @Query("select spaService from SpaService spaService left join fetch spaService.category where spaService.id =:id")
     Optional<SpaService> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query(
+        "select spaService from SpaService spaService left join fetch spaService.category " +
+        "where spaService.active = true order by spaService.displayOrder asc, spaService.id asc"
+    )
+    List<SpaService> findAllActiveWithCategory();
+
+    List<SpaService> findAllByIdInAndActiveTrue(Collection<Long> ids);
+
+    boolean existsBySlug(String slug);
 }

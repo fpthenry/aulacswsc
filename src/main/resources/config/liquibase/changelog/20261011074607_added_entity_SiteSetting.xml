@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity SiteSetting.
+    -->
+    <changeSet id="20261011074607-1" author="jhipster">
+        <createTable tableName="site_setting" remarks="Cài đặt chung của website (chỉ dùng 1 bản ghi)">
+            <column name="id" type="bigint" autoIncrement="true" startWith="1500">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="site_name" type="varchar(150)">
+                <constraints nullable="false" />
+            </column>
+            <column name="logo_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="slogan_vi" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="slogan_en" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hero_subtitle_vi" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hero_subtitle_en" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hero_image_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hero_video_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hero_video_enabled" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="background_music_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="about_title_vi" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="about_title_en" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="about_content_vi" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="about_content_en" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_1_title_vi" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_1_title_en" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_1_text_vi" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_1_text_en" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_2_title_vi" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_2_title_en" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_2_text_vi" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_2_text_en" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_3_title_vi" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_3_title_en" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_3_text_vi" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="highlight_3_text_en" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hotline" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="whatsapp_number" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+            <column name="zalo_number" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+            <column name="messenger_url" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="facebook_url" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="instagram_url" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tiktok_url" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="youtube_url" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="opening_hours_vi" type="varchar(200)">
+                <constraints nullable="true" />
+            </column>
+            <column name="opening_hours_en" type="varchar(200)">
+                <constraints nullable="true" />
+            </column>
+            <column name="meta_description_vi" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="meta_description_en" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_content_vi" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_content_en" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20261011074607-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/site_setting.csv"
+                  separator=";"
+                  tableName="site_setting"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="site_name" type="string"/>
+            <column name="logo_url" type="string"/>
+            <column name="slogan_vi" type="string"/>
+            <column name="slogan_en" type="string"/>
+            <column name="hero_subtitle_vi" type="string"/>
+            <column name="hero_subtitle_en" type="string"/>
+            <column name="hero_image_url" type="string"/>
+            <column name="hero_video_url" type="string"/>
+            <column name="hero_video_enabled" type="boolean"/>
+            <column name="background_music_url" type="string"/>
+            <column name="about_title_vi" type="string"/>
+            <column name="about_title_en" type="string"/>
+            <column name="about_content_vi" type="clob"/>
+            <column name="about_content_en" type="clob"/>
+            <column name="highlight_1_title_vi" type="string"/>
+            <column name="highlight_1_title_en" type="string"/>
+            <column name="highlight_1_text_vi" type="string"/>
+            <column name="highlight_1_text_en" type="string"/>
+            <column name="highlight_2_title_vi" type="string"/>
+            <column name="highlight_2_title_en" type="string"/>
+            <column name="highlight_2_text_vi" type="string"/>
+            <column name="highlight_2_text_en" type="string"/>
+            <column name="highlight_3_title_vi" type="string"/>
+            <column name="highlight_3_title_en" type="string"/>
+            <column name="highlight_3_text_vi" type="string"/>
+            <column name="highlight_3_text_en" type="string"/>
+            <column name="hotline" type="string"/>
+            <column name="email" type="string"/>
+            <column name="whatsapp_number" type="string"/>
+            <column name="zalo_number" type="string"/>
+            <column name="messenger_url" type="string"/>
+            <column name="facebook_url" type="string"/>
+            <column name="instagram_url" type="string"/>
+            <column name="tiktok_url" type="string"/>
+            <column name="youtube_url" type="string"/>
+            <column name="opening_hours_vi" type="string"/>
+            <column name="opening_hours_en" type="string"/>
+            <column name="meta_description_vi" type="string"/>
+            <column name="meta_description_en" type="string"/>
+            <column name="policy_content_vi" type="clob"/>
+            <column name="policy_content_en" type="clob"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

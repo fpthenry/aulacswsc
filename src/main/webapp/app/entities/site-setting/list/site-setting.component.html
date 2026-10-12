@@ -1,0 +1,404 @@
+<div>
+  <h2 id="page-heading" data-cy="SiteSettingHeading">
+    <span jhiTranslate="aulacswscApp.siteSetting.home.title">Site Settings</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="aulacswscApp.siteSetting.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-site-setting"
+        [routerLink]="['/site-setting/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="aulacswscApp.siteSetting.home.createLabel">Create a new Site Setting</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (siteSettings().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="aulacswscApp.siteSetting.home.notFound">No Site Settings found</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="siteName">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.siteName">Site Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="logoUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.logoUrl">Logo Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="sloganVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.sloganVi">Slogan Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="sloganEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.sloganEn">Slogan En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="heroSubtitleVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.heroSubtitleVi">Hero Subtitle Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="heroSubtitleEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.heroSubtitleEn">Hero Subtitle En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="heroImageUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.heroImageUrl">Hero Image Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="heroVideoUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.heroVideoUrl">Hero Video Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="heroVideoEnabled">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.heroVideoEnabled">Hero Video Enabled</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="backgroundMusicUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.backgroundMusicUrl">Background Music Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aboutTitleVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.aboutTitleVi">About Title Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aboutTitleEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.aboutTitleEn">About Title En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aboutContentVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.aboutContentVi">About Content Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aboutContentEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.aboutContentEn">About Content En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight1TitleVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight1TitleVi">Highlight 1 Title Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight1TitleEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight1TitleEn">Highlight 1 Title En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight1TextVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight1TextVi">Highlight 1 Text Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight1TextEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight1TextEn">Highlight 1 Text En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight2TitleVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight2TitleVi">Highlight 2 Title Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight2TitleEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight2TitleEn">Highlight 2 Title En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight2TextVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight2TextVi">Highlight 2 Text Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight2TextEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight2TextEn">Highlight 2 Text En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight3TitleVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight3TitleVi">Highlight 3 Title Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight3TitleEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight3TitleEn">Highlight 3 Title En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight3TextVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight3TextVi">Highlight 3 Text Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="highlight3TextEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.highlight3TextEn">Highlight 3 Text En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="hotline">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.hotline">Hotline</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="whatsappNumber">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.whatsappNumber">Whatsapp Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="zaloNumber">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.zaloNumber">Zalo Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="messengerUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.messengerUrl">Messenger Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="facebookUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.facebookUrl">Facebook Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="instagramUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.instagramUrl">Instagram Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="tiktokUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.tiktokUrl">Tiktok Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="youtubeUrl">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.youtubeUrl">Youtube Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="openingHoursVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.openingHoursVi">Opening Hours Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="openingHoursEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.openingHoursEn">Opening Hours En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="metaDescriptionVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.metaDescriptionVi">Meta Description Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="metaDescriptionEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.metaDescriptionEn">Meta Description En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="policyContentVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.policyContentVi">Policy Content Vi</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="policyContentEn">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.siteSetting.policyContentEn">Policy Content En</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (siteSetting of siteSettings(); track trackId(siteSetting)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/site-setting', siteSetting.id, 'view']">{{ siteSetting.id }}</a>
+              </td>
+              <td>{{ siteSetting.siteName }}</td>
+              <td>{{ siteSetting.logoUrl }}</td>
+              <td>{{ siteSetting.sloganVi }}</td>
+              <td>{{ siteSetting.sloganEn }}</td>
+              <td>{{ siteSetting.heroSubtitleVi }}</td>
+              <td>{{ siteSetting.heroSubtitleEn }}</td>
+              <td>{{ siteSetting.heroImageUrl }}</td>
+              <td>{{ siteSetting.heroVideoUrl }}</td>
+              <td>{{ siteSetting.heroVideoEnabled }}</td>
+              <td>{{ siteSetting.backgroundMusicUrl }}</td>
+              <td>{{ siteSetting.aboutTitleVi }}</td>
+              <td>{{ siteSetting.aboutTitleEn }}</td>
+              <td>{{ siteSetting.aboutContentVi }}</td>
+              <td>{{ siteSetting.aboutContentEn }}</td>
+              <td>{{ siteSetting.highlight1TitleVi }}</td>
+              <td>{{ siteSetting.highlight1TitleEn }}</td>
+              <td>{{ siteSetting.highlight1TextVi }}</td>
+              <td>{{ siteSetting.highlight1TextEn }}</td>
+              <td>{{ siteSetting.highlight2TitleVi }}</td>
+              <td>{{ siteSetting.highlight2TitleEn }}</td>
+              <td>{{ siteSetting.highlight2TextVi }}</td>
+              <td>{{ siteSetting.highlight2TextEn }}</td>
+              <td>{{ siteSetting.highlight3TitleVi }}</td>
+              <td>{{ siteSetting.highlight3TitleEn }}</td>
+              <td>{{ siteSetting.highlight3TextVi }}</td>
+              <td>{{ siteSetting.highlight3TextEn }}</td>
+              <td>{{ siteSetting.hotline }}</td>
+              <td>{{ siteSetting.email }}</td>
+              <td>{{ siteSetting.whatsappNumber }}</td>
+              <td>{{ siteSetting.zaloNumber }}</td>
+              <td>{{ siteSetting.messengerUrl }}</td>
+              <td>{{ siteSetting.facebookUrl }}</td>
+              <td>{{ siteSetting.instagramUrl }}</td>
+              <td>{{ siteSetting.tiktokUrl }}</td>
+              <td>{{ siteSetting.youtubeUrl }}</td>
+              <td>{{ siteSetting.openingHoursVi }}</td>
+              <td>{{ siteSetting.openingHoursEn }}</td>
+              <td>{{ siteSetting.metaDescriptionVi }}</td>
+              <td>{{ siteSetting.metaDescriptionEn }}</td>
+              <td>{{ siteSetting.policyContentVi }}</td>
+              <td>{{ siteSetting.policyContentEn }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/site-setting', siteSetting.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/site-setting', siteSetting.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(siteSetting)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

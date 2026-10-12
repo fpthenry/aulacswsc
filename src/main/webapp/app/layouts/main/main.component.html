@@ -1,13 +1,18 @@
-<jhi-page-ribbon />
+@if (isSite()) {
+  <!-- website khách (/vi, /en): layout riêng trong app/site -->
+  <router-outlet />
+} @else {
+  <jhi-page-ribbon />
 
-<div>
-  <router-outlet name="navbar" />
-</div>
-
-<div class="container-fluid">
-  <div class="card jh-card">
-    <router-outlet />
+  <div>
+    <router-outlet name="navbar" />
   </div>
 
-  <jhi-footer />
-</div>
+  <div class="container-fluid">
+    <div class="card jh-card">
+      <router-outlet />
+    </div>
+
+    <jhi-footer />
+  </div>
+}

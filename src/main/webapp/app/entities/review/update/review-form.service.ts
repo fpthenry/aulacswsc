@@ -27,13 +27,17 @@ type ReviewFormRawValue = FormValueOf<IReview>;
 
 type NewReviewFormRawValue = FormValueOf<NewReview>;
 
-type ReviewFormDefaults = Pick<NewReview, 'id' | 'approved' | 'createdDate'>;
+type ReviewFormDefaults = Pick<NewReview, 'id' | 'approved' | 'featured' | 'createdDate'>;
 
 type ReviewFormGroupContent = {
   id: FormControl<ReviewFormRawValue['id'] | NewReview['id']>;
+  authorName: FormControl<ReviewFormRawValue['authorName']>;
   rating: FormControl<ReviewFormRawValue['rating']>;
   comment: FormControl<ReviewFormRawValue['comment']>;
+  videoUrl: FormControl<ReviewFormRawValue['videoUrl']>;
+  reviewDate: FormControl<ReviewFormRawValue['reviewDate']>;
   approved: FormControl<ReviewFormRawValue['approved']>;
+  featured: FormControl<ReviewFormRawValue['featured']>;
   createdDate: FormControl<ReviewFormRawValue['createdDate']>;
   customer: FormControl<ReviewFormRawValue['customer']>;
   service: FormControl<ReviewFormRawValue['service']>;
@@ -56,20 +60,24 @@ export class ReviewFormService {
           validators: [Validators.required],
         },
       ),
+      authorName: new FormControl(reviewRawValue.authorName, {
+        validators: [Validators.required, Validators.maxLength(150)],
+      }),
       rating: new FormControl(reviewRawValue.rating, {
         validators: [Validators.required, Validators.min(1), Validators.max(5)],
       }),
       comment: new FormControl(reviewRawValue.comment, {
         validators: [Validators.maxLength(2000)],
       }),
+      videoUrl: new FormControl(reviewRawValue.videoUrl, {
+        validators: [Validators.maxLength(500)],
+      }),
+      reviewDate: new FormControl(reviewRawValue.reviewDate),
       approved: new FormControl(reviewRawValue.approved),
+      featured: new FormControl(reviewRawValue.featured),
       createdDate: new FormControl(reviewRawValue.createdDate),
-      customer: new FormControl(reviewRawValue.customer, {
-        validators: [Validators.required],
-      }),
-      service: new FormControl(reviewRawValue.service, {
-        validators: [Validators.required],
-      }),
+      customer: new FormControl(reviewRawValue.customer),
+      service: new FormControl(reviewRawValue.service),
     });
   }
 
@@ -93,6 +101,7 @@ export class ReviewFormService {
     return {
       id: null,
       approved: false,
+      featured: false,
       createdDate: currentTime,
     };
   }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Branch.
+    -->
+    <changeSet id="20261011074608-1" author="jhipster">
+        <createTable tableName="branch" remarks="Cơ sở / chi nhánh spa">
+            <column name="id" type="bigint" autoIncrement="true" startWith="1500">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_vi" type="varchar(150)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_en" type="varchar(150)">
+                <constraints nullable="false" />
+            </column>
+            <column name="slug" type="varchar(180)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_branch__slug" />
+            </column>
+            <column name="address_vi" type="varchar(300)">
+                <constraints nullable="false" />
+            </column>
+            <column name="address_en" type="varchar(300)">
+                <constraints nullable="true" />
+            </column>
+            <column name="phone" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="whatsapp" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+            <column name="zalo" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(150)">
+                <constraints nullable="true" />
+            </column>
+            <column name="open_time" type="varchar(255)" remarks="Giờ mở cửa dạng HH:mm, vd 10:00">
+                <constraints nullable="false" />
+            </column>
+            <column name="close_time" type="varchar(255)" remarks="Giờ đóng cửa dạng HH:mm, vd 22:00">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_booking_time" type="varchar(255)" remarks="Khung giờ nhận khách cuối cùng, vd 21:30">
+                <constraints nullable="false" />
+            </column>
+            <column name="capacity" type="integer" remarks="Số khách tối đa phục vụ đồng thời">
+                <constraints nullable="false" />
+            </column>
+            <column name="map_embed_url" type="varchar(1000)">
+                <constraints nullable="true" />
+            </column>
+            <column name="map_direction_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_url" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="display_order" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="active" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20261011074608-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/branch.csv"
+                  separator=";"
+                  tableName="branch"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="name_vi" type="string"/>
+            <column name="name_en" type="string"/>
+            <column name="slug" type="string"/>
+            <column name="address_vi" type="string"/>
+            <column name="address_en" type="string"/>
+            <column name="phone" type="string"/>
+            <column name="whatsapp" type="string"/>
+            <column name="zalo" type="string"/>
+            <column name="email" type="string"/>
+            <column name="open_time" type="string"/>
+            <column name="close_time" type="string"/>
+            <column name="last_booking_time" type="string"/>
+            <column name="capacity" type="numeric"/>
+            <column name="map_embed_url" type="string"/>
+            <column name="map_direction_url" type="string"/>
+            <column name="image_url" type="string"/>
+            <column name="display_order" type="numeric"/>
+            <column name="active" type="boolean"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

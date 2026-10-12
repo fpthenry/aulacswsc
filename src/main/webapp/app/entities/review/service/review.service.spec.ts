@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IReview } from '../review.model';
 import { sampleWithFullData, sampleWithNewData, sampleWithPartialData, sampleWithRequiredData } from '../review.test-samples';
 
@@ -9,6 +10,7 @@ import { RestReview, ReviewService } from './review.service';
 
 const requireRestSample: RestReview = {
   ...sampleWithRequiredData,
+  reviewDate: sampleWithRequiredData.reviewDate?.format(DATE_FORMAT),
   createdDate: sampleWithRequiredData.createdDate?.toJSON(),
 };
 

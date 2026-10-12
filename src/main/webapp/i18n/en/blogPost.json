@@ -1,0 +1,34 @@
+{
+  "aulacswscApp": {
+    "blogPost": {
+      "home": {
+        "title": "Blog Posts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Blog Post",
+        "createOrEditLabel": "Create or edit a Blog Post",
+        "notFound": "No Blog Posts found"
+      },
+      "created": "A new Blog Post is created with identifier {{ param }}",
+      "updated": "A Blog Post is updated with identifier {{ param }}",
+      "deleted": "A Blog Post is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Blog Post {{ id }}?"
+      },
+      "detail": {
+        "title": "Blog Post"
+      },
+      "id": "ID",
+      "titleVi": "Title Vi",
+      "titleEn": "Title En",
+      "slug": "Slug",
+      "excerptVi": "Excerpt Vi",
+      "excerptEn": "Excerpt En",
+      "contentVi": "Content Vi",
+      "contentEn": "Content En",
+      "coverImageUrl": "Cover Image Url",
+      "category": "Category",
+      "published": "Published",
+      "publishedAt": "Published At"
+    }
+  }
+}

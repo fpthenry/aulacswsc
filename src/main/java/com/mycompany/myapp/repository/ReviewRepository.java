@@ -37,4 +37,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecif
 
     @Query("select review from Review review left join fetch review.customer left join fetch review.service where review.id =:id")
     Optional<Review> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Page<Review> findAllByApprovedTrue(Pageable pageable);
 }

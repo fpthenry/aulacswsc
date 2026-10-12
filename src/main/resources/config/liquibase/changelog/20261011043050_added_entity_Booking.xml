@@ -23,8 +23,14 @@
             <column name="end_time" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
+            <column name="number_of_people" type="integer">
+                <constraints nullable="false" />
+            </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="source" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
             <column name="total_amount" type="decimal(21,2)">
                 <constraints nullable="true" />
@@ -43,6 +49,9 @@
             </column>
             <column name="created_date" type="${datetimeType}">
                 <constraints nullable="true" />
+            </column>
+            <column name="branch_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <column name="promotion_id" type="bigint">
                 <constraints nullable="true" />
@@ -77,13 +86,16 @@
             <column name="code" type="string"/>
             <column name="start_time" type="date"/>
             <column name="end_time" type="date"/>
+            <column name="number_of_people" type="numeric"/>
             <column name="status" type="string"/>
+            <column name="source" type="string"/>
             <column name="total_amount" type="numeric"/>
             <column name="discount_amount" type="numeric"/>
             <column name="payment_status" type="string"/>
             <column name="payment_method" type="string"/>
             <column name="note" type="string"/>
             <column name="created_date" type="date"/>
+            <column name="branch_id" type="numeric"/>
             <column name="customer_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

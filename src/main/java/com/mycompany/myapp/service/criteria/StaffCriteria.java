@@ -36,6 +36,8 @@ public class StaffCriteria implements Serializable, Criteria {
 
     private LongFilter userId;
 
+    private LongFilter branchId;
+
     private LongFilter servicesId;
 
     private Boolean distinct;
@@ -50,6 +52,7 @@ public class StaffCriteria implements Serializable, Criteria {
         this.avatarUrl = other.optionalAvatarUrl().map(StringFilter::copy).orElse(null);
         this.active = other.optionalActive().map(BooleanFilter::copy).orElse(null);
         this.userId = other.optionalUserId().map(LongFilter::copy).orElse(null);
+        this.branchId = other.optionalBranchId().map(LongFilter::copy).orElse(null);
         this.servicesId = other.optionalServicesId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
@@ -192,6 +195,25 @@ public class StaffCriteria implements Serializable, Criteria {
         this.userId = userId;
     }
 
+    public LongFilter getBranchId() {
+        return branchId;
+    }
+
+    public Optional<LongFilter> optionalBranchId() {
+        return Optional.ofNullable(branchId);
+    }
+
+    public LongFilter branchId() {
+        if (branchId == null) {
+            setBranchId(new LongFilter());
+        }
+        return branchId;
+    }
+
+    public void setBranchId(LongFilter branchId) {
+        this.branchId = branchId;
+    }
+
     public LongFilter getServicesId() {
         return servicesId;
     }
@@ -247,6 +269,7 @@ public class StaffCriteria implements Serializable, Criteria {
             Objects.equals(avatarUrl, that.avatarUrl) &&
             Objects.equals(active, that.active) &&
             Objects.equals(userId, that.userId) &&
+            Objects.equals(branchId, that.branchId) &&
             Objects.equals(servicesId, that.servicesId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -254,7 +277,7 @@ public class StaffCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, phone, position, avatarUrl, active, userId, servicesId, distinct);
+        return Objects.hash(id, fullName, phone, position, avatarUrl, active, userId, branchId, servicesId, distinct);
     }
 
     // prettier-ignore
@@ -268,6 +291,7 @@ public class StaffCriteria implements Serializable, Criteria {
             optionalAvatarUrl().map(f -> "avatarUrl=" + f + ", ").orElse("") +
             optionalActive().map(f -> "active=" + f + ", ").orElse("") +
             optionalUserId().map(f -> "userId=" + f + ", ").orElse("") +
+            optionalBranchId().map(f -> "branchId=" + f + ", ").orElse("") +
             optionalServicesId().map(f -> "servicesId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

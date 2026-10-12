@@ -4,16 +4,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.Review} entity.
  */
-@Schema(description = "Đánh giá dịch vụ")
+@Schema(description = "Đánh giá của khách (admin nhập hoặc khách viết, cần duyệt)")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ReviewDTO implements Serializable {
 
     private Long id;
+
+    @NotNull
+    @Size(max = 150)
+    private String authorName;
 
     @NotNull
     @Min(value = 1)
@@ -23,14 +28,20 @@ public class ReviewDTO implements Serializable {
     @Size(max = 2000)
     private String comment;
 
+    @Size(max = 500)
+    @Schema(description = "Link video review (YouTube / TikTok)")
+    private String videoUrl;
+
+    private LocalDate reviewDate;
+
     private Boolean approved;
+
+    private Boolean featured;
 
     private Instant createdDate;
 
-    @NotNull
     private CustomerDTO customer;
 
-    @NotNull
     private SpaServiceDTO service;
 
     public Long getId() {
@@ -39,6 +50,14 @@ public class ReviewDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public Integer getRating() {
@@ -57,12 +76,36 @@ public class ReviewDTO implements Serializable {
         this.comment = comment;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public LocalDate getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(LocalDate reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
     public Boolean getApproved() {
         return approved;
     }
 
     public void setApproved(Boolean approved) {
         this.approved = approved;
+    }
+
+    public Boolean getFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(Boolean featured) {
+        this.featured = featured;
     }
 
     public Instant getCreatedDate() {
@@ -115,9 +158,13 @@ public class ReviewDTO implements Serializable {
     public String toString() {
         return "ReviewDTO{" +
             "id=" + getId() +
+            ", authorName='" + getAuthorName() + "'" +
             ", rating=" + getRating() +
             ", comment='" + getComment() + "'" +
+            ", videoUrl='" + getVideoUrl() + "'" +
+            ", reviewDate='" + getReviewDate() + "'" +
             ", approved='" + getApproved() + "'" +
+            ", featured='" + getFeatured() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", customer=" + getCustomer() +
             ", service=" + getService() +

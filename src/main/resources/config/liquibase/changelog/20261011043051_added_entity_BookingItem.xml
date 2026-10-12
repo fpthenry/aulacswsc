@@ -10,7 +10,7 @@
         Added the entity BookingItem.
     -->
     <changeSet id="20261011043051-1" author="jhipster">
-        <createTable tableName="booking_item" remarks="Chi tiết dịch vụ trong một lịch hẹn">
+        <createTable tableName="booking_item" remarks="Dịch vụ trong một lịch hẹn">
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

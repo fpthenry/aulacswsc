@@ -10,26 +10,50 @@
         Added the entity SpaService.
     -->
     <changeSet id="20261011043047-1" author="jhipster">
-        <createTable tableName="spa_service" remarks="Dịch vụ spa cụ thể">
+        <createTable tableName="spa_service" remarks="Dịch vụ spa">
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(200)">
+            <column name="name_vi" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_en" type="varchar(200)">
                 <constraints nullable="false" />
             </column>
             <column name="slug" type="varchar(220)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_spa_service__slug" />
             </column>
-            <column name="short_description" type="varchar(500)">
+            <column name="short_description_vi" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
-            <column name="description" type="${clobType}">
+            <column name="short_description_en" type="varchar(500)">
                 <constraints nullable="true" />
             </column>
-            <column name="price" type="decimal(21,2)">
+            <column name="description_vi" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="description_en" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="benefits_vi" type="${clobType}" remarks="Công dụng / lợi ích, mỗi dòng một ý">
+                <constraints nullable="true" />
+            </column>
+            <column name="benefits_en" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="notes_vi" type="${clobType}" remarks="Lưu ý, mỗi dòng một ý">
+                <constraints nullable="true" />
+            </column>
+            <column name="notes_en" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="price" type="decimal(21,2)" remarks="Giá gốc (hoặc giá thấp nhất nếu là khoảng giá)">
                 <constraints nullable="false" />
             </column>
-            <column name="sale_price" type="decimal(21,2)">
+            <column name="sale_price" type="decimal(21,2)" remarks="Giá khuyến mãi, để trống nếu không giảm">
+                <constraints nullable="true" />
+            </column>
+            <column name="price_max" type="decimal(21,2)" remarks="Giá cao nhất nếu hiển thị dạng khoảng giá">
                 <constraints nullable="true" />
             </column>
             <column name="duration_minutes" type="integer">
@@ -39,6 +63,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="featured" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="display_order" type="integer">
                 <constraints nullable="true" />
             </column>
             <column name="active" type="boolean">
@@ -68,15 +95,24 @@
                   tableName="spa_service"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="name" type="string"/>
+            <column name="name_vi" type="string"/>
+            <column name="name_en" type="string"/>
             <column name="slug" type="string"/>
-            <column name="short_description" type="string"/>
-            <column name="description" type="clob"/>
+            <column name="short_description_vi" type="string"/>
+            <column name="short_description_en" type="string"/>
+            <column name="description_vi" type="clob"/>
+            <column name="description_en" type="clob"/>
+            <column name="benefits_vi" type="clob"/>
+            <column name="benefits_en" type="clob"/>
+            <column name="notes_vi" type="clob"/>
+            <column name="notes_en" type="clob"/>
             <column name="price" type="numeric"/>
             <column name="sale_price" type="numeric"/>
+            <column name="price_max" type="numeric"/>
             <column name="duration_minutes" type="numeric"/>
             <column name="image_url" type="string"/>
             <column name="featured" type="boolean"/>
+            <column name="display_order" type="numeric"/>
             <column name="active" type="boolean"/>
             <column name="category_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->

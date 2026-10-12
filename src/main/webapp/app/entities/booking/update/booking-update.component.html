@@ -77,6 +77,42 @@
           </div>
         </div>
 
+        @let numberOfPeopleRef = editForm.get('numberOfPeople')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_numberOfPeople" jhiTranslate="aulacswscApp.booking.numberOfPeople">Number Of People</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberOfPeople"
+            id="field_numberOfPeople"
+            data-cy="numberOfPeople"
+            formControlName="numberOfPeople"
+          />
+          @if (numberOfPeopleRef.invalid && (numberOfPeopleRef.dirty || numberOfPeopleRef.touched)) {
+            <div>
+              @if (editForm.get('numberOfPeople')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+              }
+              @if (editForm.get('numberOfPeople')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '1' }"
+                  >This field should be at least 1.</small
+                >
+              }
+              @if (editForm.get('numberOfPeople')?.errors?.max) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '20' }"
+                  >This field cannot be more than 20.</small
+                >
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('numberOfPeople')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >This field should be a number.</small
+              >
+            </div>
+          }
+        </div>
+
         @let statusRef = editForm.get('status')!;
         <div class="mb-3">
           <label class="form-label" for="field_status" jhiTranslate="aulacswscApp.booking.status">Status</label>
@@ -93,6 +129,16 @@
               }
             </div>
           }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_source" jhiTranslate="aulacswscApp.booking.source">Source</label>
+          <select class="form-control" name="source" formControlName="source" id="field_source" data-cy="source">
+            <option [ngValue]="null">{{ 'aulacswscApp.BookingSource.null' | translate }}</option>
+            @for (bookingSource of bookingSourceValues; track $index) {
+              <option [value]="bookingSource">{{ 'aulacswscApp.BookingSource.' + bookingSource | translate }}</option>
+            }
+          </select>
         </div>
 
         @let totalAmountRef = editForm.get('totalAmount')!;
@@ -212,6 +258,32 @@
             />
           </div>
         </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.booking.branch">Branch</label>
+          <select
+            class="form-control"
+            id="field_branch"
+            data-cy="branch"
+            name="branch"
+            formControlName="branch"
+            [compareWith]="compareBranch"
+          >
+            @if (!editForm.get('branch')!.value) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (branchOption of branchesSharedCollection; track $index) {
+              <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['branch'])!.invalid && (editForm.get(['branch'])!.dirty || editForm.get(['branch'])!.touched)) {
+          <div>
+            @if (editForm.get(['branch'])?.errors?.required) {
+              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+            }
+          </div>
+        }
 
         <div class="mb-3">
           <label class="form-label" for="field_promotion" jhiTranslate="aulacswscApp.booking.promotion">Promotion</label>

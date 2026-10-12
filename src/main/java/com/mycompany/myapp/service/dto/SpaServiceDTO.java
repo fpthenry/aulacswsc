@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.SpaService} entity.
  */
-@Schema(description = "Dịch vụ spa cụ thể")
+@Schema(description = "Dịch vụ spa")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SpaServiceDTO implements Serializable {
 
@@ -20,33 +20,65 @@ public class SpaServiceDTO implements Serializable {
 
     @NotNull
     @Size(max = 200)
-    private String name;
+    private String nameVi;
 
     @NotNull
+    @Size(max = 200)
+    private String nameEn;
+
+    /** do server sinh khi tạo mới (SlugService) */
     @Size(max = 220)
     private String slug;
 
     @Size(max = 500)
-    private String shortDescription;
+    private String shortDescriptionVi;
+
+    @Size(max = 500)
+    private String shortDescriptionEn;
 
     @Lob
-    private String description;
+    private String descriptionVi;
+
+    @Lob
+    private String descriptionEn;
+
+    @Schema(description = "Công dụng / lợi ích, mỗi dòng một ý")
+    @Lob
+    private String benefitsVi;
+
+    @Lob
+    private String benefitsEn;
+
+    @Schema(description = "Lưu ý, mỗi dòng một ý")
+    @Lob
+    private String notesVi;
+
+    @Lob
+    private String notesEn;
 
     @NotNull
     @DecimalMin(value = "0")
+    @Schema(description = "Giá gốc (hoặc giá thấp nhất nếu là khoảng giá)", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal price;
 
     @DecimalMin(value = "0")
+    @Schema(description = "Giá khuyến mãi, để trống nếu không giảm")
     private BigDecimal salePrice;
 
+    @DecimalMin(value = "0")
+    @Schema(description = "Giá cao nhất nếu hiển thị dạng khoảng giá")
+    private BigDecimal priceMax;
+
     @NotNull
-    @Min(value = 5)
+    @Min(value = 15)
     private Integer durationMinutes;
 
     @Size(max = 500)
     private String imageUrl;
 
     private Boolean featured;
+
+    private Integer displayOrder;
 
     @NotNull
     private Boolean active;
@@ -64,12 +96,20 @@ public class SpaServiceDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameVi() {
+        return nameVi;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameVi(String nameVi) {
+        this.nameVi = nameVi;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
     public String getSlug() {
@@ -80,20 +120,68 @@ public class SpaServiceDTO implements Serializable {
         this.slug = slug;
     }
 
-    public String getShortDescription() {
-        return shortDescription;
+    public String getShortDescriptionVi() {
+        return shortDescriptionVi;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setShortDescriptionVi(String shortDescriptionVi) {
+        this.shortDescriptionVi = shortDescriptionVi;
     }
 
-    public String getDescription() {
-        return description;
+    public String getShortDescriptionEn() {
+        return shortDescriptionEn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShortDescriptionEn(String shortDescriptionEn) {
+        this.shortDescriptionEn = shortDescriptionEn;
+    }
+
+    public String getDescriptionVi() {
+        return descriptionVi;
+    }
+
+    public void setDescriptionVi(String descriptionVi) {
+        this.descriptionVi = descriptionVi;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getBenefitsVi() {
+        return benefitsVi;
+    }
+
+    public void setBenefitsVi(String benefitsVi) {
+        this.benefitsVi = benefitsVi;
+    }
+
+    public String getBenefitsEn() {
+        return benefitsEn;
+    }
+
+    public void setBenefitsEn(String benefitsEn) {
+        this.benefitsEn = benefitsEn;
+    }
+
+    public String getNotesVi() {
+        return notesVi;
+    }
+
+    public void setNotesVi(String notesVi) {
+        this.notesVi = notesVi;
+    }
+
+    public String getNotesEn() {
+        return notesEn;
+    }
+
+    public void setNotesEn(String notesEn) {
+        this.notesEn = notesEn;
     }
 
     public BigDecimal getPrice() {
@@ -110,6 +198,14 @@ public class SpaServiceDTO implements Serializable {
 
     public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
+    }
+
+    public BigDecimal getPriceMax() {
+        return priceMax;
+    }
+
+    public void setPriceMax(BigDecimal priceMax) {
+        this.priceMax = priceMax;
     }
 
     public Integer getDurationMinutes() {
@@ -134,6 +230,14 @@ public class SpaServiceDTO implements Serializable {
 
     public void setFeatured(Boolean featured) {
         this.featured = featured;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
     }
 
     public Boolean getActive() {
@@ -186,15 +290,24 @@ public class SpaServiceDTO implements Serializable {
     public String toString() {
         return "SpaServiceDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", nameVi='" + getNameVi() + "'" +
+            ", nameEn='" + getNameEn() + "'" +
             ", slug='" + getSlug() + "'" +
-            ", shortDescription='" + getShortDescription() + "'" +
-            ", description='" + getDescription() + "'" +
+            ", shortDescriptionVi='" + getShortDescriptionVi() + "'" +
+            ", shortDescriptionEn='" + getShortDescriptionEn() + "'" +
+            ", descriptionVi='" + getDescriptionVi() + "'" +
+            ", descriptionEn='" + getDescriptionEn() + "'" +
+            ", benefitsVi='" + getBenefitsVi() + "'" +
+            ", benefitsEn='" + getBenefitsEn() + "'" +
+            ", notesVi='" + getNotesVi() + "'" +
+            ", notesEn='" + getNotesEn() + "'" +
             ", price=" + getPrice() +
             ", salePrice=" + getSalePrice() +
+            ", priceMax=" + getPriceMax() +
             ", durationMinutes=" + getDurationMinutes() +
             ", imageUrl='" + getImageUrl() + "'" +
             ", featured='" + getFeatured() + "'" +
+            ", displayOrder=" + getDisplayOrder() +
             ", active='" + getActive() + "'" +
             ", category=" + getCategory() +
             ", staffs=" + getStaffs() +

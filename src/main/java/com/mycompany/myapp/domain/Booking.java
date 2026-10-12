@@ -1,6 +1,7 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mycompany.myapp.domain.enumeration.BookingSource;
 import com.mycompany.myapp.domain.enumeration.BookingStatus;
 import com.mycompany.myapp.domain.enumeration.PaymentMethod;
 import com.mycompany.myapp.domain.enumeration.PaymentStatus;
@@ -40,9 +41,19 @@ public class Booking implements Serializable {
     private Instant endTime;
 
     @NotNull
+    @Min(value = 1)
+    @Max(value = 20)
+    @Column(name = "number_of_people", nullable = false)
+    private Integer numberOfPeople;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private BookingStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source")
+    private BookingSource source;
 
     @DecimalMin(value = "0")
     @Column(name = "total_amount", precision = 21, scale = 2)
@@ -70,6 +81,10 @@ public class Booking implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "booking")
     @JsonIgnoreProperties(value = { "service", "staff", "booking" }, allowSetters = true)
     private Set<BookingItem> items = new HashSet<>();
+
+    @ManyToOne(optional = false)
+    @NotNull
+    private Branch branch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Promotion promotion;
@@ -133,6 +148,19 @@ public class Booking implements Serializable {
         this.endTime = endTime;
     }
 
+    public Integer getNumberOfPeople() {
+        return this.numberOfPeople;
+    }
+
+    public Booking numberOfPeople(Integer numberOfPeople) {
+        this.setNumberOfPeople(numberOfPeople);
+        return this;
+    }
+
+    public void setNumberOfPeople(Integer numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
     public BookingStatus getStatus() {
         return this.status;
     }
@@ -144,6 +172,19 @@ public class Booking implements Serializable {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public BookingSource getSource() {
+        return this.source;
+    }
+
+    public Booking source(BookingSource source) {
+        this.setSource(source);
+        return this;
+    }
+
+    public void setSource(BookingSource source) {
+        this.source = source;
     }
 
     public BigDecimal getTotalAmount() {
@@ -255,6 +296,19 @@ public class Booking implements Serializable {
         return this;
     }
 
+    public Branch getBranch() {
+        return this.branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public Booking branch(Branch branch) {
+        this.setBranch(branch);
+        return this;
+    }
+
     public Promotion getPromotion() {
         return this.promotion;
     }
@@ -308,7 +362,9 @@ public class Booking implements Serializable {
             ", code='" + getCode() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", numberOfPeople=" + getNumberOfPeople() +
             ", status='" + getStatus() + "'" +
+            ", source='" + getSource() + "'" +
             ", totalAmount=" + getTotalAmount() +
             ", discountAmount=" + getDiscountAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +

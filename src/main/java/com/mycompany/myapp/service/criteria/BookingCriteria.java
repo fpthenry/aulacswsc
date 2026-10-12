@@ -1,5 +1,6 @@
 package com.mycompany.myapp.service.criteria;
 
+import com.mycompany.myapp.domain.enumeration.BookingSource;
 import com.mycompany.myapp.domain.enumeration.BookingStatus;
 import com.mycompany.myapp.domain.enumeration.PaymentMethod;
 import com.mycompany.myapp.domain.enumeration.PaymentStatus;
@@ -37,6 +38,23 @@ public class BookingCriteria implements Serializable, Criteria {
         @Override
         public BookingStatusFilter copy() {
             return new BookingStatusFilter(this);
+        }
+    }
+
+    /**
+     * Class for filtering BookingSource
+     */
+    public static class BookingSourceFilter extends Filter<BookingSource> {
+
+        public BookingSourceFilter() {}
+
+        public BookingSourceFilter(BookingSourceFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public BookingSourceFilter copy() {
+            return new BookingSourceFilter(this);
         }
     }
 
@@ -84,7 +102,11 @@ public class BookingCriteria implements Serializable, Criteria {
 
     private InstantFilter endTime;
 
+    private IntegerFilter numberOfPeople;
+
     private BookingStatusFilter status;
+
+    private BookingSourceFilter source;
 
     private BigDecimalFilter totalAmount;
 
@@ -100,6 +122,8 @@ public class BookingCriteria implements Serializable, Criteria {
 
     private LongFilter itemsId;
 
+    private LongFilter branchId;
+
     private LongFilter promotionId;
 
     private LongFilter customerId;
@@ -113,7 +137,9 @@ public class BookingCriteria implements Serializable, Criteria {
         this.code = other.optionalCode().map(StringFilter::copy).orElse(null);
         this.startTime = other.optionalStartTime().map(InstantFilter::copy).orElse(null);
         this.endTime = other.optionalEndTime().map(InstantFilter::copy).orElse(null);
+        this.numberOfPeople = other.optionalNumberOfPeople().map(IntegerFilter::copy).orElse(null);
         this.status = other.optionalStatus().map(BookingStatusFilter::copy).orElse(null);
+        this.source = other.optionalSource().map(BookingSourceFilter::copy).orElse(null);
         this.totalAmount = other.optionalTotalAmount().map(BigDecimalFilter::copy).orElse(null);
         this.discountAmount = other.optionalDiscountAmount().map(BigDecimalFilter::copy).orElse(null);
         this.paymentStatus = other.optionalPaymentStatus().map(PaymentStatusFilter::copy).orElse(null);
@@ -121,6 +147,7 @@ public class BookingCriteria implements Serializable, Criteria {
         this.note = other.optionalNote().map(StringFilter::copy).orElse(null);
         this.createdDate = other.optionalCreatedDate().map(InstantFilter::copy).orElse(null);
         this.itemsId = other.optionalItemsId().map(LongFilter::copy).orElse(null);
+        this.branchId = other.optionalBranchId().map(LongFilter::copy).orElse(null);
         this.promotionId = other.optionalPromotionId().map(LongFilter::copy).orElse(null);
         this.customerId = other.optionalCustomerId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
@@ -207,6 +234,25 @@ public class BookingCriteria implements Serializable, Criteria {
         this.endTime = endTime;
     }
 
+    public IntegerFilter getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public Optional<IntegerFilter> optionalNumberOfPeople() {
+        return Optional.ofNullable(numberOfPeople);
+    }
+
+    public IntegerFilter numberOfPeople() {
+        if (numberOfPeople == null) {
+            setNumberOfPeople(new IntegerFilter());
+        }
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(IntegerFilter numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
     public BookingStatusFilter getStatus() {
         return status;
     }
@@ -224,6 +270,25 @@ public class BookingCriteria implements Serializable, Criteria {
 
     public void setStatus(BookingStatusFilter status) {
         this.status = status;
+    }
+
+    public BookingSourceFilter getSource() {
+        return source;
+    }
+
+    public Optional<BookingSourceFilter> optionalSource() {
+        return Optional.ofNullable(source);
+    }
+
+    public BookingSourceFilter source() {
+        if (source == null) {
+            setSource(new BookingSourceFilter());
+        }
+        return source;
+    }
+
+    public void setSource(BookingSourceFilter source) {
+        this.source = source;
     }
 
     public BigDecimalFilter getTotalAmount() {
@@ -359,6 +424,25 @@ public class BookingCriteria implements Serializable, Criteria {
         this.itemsId = itemsId;
     }
 
+    public LongFilter getBranchId() {
+        return branchId;
+    }
+
+    public Optional<LongFilter> optionalBranchId() {
+        return Optional.ofNullable(branchId);
+    }
+
+    public LongFilter branchId() {
+        if (branchId == null) {
+            setBranchId(new LongFilter());
+        }
+        return branchId;
+    }
+
+    public void setBranchId(LongFilter branchId) {
+        this.branchId = branchId;
+    }
+
     public LongFilter getPromotionId() {
         return promotionId;
     }
@@ -430,7 +514,9 @@ public class BookingCriteria implements Serializable, Criteria {
             Objects.equals(code, that.code) &&
             Objects.equals(startTime, that.startTime) &&
             Objects.equals(endTime, that.endTime) &&
+            Objects.equals(numberOfPeople, that.numberOfPeople) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(source, that.source) &&
             Objects.equals(totalAmount, that.totalAmount) &&
             Objects.equals(discountAmount, that.discountAmount) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
@@ -438,6 +524,7 @@ public class BookingCriteria implements Serializable, Criteria {
             Objects.equals(note, that.note) &&
             Objects.equals(createdDate, that.createdDate) &&
             Objects.equals(itemsId, that.itemsId) &&
+            Objects.equals(branchId, that.branchId) &&
             Objects.equals(promotionId, that.promotionId) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(distinct, that.distinct)
@@ -451,7 +538,9 @@ public class BookingCriteria implements Serializable, Criteria {
             code,
             startTime,
             endTime,
+            numberOfPeople,
             status,
+            source,
             totalAmount,
             discountAmount,
             paymentStatus,
@@ -459,6 +548,7 @@ public class BookingCriteria implements Serializable, Criteria {
             note,
             createdDate,
             itemsId,
+            branchId,
             promotionId,
             customerId,
             distinct
@@ -473,7 +563,9 @@ public class BookingCriteria implements Serializable, Criteria {
             optionalCode().map(f -> "code=" + f + ", ").orElse("") +
             optionalStartTime().map(f -> "startTime=" + f + ", ").orElse("") +
             optionalEndTime().map(f -> "endTime=" + f + ", ").orElse("") +
+            optionalNumberOfPeople().map(f -> "numberOfPeople=" + f + ", ").orElse("") +
             optionalStatus().map(f -> "status=" + f + ", ").orElse("") +
+            optionalSource().map(f -> "source=" + f + ", ").orElse("") +
             optionalTotalAmount().map(f -> "totalAmount=" + f + ", ").orElse("") +
             optionalDiscountAmount().map(f -> "discountAmount=" + f + ", ").orElse("") +
             optionalPaymentStatus().map(f -> "paymentStatus=" + f + ", ").orElse("") +
@@ -481,6 +573,7 @@ public class BookingCriteria implements Serializable, Criteria {
             optionalNote().map(f -> "note=" + f + ", ").orElse("") +
             optionalCreatedDate().map(f -> "createdDate=" + f + ", ").orElse("") +
             optionalItemsId().map(f -> "itemsId=" + f + ", ").orElse("") +
+            optionalBranchId().map(f -> "branchId=" + f + ", ").orElse("") +
             optionalPromotionId().map(f -> "promotionId=" + f + ", ").orElse("") +
             optionalCustomerId().map(f -> "customerId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +

@@ -21,7 +21,9 @@
       "code": "Code",
       "startTime": "Start Time",
       "endTime": "End Time",
+      "numberOfPeople": "Number Of People",
       "status": "Status",
+      "source": "Source",
       "totalAmount": "Total Amount",
       "discountAmount": "Discount Amount",
       "paymentStatus": "Payment Status",
@@ -29,6 +31,7 @@
       "note": "Note",
       "createdDate": "Created Date",
       "items": "Items",
+      "branch": "Branch",
       "promotion": "Promotion",
       "customer": "Customer"
     }

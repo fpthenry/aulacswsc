@@ -10,17 +10,23 @@
         Added the entity ServiceCategory.
     -->
     <changeSet id="20261011043046-1" author="jhipster">
-        <createTable tableName="service_category" remarks="Danh mục dịch vụ (Chăm sóc da, Massage, Gội đầu dưỡng sinh...)">
+        <createTable tableName="service_category" remarks="Danh mục dịch vụ (Massage, Chăm sóc tóc, Chăm sóc da, Combo...)">
             <column name="id" type="bigint" autoIncrement="true" startWith="1500">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(150)">
+            <column name="name_vi" type="varchar(150)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_en" type="varchar(150)">
                 <constraints nullable="false" />
             </column>
             <column name="slug" type="varchar(180)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_service_category__slug" />
             </column>
-            <column name="description" type="${clobType}">
+            <column name="description_vi" type="varchar(1000)">
+                <constraints nullable="true" />
+            </column>
+            <column name="description_en" type="varchar(1000)">
                 <constraints nullable="true" />
             </column>
             <column name="image_url" type="varchar(500)">
@@ -53,9 +59,11 @@
                   tableName="service_category"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="name" type="string"/>
+            <column name="name_vi" type="string"/>
+            <column name="name_en" type="string"/>
             <column name="slug" type="string"/>
-            <column name="description" type="clob"/>
+            <column name="description_vi" type="string"/>
+            <column name="description_en" type="string"/>
             <column name="image_url" type="string"/>
             <column name="display_order" type="numeric"/>
             <column name="active" type="boolean"/>

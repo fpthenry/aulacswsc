@@ -144,6 +144,10 @@ Mọi exception đi qua [`ExceptionTranslator`](../src/main/java/com/mycompany/m
 | `Promotion`       | `/api/promotions`         | `entities/promotion`        | —                                                                                                      |
 | `Review`          | `/api/reviews`            | `entities/review`           | `ReviewResource`: non-ADMIN chỉ xem `approved = true`; CUSTOMER tạo → tự gán khách, `approved = false` |
 | `ContactMessage`  | `/api/contact-messages`   | `entities/contact-message`  | —                                                                                                      |
+| `SiteSetting`     | `/api/site-settings`      | `entities/site-setting`     | Website chỉ dùng **bản ghi đầu tiên** (`SiteSettingRepository.findFirstByOrderByIdAsc`)                |
+| `Branch`          | `/api/branches`           | `entities/branch`           | `capacity`, giờ mở cửa dùng để tính khung giờ đặt lịch                                                 |
+| `GalleryImage`    | `/api/gallery-images`     | `entities/gallery-image`    | Form tự điền `width/height` khi upload ảnh                                                             |
+| `BlogPost`        | `/api/blog-posts`         | `entities/blog-post`        | Website chỉ đọc bài `published = true` qua `/api/public/blog`                                          |
 
 Các file Java của một entity `X` (gói `com.mycompany.myapp`):
 
@@ -161,16 +165,92 @@ web/rest/XResource.java               REST controller
 
 Test tương ứng: `src/test/java/.../web/rest/XResourceIT.java`, `domain/XTest.java`, `service/dto/XDTOTest.java`, `service/mapper/XMapperTest.java`; Angular `*.spec.ts` cạnh từng component.
 
-## 4. Quy trình khi thay đổi
+## 4. Website khách (/vi, /en)
 
-### 4.1 Thêm / sửa trường, thêm entity, thêm quan hệ
+### 4.1 Tổng thể
+
+```mermaid
+flowchart LR
+    subgraph FE[Angular – app/site]
+        L[SiteLayoutComponent<br/>header, footer, nút liên hệ] --> P[Trang: home, services, booking...]
+        P --> ST[SiteStateService<br/>ngôn ngữ + dữ liệu chung]
+        P --> BD[BookingDraftService<br/>giỏ dịch vụ + nháp localStorage]
+        P --> SEO[SeoService<br/>title, meta, OG, hreflang, JSON-LD]
+        ST --> API[SiteApiService]
+        BD --> API
+    end
+    subgraph BE[Spring Boot]
+        PS[PublicSiteResource<br/>/api/public/site, gallery, reviews, blog, contact] --> PSS[PublicSiteService]
+        PB[PublicBookingResource<br/>/api/public/bookings...] --> PBS[PublicBookingService]
+        PS --> RL[RateLimiterService]
+        PB --> RL
+        SEOR[SeoResource<br/>/sitemap.xml, /robots.txt] --> PSS
+    end
+    API -- "HTTP, không cần JWT" --> PS
+    API --> PB
+    PSS --> DB[(MySQL)]
+    PBS --> DB
+```
+
+| Bước                 | Chuyện gì xảy ra                                                                                                                                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mở `/`               | `app.routes.ts` chuyển tới `/vi` hoặc `/en` (theo lựa chọn trước đó / ngôn ngữ trình duyệt)                                                                                                                 |
+| Mở `/vi/...`         | Route `:lang` (chỉ khớp `vi`/`en`) tải lazy `site/site.routes.ts`; `MainComponent` ẩn navbar/footer quản trị                                                                                                |
+| Trước khi hiện trang | `siteDataResolver` gọi `GET /api/public/site` **1 lần** → cài đặt, cơ sở, danh mục, dịch vụ đang bật (cache 1 phút)                                                                                         |
+| Đổi ngôn ngữ         | `SiteLayoutComponent` đọc `:lang` → `SiteStateService.setLang()` → `translate.use()` (chuỗi giao diện trong `i18n/{vi,en}/site.json`), dữ liệu song ngữ lấy bằng `state.t(obj, 'name')` → `nameVi`/`nameEn` |
+| SEO                  | Mỗi trang gọi `SeoService.set(...)` trong `effect` → `<title>`, description, Open Graph, canonical, `hreflang`, JSON-LD (`DaySpa`, `Service`+`Offer`, `Review`, `BlogPosting`)                              |
+
+### 4.2 Đặt lịch (7 bước)
+
+```
+BookingComponent (app/site/pages/booking)
+  bước 1 Cơ sở ─ 2 Dịch vụ ─ 3 Ngày ─ 4 Giờ ─ 5 Số người ─ 6 Thông tin ─ 7 Xác nhận
+  ├─ mọi lựa chọn ghi vào BookingDraftService.draft (signal) → effect lưu localStorage 'site.bookingDraft'
+  ├─ maxReachable = bước đầu tiên chưa hợp lệ → thanh tiến trình chỉ cho bấm tới đó, quay lại không mất dữ liệu
+  ├─ cơ sở/ngày/thời lượng/số người đổi → GET /api/public/bookings/availability?branchId&date&duration&people
+  │     PublicBookingService.availability(): sinh khung 15', đánh dấu AVAILABLE / FULL / PAST
+  │     giờ đã chọn không còn AVAILABLE → tự bỏ chọn
+  └─ bước 7: POST /api/public/bookings  {branchId, serviceIds, date, time, numberOfPeople, fullName, phone, email, note, quick, website}
+        PublicBookingResource: honeypot `website` → 400; RateLimiter 5/10'/IP → 429
+        PublicBookingService.create() [synchronized, @Transactional]
+          ├─ chuẩn hóa SĐT VN, kiểm tra ngày/giờ/khung còn chỗ (lỗi → 400 error.<key>)
+          ├─ tìm/tạo Customer theo SĐT
+          ├─ lưu Booking (code, PENDING, UNPAID, source) + BookingItem cho từng dịch vụ, tổng tiền tính ở server
+          └─ ← 201 BookingConfirmationDTO
+  thành công → xóa nháp, hiện mã + tóm tắt, nút .ics (bookingIcs()), WhatsApp (wa.me?text=), Zalo (copy + mở zalo.me)
+  lỗi slotfull/pasttime → tải lại khung giờ, đưa khách về bước 4
+```
+
+**Đặt nhanh** (`/vi/booking?mode=quick`): 1 form gồm dịch vụ + ngày + giờ + SĐT, cơ sở = cơ sở đầu tiên, `quick=true`, số người = 1, họ tên có thể trống (server lưu tên = SĐT).
+
+**Tra cứu** (`/vi/booking/lookup`): `POST /api/public/bookings/lookup {code, phone}` → chỉ trả khi SĐT khớp khách của lịch (404 nếu sai). Dùng POST để SĐT không nằm trong URL/log.
+
+Mã lỗi server (`message: "error.<key>"`) ↔ thông báo trong `site.json` (`site.booking.apiErrors.<key>`):
+`slotfull`, `pasttime`, `pastdate`, `datetoofar`, `invalidphone`, `namerequired`, `servicenotfound`, `branchnotfound`, `invalidtime`, `spam`.
+
+### 4.3 Upload ảnh ở trang quản trị
+
+```
+Form quản trị (vd spa-service-update) → <jhi-image-upload [control]="editForm.controls.imageUrl">
+  ├─ trình duyệt đọc ảnh → canvas → WebP 1600px, 800px, 24px
+  ├─ POST /api/admin/uploads (multipart: image, medium, placeholder) — chỉ ROLE_ADMIN
+  │     UploadResource: kiểm tra "magic bytes" (WebP/AVIF/JPEG/PNG), lưu {upload-dir}/yyyy/MM/<uuid>.webp, <uuid>-800.webp, <uuid>-24.webp
+  │     ← { url: "/uploads/2026/10/<uuid>.webp", ... }
+  └─ ghi url vào form → bấm Lưu như bình thường
+Website: <site-image [url]> → imageSet(url) suy ra srcset 800w/1600w + ảnh 24px làm nền mờ; lazy loading; khung tỷ lệ cố định
+Phục vụ ảnh: UploadWebConfiguration map /uploads/** → thư mục application.upload-dir, cache 1 năm (tên file UUID không đổi)
+```
+
+## 5. Quy trình khi thay đổi
+
+### 5.1 Thêm / sửa trường, thêm entity, thêm quan hệ
 
 1. Sửa [`jhipster-jdl.jdl`](../jhipster-jdl.jdl).
 2. Chạy `npx jhipster jdl jhipster-jdl.jdl` → JHipster sinh lại entity, DTO, mapper, Angular, **thêm changeset Liquibase mới**.
 3. Khi hỏi ghi đè: xem kỹ các file đã sửa tay (`BookingResource`, `ReviewResource`, `CustomerRepository`, `SecurityConfiguration`, `entity.routes.ts`, `navbar.component.html`) — chọn **không ghi đè** hoặc ghi đè rồi dùng `git diff` để chép lại phần đã sửa.
 4. Dev: Liquibase chạy khi khởi động app. Nếu báo lỗi checksum do JHipster sửa changeset cũ → với DB dev có thể xóa DB `aulacswsc` để tạo lại; **không làm vậy với DB thật**, hãy viết changeset mới.
 
-### 4.2 Thêm logic nghiệp vụ
+### 5.2 Thêm logic nghiệp vụ
 
 | Loại logic                                                      | Đặt ở                                                    |
 | --------------------------------------------------------------- | -------------------------------------------------------- |
@@ -180,6 +260,6 @@ Test tương ứng: `src/test/java/.../web/rest/XResourceIT.java`, `domain/XTest
 | Truy vấn đặc biệt                                               | Thêm method vào `XRepository`                            |
 | API mới không phải CRUD (vd đặt lịch kèm dịch vụ)               | Resource mới + Service mới, không nhồi vào CRUD sinh sẵn |
 
-### 4.3 Thay đổi schema thủ công
+### 5.3 Thay đổi schema thủ công
 
 Không sửa changeset đã chạy. Tạo file mới `src/main/resources/config/liquibase/changelog/<yyyyMMddHHmmss>_<mô_tả>.xml` và include trong `master.xml` tại needle `jhipster-needle-liquibase-add-incremental-changelog` (ví dụ: `20261011120000_added_spa_authorities.xml`).

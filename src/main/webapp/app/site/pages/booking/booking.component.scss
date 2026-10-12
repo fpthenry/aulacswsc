@@ -1,0 +1,512 @@
+.booking-hero {
+  padding-bottom: 2rem;
+}
+.booking-section {
+  padding-top: clamp(2rem, 5vw, 3rem);
+}
+.mode-switch {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  padding: 0.3rem;
+  border: 1px solid var(--site-border);
+  border-radius: 999px;
+  background: var(--site-surface);
+  a {
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    color: var(--site-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    &[aria-current='page'] {
+      background: var(--site-wood);
+      color: var(--site-on-wood);
+    }
+  }
+}
+
+/* ---------- tiến trình (không dùng tên .progress: trùng class Bootstrap) ---------- */
+.steps-progress {
+  margin-bottom: 1.5rem;
+  ol {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+    padding: 0.25rem;
+    border: 0;
+    background: none;
+    color: var(--site-muted);
+    cursor: pointer;
+    &:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--site-border);
+    background: var(--site-surface);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .label {
+    font-size: 0.78rem;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .done .num {
+    background: var(--site-herb-strong);
+    border-color: var(--site-herb-strong);
+    color: var(--site-on-wood);
+  }
+  .current .num {
+    background: var(--site-wood);
+    border-color: var(--site-wood);
+    color: var(--site-on-wood);
+  }
+  .current .label {
+    color: var(--site-wood);
+    font-weight: 600;
+  }
+  .bar {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--site-border);
+    overflow: hidden;
+    span {
+      display: block;
+      height: 100%;
+      background: var(--site-gold);
+      transition: width 0.4s ease;
+    }
+  }
+  @media (max-width: 640px) {
+    .label {
+      display: none;
+    }
+    .current .label {
+      display: none;
+    }
+  }
+}
+
+/* ---------- bố cục ---------- */
+.wizard {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+.step-card:hover,
+.summary-card:hover,
+.success:hover,
+.quick:hover {
+  transform: none;
+}
+.step-card .card-body {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  &:focus {
+    outline: none;
+  }
+}
+.step-no {
+  display: block;
+  font-family: var(--site-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.summary-card {
+  position: sticky;
+  top: calc(var(--site-header-h) + 1rem);
+}
+.summary-title {
+  font-size: 1.5rem;
+}
+
+/* ---------- lựa chọn ---------- */
+.options {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius-sm);
+  background: var(--site-surface);
+  color: var(--site-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  &:hover {
+    border-color: var(--site-gold);
+  }
+  &[aria-checked='true'] {
+    border-color: var(--site-wood);
+    box-shadow: inset 0 0 0 1px var(--site-wood);
+    background: color-mix(in srgb, var(--site-gold) 8%, var(--site-surface));
+  }
+}
+.svc {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.svc-name {
+  display: flex;
+  flex-direction: column;
+}
+.svc-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.svc-group {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+  legend {
+    margin-bottom: 0.6rem;
+    font-family: var(--site-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--site-wood);
+  }
+}
+.small {
+  font-size: 0.85rem;
+}
+
+/* ---------- lịch ---------- */
+.calendar {
+  max-width: 420px;
+}
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.cal-title {
+  margin: 0;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem;
+}
+.cal-wd {
+  padding-bottom: 0.25rem;
+  color: var(--site-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: capitalize;
+}
+.cal-day {
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: var(--site-surface);
+  color: var(--site-text);
+  cursor: pointer;
+  &:hover:not(:disabled) {
+    border-color: var(--site-gold);
+  }
+  &:disabled {
+    color: var(--site-muted);
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  &.today {
+    border-color: var(--site-border);
+    font-weight: 700;
+  }
+  &[aria-pressed='true'] {
+    background: var(--site-wood);
+    color: var(--site-on-wood);
+  }
+}
+
+/* ---------- giờ ---------- */
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 0.5rem;
+}
+.slot {
+  min-height: 44px;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius-sm);
+  background: var(--site-surface);
+  color: var(--site-text);
+  font-weight: 500;
+  cursor: pointer;
+  &:hover:not(:disabled) {
+    border-color: var(--site-gold);
+  }
+  &:disabled {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--site-surface-2),
+      var(--site-surface-2) 4px,
+      var(--site-surface) 4px,
+      var(--site-surface) 8px
+    );
+    color: var(--site-muted);
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  &[aria-checked='true'] {
+    background: var(--site-wood);
+    border-color: var(--site-wood);
+    color: var(--site-on-wood);
+  }
+}
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+.dot.full {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--site-surface-2),
+    var(--site-surface-2) 3px,
+    var(--site-border) 3px,
+    var(--site-border) 6px
+  );
+}
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--site-muted);
+}
+
+/* ---------- số người ---------- */
+.people {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.people-input {
+  width: 90px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ---------- tóm tắt ---------- */
+.summary {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0;
+  div {
+    display: grid;
+    grid-template-columns: minmax(110px, 30%) 1fr;
+    gap: 1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px dashed var(--site-border);
+  }
+  dt {
+    color: var(--site-muted);
+    font-weight: 500;
+  }
+  dd {
+    margin: 0;
+  }
+}
+.total {
+  font-family: var(--site-sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.01em;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--site-wood);
+}
+.mini-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+}
+.remove {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--site-surface-2);
+  color: var(--site-muted);
+  cursor: pointer;
+}
+.mini {
+  margin: 0;
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.4rem 0;
+    font-size: 0.92rem;
+  }
+  dt {
+    color: var(--site-muted);
+    font-weight: 400;
+  }
+  dd {
+    margin: 0;
+    text-align: right;
+  }
+  .sum {
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--site-border);
+    font-weight: 700;
+  }
+}
+
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  > :only-child {
+    margin-left: auto;
+  }
+}
+.small-spinner {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+}
+
+/* ---------- đặt nhanh ---------- */
+.quick {
+  max-width: 820px;
+  margin: 0 auto;
+  .card-body {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    gap: 1rem;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+  legend {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+.quick-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  .field {
+    margin: 0;
+  }
+}
+.estimate {
+  margin: 0;
+}
+
+/* ---------- thành công ---------- */
+.success {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  .card-body {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    align-items: center;
+  }
+  .summary {
+    width: 100%;
+    text-align: left;
+  }
+}
+.success-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--site-success) 15%, transparent);
+  color: var(--site-success);
+}
+.code-label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--site-muted);
+}
+.code {
+  margin: 0;
+  font-family: var(--site-sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--site-wood);
+}
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.success-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}

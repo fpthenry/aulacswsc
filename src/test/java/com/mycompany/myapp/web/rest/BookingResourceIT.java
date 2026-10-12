@@ -12,8 +12,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Booking;
+import com.mycompany.myapp.domain.Branch;
 import com.mycompany.myapp.domain.Customer;
 import com.mycompany.myapp.domain.Promotion;
+import com.mycompany.myapp.domain.enumeration.BookingSource;
 import com.mycompany.myapp.domain.enumeration.BookingStatus;
 import com.mycompany.myapp.domain.enumeration.PaymentMethod;
 import com.mycompany.myapp.domain.enumeration.PaymentStatus;
@@ -61,8 +63,15 @@ class BookingResourceIT {
     private static final Instant DEFAULT_END_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_END_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Integer DEFAULT_NUMBER_OF_PEOPLE = 1;
+    private static final Integer UPDATED_NUMBER_OF_PEOPLE = 2;
+    private static final Integer SMALLER_NUMBER_OF_PEOPLE = 1 - 1;
+
     private static final BookingStatus DEFAULT_STATUS = BookingStatus.PENDING;
     private static final BookingStatus UPDATED_STATUS = BookingStatus.CONFIRMED;
+
+    private static final BookingSource DEFAULT_SOURCE = BookingSource.WEBSITE;
+    private static final BookingSource UPDATED_SOURCE = BookingSource.QUICK;
 
     private static final BigDecimal DEFAULT_TOTAL_AMOUNT = new BigDecimal(0);
     private static final BigDecimal UPDATED_TOTAL_AMOUNT = new BigDecimal(1);
@@ -126,13 +135,25 @@ class BookingResourceIT {
             .code(DEFAULT_CODE)
             .startTime(DEFAULT_START_TIME)
             .endTime(DEFAULT_END_TIME)
+            .numberOfPeople(DEFAULT_NUMBER_OF_PEOPLE)
             .status(DEFAULT_STATUS)
+            .source(DEFAULT_SOURCE)
             .totalAmount(DEFAULT_TOTAL_AMOUNT)
             .discountAmount(DEFAULT_DISCOUNT_AMOUNT)
             .paymentStatus(DEFAULT_PAYMENT_STATUS)
             .paymentMethod(DEFAULT_PAYMENT_METHOD)
             .note(DEFAULT_NOTE)
             .createdDate(DEFAULT_CREATED_DATE);
+        // Add required entity
+        Branch branch;
+        if (TestUtil.findAll(em, Branch.class).isEmpty()) {
+            branch = BranchResourceIT.createEntity();
+            em.persist(branch);
+            em.flush();
+        } else {
+            branch = TestUtil.findAll(em, Branch.class).get(0);
+        }
+        booking.setBranch(branch);
         // Add required entity
         Customer customer;
         if (TestUtil.findAll(em, Customer.class).isEmpty()) {
@@ -157,13 +178,25 @@ class BookingResourceIT {
             .code(UPDATED_CODE)
             .startTime(UPDATED_START_TIME)
             .endTime(UPDATED_END_TIME)
+            .numberOfPeople(UPDATED_NUMBER_OF_PEOPLE)
             .status(UPDATED_STATUS)
+            .source(UPDATED_SOURCE)
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .discountAmount(UPDATED_DISCOUNT_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
             .paymentMethod(UPDATED_PAYMENT_METHOD)
             .note(UPDATED_NOTE)
             .createdDate(UPDATED_CREATED_DATE);
+        // Add required entity
+        Branch branch;
+        if (TestUtil.findAll(em, Branch.class).isEmpty()) {
+            branch = BranchResourceIT.createUpdatedEntity();
+            em.persist(branch);
+            em.flush();
+        } else {
+            branch = TestUtil.findAll(em, Branch.class).get(0);
+        }
+        updatedBooking.setBranch(branch);
         // Add required entity
         Customer customer;
         if (TestUtil.findAll(em, Customer.class).isEmpty()) {
@@ -268,6 +301,23 @@ class BookingResourceIT {
 
     @Test
     @Transactional
+    void checkNumberOfPeopleIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        booking.setNumberOfPeople(null);
+
+        // Create the Booking, which fails.
+        BookingDTO bookingDTO = bookingMapper.toDto(booking);
+
+        restBookingMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(bookingDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkStatusIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
@@ -298,7 +348,9 @@ class BookingResourceIT {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
+            .andExpect(jsonPath("$.[*].numberOfPeople").value(hasItem(DEFAULT_NUMBER_OF_PEOPLE)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
             .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(sameNumber(DEFAULT_TOTAL_AMOUNT))))
             .andExpect(jsonPath("$.[*].discountAmount").value(hasItem(sameNumber(DEFAULT_DISCOUNT_AMOUNT))))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
@@ -339,7 +391,9 @@ class BookingResourceIT {
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.toString()))
             .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()))
+            .andExpect(jsonPath("$.numberOfPeople").value(DEFAULT_NUMBER_OF_PEOPLE))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.source").value(DEFAULT_SOURCE.toString()))
             .andExpect(jsonPath("$.totalAmount").value(sameNumber(DEFAULT_TOTAL_AMOUNT)))
             .andExpect(jsonPath("$.discountAmount").value(sameNumber(DEFAULT_DISCOUNT_AMOUNT)))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
@@ -475,6 +529,91 @@ class BookingResourceIT {
 
     @Test
     @Transactional
+    void getAllBookingsByNumberOfPeopleIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople equals to
+        defaultBookingFiltering("numberOfPeople.equals=" + DEFAULT_NUMBER_OF_PEOPLE, "numberOfPeople.equals=" + UPDATED_NUMBER_OF_PEOPLE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople in
+        defaultBookingFiltering(
+            "numberOfPeople.in=" + DEFAULT_NUMBER_OF_PEOPLE + "," + UPDATED_NUMBER_OF_PEOPLE,
+            "numberOfPeople.in=" + UPDATED_NUMBER_OF_PEOPLE
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople is not null
+        defaultBookingFiltering("numberOfPeople.specified=true", "numberOfPeople.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople is greater than or equal to
+        defaultBookingFiltering(
+            "numberOfPeople.greaterThanOrEqual=" + DEFAULT_NUMBER_OF_PEOPLE,
+            "numberOfPeople.greaterThanOrEqual=" + (DEFAULT_NUMBER_OF_PEOPLE + 1)
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople is less than or equal to
+        defaultBookingFiltering(
+            "numberOfPeople.lessThanOrEqual=" + DEFAULT_NUMBER_OF_PEOPLE,
+            "numberOfPeople.lessThanOrEqual=" + SMALLER_NUMBER_OF_PEOPLE
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople is less than
+        defaultBookingFiltering(
+            "numberOfPeople.lessThan=" + (DEFAULT_NUMBER_OF_PEOPLE + 1),
+            "numberOfPeople.lessThan=" + DEFAULT_NUMBER_OF_PEOPLE
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsByNumberOfPeopleIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where numberOfPeople is greater than
+        defaultBookingFiltering(
+            "numberOfPeople.greaterThan=" + SMALLER_NUMBER_OF_PEOPLE,
+            "numberOfPeople.greaterThan=" + DEFAULT_NUMBER_OF_PEOPLE
+        );
+    }
+
+    @Test
+    @Transactional
     void getAllBookingsByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedBooking = bookingRepository.saveAndFlush(booking);
@@ -501,6 +640,36 @@ class BookingResourceIT {
 
         // Get all the bookingList where status is not null
         defaultBookingFiltering("status.specified=true", "status.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsBySourceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where source equals to
+        defaultBookingFiltering("source.equals=" + DEFAULT_SOURCE, "source.equals=" + UPDATED_SOURCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsBySourceIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where source in
+        defaultBookingFiltering("source.in=" + DEFAULT_SOURCE + "," + UPDATED_SOURCE, "source.in=" + UPDATED_SOURCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBookingsBySourceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedBooking = bookingRepository.saveAndFlush(booking);
+
+        // Get all the bookingList where source is not null
+        defaultBookingFiltering("source.specified=true", "source.specified=false");
     }
 
     @Test
@@ -815,6 +984,28 @@ class BookingResourceIT {
 
     @Test
     @Transactional
+    void getAllBookingsByBranchIsEqualToSomething() throws Exception {
+        Branch branch;
+        if (TestUtil.findAll(em, Branch.class).isEmpty()) {
+            bookingRepository.saveAndFlush(booking);
+            branch = BranchResourceIT.createEntity();
+        } else {
+            branch = TestUtil.findAll(em, Branch.class).get(0);
+        }
+        em.persist(branch);
+        em.flush();
+        booking.setBranch(branch);
+        bookingRepository.saveAndFlush(booking);
+        Long branchId = branch.getId();
+        // Get all the bookingList where branch equals to branchId
+        defaultBookingShouldBeFound("branchId.equals=" + branchId);
+
+        // Get all the bookingList where branch equals to (branchId + 1)
+        defaultBookingShouldNotBeFound("branchId.equals=" + (branchId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllBookingsByPromotionIsEqualToSomething() throws Exception {
         Promotion promotion;
         if (TestUtil.findAll(em, Promotion.class).isEmpty()) {
@@ -874,7 +1065,9 @@ class BookingResourceIT {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
+            .andExpect(jsonPath("$.[*].numberOfPeople").value(hasItem(DEFAULT_NUMBER_OF_PEOPLE)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].source").value(hasItem(DEFAULT_SOURCE.toString())))
             .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(sameNumber(DEFAULT_TOTAL_AMOUNT))))
             .andExpect(jsonPath("$.[*].discountAmount").value(hasItem(sameNumber(DEFAULT_DISCOUNT_AMOUNT))))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
@@ -932,7 +1125,9 @@ class BookingResourceIT {
             .code(UPDATED_CODE)
             .startTime(UPDATED_START_TIME)
             .endTime(UPDATED_END_TIME)
+            .numberOfPeople(UPDATED_NUMBER_OF_PEOPLE)
             .status(UPDATED_STATUS)
+            .source(UPDATED_SOURCE)
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .discountAmount(UPDATED_DISCOUNT_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS)
@@ -1028,10 +1223,11 @@ class BookingResourceIT {
             .code(UPDATED_CODE)
             .startTime(UPDATED_START_TIME)
             .endTime(UPDATED_END_TIME)
+            .numberOfPeople(UPDATED_NUMBER_OF_PEOPLE)
             .status(UPDATED_STATUS)
             .totalAmount(UPDATED_TOTAL_AMOUNT)
-            .paymentStatus(UPDATED_PAYMENT_STATUS)
-            .paymentMethod(UPDATED_PAYMENT_METHOD);
+            .discountAmount(UPDATED_DISCOUNT_AMOUNT)
+            .createdDate(UPDATED_CREATED_DATE);
 
         restBookingMockMvc
             .perform(
@@ -1063,7 +1259,9 @@ class BookingResourceIT {
             .code(UPDATED_CODE)
             .startTime(UPDATED_START_TIME)
             .endTime(UPDATED_END_TIME)
+            .numberOfPeople(UPDATED_NUMBER_OF_PEOPLE)
             .status(UPDATED_STATUS)
+            .source(UPDATED_SOURCE)
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .discountAmount(UPDATED_DISCOUNT_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS)

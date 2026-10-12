@@ -18,15 +18,24 @@ type SpaServiceFormDefaults = Pick<NewSpaService, 'id' | 'featured' | 'active' |
 
 type SpaServiceFormGroupContent = {
   id: FormControl<ISpaService['id'] | NewSpaService['id']>;
-  name: FormControl<ISpaService['name']>;
+  nameVi: FormControl<ISpaService['nameVi']>;
+  nameEn: FormControl<ISpaService['nameEn']>;
   slug: FormControl<ISpaService['slug']>;
-  shortDescription: FormControl<ISpaService['shortDescription']>;
-  description: FormControl<ISpaService['description']>;
+  shortDescriptionVi: FormControl<ISpaService['shortDescriptionVi']>;
+  shortDescriptionEn: FormControl<ISpaService['shortDescriptionEn']>;
+  descriptionVi: FormControl<ISpaService['descriptionVi']>;
+  descriptionEn: FormControl<ISpaService['descriptionEn']>;
+  benefitsVi: FormControl<ISpaService['benefitsVi']>;
+  benefitsEn: FormControl<ISpaService['benefitsEn']>;
+  notesVi: FormControl<ISpaService['notesVi']>;
+  notesEn: FormControl<ISpaService['notesEn']>;
   price: FormControl<ISpaService['price']>;
   salePrice: FormControl<ISpaService['salePrice']>;
+  priceMax: FormControl<ISpaService['priceMax']>;
   durationMinutes: FormControl<ISpaService['durationMinutes']>;
   imageUrl: FormControl<ISpaService['imageUrl']>;
   featured: FormControl<ISpaService['featured']>;
+  displayOrder: FormControl<ISpaService['displayOrder']>;
   active: FormControl<ISpaService['active']>;
   category: FormControl<ISpaService['category']>;
   staffs: FormControl<ISpaService['staffs']>;
@@ -49,29 +58,44 @@ export class SpaServiceFormService {
           validators: [Validators.required],
         },
       ),
-      name: new FormControl(spaServiceRawValue.name, {
+      nameVi: new FormControl(spaServiceRawValue.nameVi, {
+        validators: [Validators.required, Validators.maxLength(200)],
+      }),
+      nameEn: new FormControl(spaServiceRawValue.nameEn, {
         validators: [Validators.required, Validators.maxLength(200)],
       }),
       slug: new FormControl(spaServiceRawValue.slug, {
-        validators: [Validators.required, Validators.maxLength(220)],
+        validators: [Validators.maxLength(220)],
       }),
-      shortDescription: new FormControl(spaServiceRawValue.shortDescription, {
+      shortDescriptionVi: new FormControl(spaServiceRawValue.shortDescriptionVi, {
         validators: [Validators.maxLength(500)],
       }),
-      description: new FormControl(spaServiceRawValue.description),
+      shortDescriptionEn: new FormControl(spaServiceRawValue.shortDescriptionEn, {
+        validators: [Validators.maxLength(500)],
+      }),
+      descriptionVi: new FormControl(spaServiceRawValue.descriptionVi),
+      descriptionEn: new FormControl(spaServiceRawValue.descriptionEn),
+      benefitsVi: new FormControl(spaServiceRawValue.benefitsVi),
+      benefitsEn: new FormControl(spaServiceRawValue.benefitsEn),
+      notesVi: new FormControl(spaServiceRawValue.notesVi),
+      notesEn: new FormControl(spaServiceRawValue.notesEn),
       price: new FormControl(spaServiceRawValue.price, {
         validators: [Validators.required, Validators.min(0)],
       }),
       salePrice: new FormControl(spaServiceRawValue.salePrice, {
         validators: [Validators.min(0)],
       }),
+      priceMax: new FormControl(spaServiceRawValue.priceMax, {
+        validators: [Validators.min(0)],
+      }),
       durationMinutes: new FormControl(spaServiceRawValue.durationMinutes, {
-        validators: [Validators.required, Validators.min(5)],
+        validators: [Validators.required, Validators.min(15)],
       }),
       imageUrl: new FormControl(spaServiceRawValue.imageUrl, {
         validators: [Validators.maxLength(500)],
       }),
       featured: new FormControl(spaServiceRawValue.featured),
+      displayOrder: new FormControl(spaServiceRawValue.displayOrder),
       active: new FormControl(spaServiceRawValue.active, {
         validators: [Validators.required],
       }),

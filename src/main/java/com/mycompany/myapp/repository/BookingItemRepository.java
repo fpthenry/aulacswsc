@@ -41,4 +41,7 @@ public interface BookingItemRepository extends JpaRepository<BookingItem, Long> 
         "select bookingItem from BookingItem bookingItem left join fetch bookingItem.service left join fetch bookingItem.staff left join fetch bookingItem.booking where bookingItem.id =:id"
     )
     Optional<BookingItem> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select bookingItem from BookingItem bookingItem left join fetch bookingItem.service where bookingItem.booking.id = :bookingId")
+    List<BookingItem> findAllByBookingIdWithService(@Param("bookingId") Long bookingId);
 }

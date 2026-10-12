@@ -63,9 +63,23 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="numberOfPeople">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.booking.numberOfPeople">Number Of People</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="status">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.booking.status">Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="source">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.booking.source">Source</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -112,6 +126,12 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="branch.nameVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.booking.branch">Branch</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col" jhiSortBy="promotion.code">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.booking.promotion">Promotion</span>
@@ -136,6 +156,7 @@
               <td>{{ booking.code }}</td>
               <td>{{ booking.startTime | formatMediumDatetime }}</td>
               <td>{{ booking.endTime | formatMediumDatetime }}</td>
+              <td>{{ booking.numberOfPeople }}</td>
               <td [jhiTranslate]="'aulacswscApp.BookingStatus.' + (booking.status ?? 'null')">
                 {{
                   {
@@ -147,6 +168,13 @@
                     CANCELLED: 'CANCELLED',
                     NO_SHOW: 'NO_SHOW',
                   }[booking.status ?? 'null']
+                }}
+              </td>
+              <td [jhiTranslate]="'aulacswscApp.BookingSource.' + (booking.source ?? 'null')">
+                {{
+                  { null: '', WEBSITE: 'WEBSITE', QUICK: 'QUICK', ADMIN: 'ADMIN', PHONE: 'PHONE', WALK_IN: 'WALK_IN' }[
+                    booking.source ?? 'null'
+                  ]
                 }}
               </td>
               <td>{{ booking.totalAmount }}</td>
@@ -163,6 +191,13 @@
               </td>
               <td>{{ booking.note }}</td>
               <td>{{ booking.createdDate | formatMediumDatetime }}</td>
+              <td>
+                @if (booking.branch) {
+                  <div>
+                    <a [routerLink]="['/branch', booking.branch.id, 'view']">{{ booking.branch.nameVi }}</a>
+                  </div>
+                }
+              </td>
               <td>
                 @if (booking.promotion) {
                   <div>

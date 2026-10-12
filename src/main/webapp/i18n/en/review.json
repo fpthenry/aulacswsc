@@ -18,12 +18,19 @@
         "title": "Review"
       },
       "id": "ID",
+      "authorName": "Author Name",
       "rating": "Rating",
       "comment": "Comment",
+      "videoUrl": "Video Url",
+      "reviewDate": "Review Date",
       "approved": "Approved",
+      "featured": "Featured",
       "createdDate": "Created Date",
       "customer": "Customer",
-      "service": "Service"
+      "service": "Service",
+      "help": {
+        "videoUrl": "Link video review (YouTube / TikTok)"
+      }
     }
   }
 }

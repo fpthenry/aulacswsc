@@ -47,17 +47,38 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class SpaServiceResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME_VI = "AAAAAAAAAA";
+    private static final String UPDATED_NAME_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME_EN = "AAAAAAAAAA";
+    private static final String UPDATED_NAME_EN = "BBBBBBBBBB";
 
     private static final String DEFAULT_SLUG = "AAAAAAAAAA";
     private static final String UPDATED_SLUG = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SHORT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_SHORT_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_SHORT_DESCRIPTION_VI = "AAAAAAAAAA";
+    private static final String UPDATED_SHORT_DESCRIPTION_VI = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_SHORT_DESCRIPTION_EN = "AAAAAAAAAA";
+    private static final String UPDATED_SHORT_DESCRIPTION_EN = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRIPTION_VI = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRIPTION_EN = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION_EN = "BBBBBBBBBB";
+
+    private static final String DEFAULT_BENEFITS_VI = "AAAAAAAAAA";
+    private static final String UPDATED_BENEFITS_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_BENEFITS_EN = "AAAAAAAAAA";
+    private static final String UPDATED_BENEFITS_EN = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NOTES_VI = "AAAAAAAAAA";
+    private static final String UPDATED_NOTES_VI = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NOTES_EN = "AAAAAAAAAA";
+    private static final String UPDATED_NOTES_EN = "BBBBBBBBBB";
 
     private static final BigDecimal DEFAULT_PRICE = new BigDecimal(0);
     private static final BigDecimal UPDATED_PRICE = new BigDecimal(1);
@@ -67,15 +88,23 @@ class SpaServiceResourceIT {
     private static final BigDecimal UPDATED_SALE_PRICE = new BigDecimal(1);
     private static final BigDecimal SMALLER_SALE_PRICE = new BigDecimal(0 - 1);
 
-    private static final Integer DEFAULT_DURATION_MINUTES = 5;
-    private static final Integer UPDATED_DURATION_MINUTES = 6;
-    private static final Integer SMALLER_DURATION_MINUTES = 5 - 1;
+    private static final BigDecimal DEFAULT_PRICE_MAX = new BigDecimal(0);
+    private static final BigDecimal UPDATED_PRICE_MAX = new BigDecimal(1);
+    private static final BigDecimal SMALLER_PRICE_MAX = new BigDecimal(0 - 1);
+
+    private static final Integer DEFAULT_DURATION_MINUTES = 15;
+    private static final Integer UPDATED_DURATION_MINUTES = 16;
+    private static final Integer SMALLER_DURATION_MINUTES = 15 - 1;
 
     private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
     private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
 
     private static final Boolean DEFAULT_FEATURED = false;
     private static final Boolean UPDATED_FEATURED = true;
+
+    private static final Integer DEFAULT_DISPLAY_ORDER = 1;
+    private static final Integer UPDATED_DISPLAY_ORDER = 2;
+    private static final Integer SMALLER_DISPLAY_ORDER = 1 - 1;
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
@@ -119,15 +148,24 @@ class SpaServiceResourceIT {
      */
     public static SpaService createEntity(EntityManager em) {
         SpaService spaService = new SpaService()
-            .name(DEFAULT_NAME)
+            .nameVi(DEFAULT_NAME_VI)
+            .nameEn(DEFAULT_NAME_EN)
             .slug(DEFAULT_SLUG)
-            .shortDescription(DEFAULT_SHORT_DESCRIPTION)
-            .description(DEFAULT_DESCRIPTION)
+            .shortDescriptionVi(DEFAULT_SHORT_DESCRIPTION_VI)
+            .shortDescriptionEn(DEFAULT_SHORT_DESCRIPTION_EN)
+            .descriptionVi(DEFAULT_DESCRIPTION_VI)
+            .descriptionEn(DEFAULT_DESCRIPTION_EN)
+            .benefitsVi(DEFAULT_BENEFITS_VI)
+            .benefitsEn(DEFAULT_BENEFITS_EN)
+            .notesVi(DEFAULT_NOTES_VI)
+            .notesEn(DEFAULT_NOTES_EN)
             .price(DEFAULT_PRICE)
             .salePrice(DEFAULT_SALE_PRICE)
+            .priceMax(DEFAULT_PRICE_MAX)
             .durationMinutes(DEFAULT_DURATION_MINUTES)
             .imageUrl(DEFAULT_IMAGE_URL)
             .featured(DEFAULT_FEATURED)
+            .displayOrder(DEFAULT_DISPLAY_ORDER)
             .active(DEFAULT_ACTIVE);
         // Add required entity
         ServiceCategory serviceCategory;
@@ -150,15 +188,24 @@ class SpaServiceResourceIT {
      */
     public static SpaService createUpdatedEntity(EntityManager em) {
         SpaService updatedSpaService = new SpaService()
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .shortDescription(UPDATED_SHORT_DESCRIPTION)
-            .description(UPDATED_DESCRIPTION)
+            .shortDescriptionVi(UPDATED_SHORT_DESCRIPTION_VI)
+            .shortDescriptionEn(UPDATED_SHORT_DESCRIPTION_EN)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
+            .benefitsVi(UPDATED_BENEFITS_VI)
+            .benefitsEn(UPDATED_BENEFITS_EN)
+            .notesVi(UPDATED_NOTES_VI)
+            .notesEn(UPDATED_NOTES_EN)
             .price(UPDATED_PRICE)
             .salePrice(UPDATED_SALE_PRICE)
+            .priceMax(UPDATED_PRICE_MAX)
             .durationMinutes(UPDATED_DURATION_MINUTES)
             .imageUrl(UPDATED_IMAGE_URL)
             .featured(UPDATED_FEATURED)
+            .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);
         // Add required entity
         ServiceCategory serviceCategory;
@@ -230,10 +277,27 @@ class SpaServiceResourceIT {
 
     @Test
     @Transactional
-    void checkNameIsRequired() throws Exception {
+    void checkNameViIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        spaService.setName(null);
+        spaService.setNameVi(null);
+
+        // Create the SpaService, which fails.
+        SpaServiceDTO spaServiceDTO = spaServiceMapper.toDto(spaService);
+
+        restSpaServiceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(spaServiceDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkNameEnIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        spaService.setNameEn(null);
 
         // Create the SpaService, which fails.
         SpaServiceDTO spaServiceDTO = spaServiceMapper.toDto(spaService);
@@ -325,15 +389,24 @@ class SpaServiceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(spaService.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].nameVi").value(hasItem(DEFAULT_NAME_VI)))
+            .andExpect(jsonPath("$.[*].nameEn").value(hasItem(DEFAULT_NAME_EN)))
             .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG)))
-            .andExpect(jsonPath("$.[*].shortDescription").value(hasItem(DEFAULT_SHORT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].shortDescriptionVi").value(hasItem(DEFAULT_SHORT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].shortDescriptionEn").value(hasItem(DEFAULT_SHORT_DESCRIPTION_EN)))
+            .andExpect(jsonPath("$.[*].descriptionVi").value(hasItem(DEFAULT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].descriptionEn").value(hasItem(DEFAULT_DESCRIPTION_EN)))
+            .andExpect(jsonPath("$.[*].benefitsVi").value(hasItem(DEFAULT_BENEFITS_VI)))
+            .andExpect(jsonPath("$.[*].benefitsEn").value(hasItem(DEFAULT_BENEFITS_EN)))
+            .andExpect(jsonPath("$.[*].notesVi").value(hasItem(DEFAULT_NOTES_VI)))
+            .andExpect(jsonPath("$.[*].notesEn").value(hasItem(DEFAULT_NOTES_EN)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
             .andExpect(jsonPath("$.[*].salePrice").value(hasItem(sameNumber(DEFAULT_SALE_PRICE))))
+            .andExpect(jsonPath("$.[*].priceMax").value(hasItem(sameNumber(DEFAULT_PRICE_MAX))))
             .andExpect(jsonPath("$.[*].durationMinutes").value(hasItem(DEFAULT_DURATION_MINUTES)))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].featured").value(hasItem(DEFAULT_FEATURED)))
+            .andExpect(jsonPath("$.[*].displayOrder").value(hasItem(DEFAULT_DISPLAY_ORDER)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
     }
 
@@ -366,15 +439,24 @@ class SpaServiceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(spaService.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.nameVi").value(DEFAULT_NAME_VI))
+            .andExpect(jsonPath("$.nameEn").value(DEFAULT_NAME_EN))
             .andExpect(jsonPath("$.slug").value(DEFAULT_SLUG))
-            .andExpect(jsonPath("$.shortDescription").value(DEFAULT_SHORT_DESCRIPTION))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.shortDescriptionVi").value(DEFAULT_SHORT_DESCRIPTION_VI))
+            .andExpect(jsonPath("$.shortDescriptionEn").value(DEFAULT_SHORT_DESCRIPTION_EN))
+            .andExpect(jsonPath("$.descriptionVi").value(DEFAULT_DESCRIPTION_VI))
+            .andExpect(jsonPath("$.descriptionEn").value(DEFAULT_DESCRIPTION_EN))
+            .andExpect(jsonPath("$.benefitsVi").value(DEFAULT_BENEFITS_VI))
+            .andExpect(jsonPath("$.benefitsEn").value(DEFAULT_BENEFITS_EN))
+            .andExpect(jsonPath("$.notesVi").value(DEFAULT_NOTES_VI))
+            .andExpect(jsonPath("$.notesEn").value(DEFAULT_NOTES_EN))
             .andExpect(jsonPath("$.price").value(sameNumber(DEFAULT_PRICE)))
             .andExpect(jsonPath("$.salePrice").value(sameNumber(DEFAULT_SALE_PRICE)))
+            .andExpect(jsonPath("$.priceMax").value(sameNumber(DEFAULT_PRICE_MAX)))
             .andExpect(jsonPath("$.durationMinutes").value(DEFAULT_DURATION_MINUTES))
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.featured").value(DEFAULT_FEATURED))
+            .andExpect(jsonPath("$.displayOrder").value(DEFAULT_DISPLAY_ORDER))
             .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE));
     }
 
@@ -395,52 +477,102 @@ class SpaServiceResourceIT {
 
     @Test
     @Transactional
-    void getAllSpaServicesByNameIsEqualToSomething() throws Exception {
+    void getAllSpaServicesByNameViIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where name equals to
-        defaultSpaServiceFiltering("name.equals=" + DEFAULT_NAME, "name.equals=" + UPDATED_NAME);
+        // Get all the spaServiceList where nameVi equals to
+        defaultSpaServiceFiltering("nameVi.equals=" + DEFAULT_NAME_VI, "nameVi.equals=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByNameIsInShouldWork() throws Exception {
+    void getAllSpaServicesByNameViIsInShouldWork() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where name in
-        defaultSpaServiceFiltering("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME, "name.in=" + UPDATED_NAME);
+        // Get all the spaServiceList where nameVi in
+        defaultSpaServiceFiltering("nameVi.in=" + DEFAULT_NAME_VI + "," + UPDATED_NAME_VI, "nameVi.in=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByNameIsNullOrNotNull() throws Exception {
+    void getAllSpaServicesByNameViIsNullOrNotNull() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where name is not null
-        defaultSpaServiceFiltering("name.specified=true", "name.specified=false");
+        // Get all the spaServiceList where nameVi is not null
+        defaultSpaServiceFiltering("nameVi.specified=true", "nameVi.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByNameContainsSomething() throws Exception {
+    void getAllSpaServicesByNameViContainsSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where name contains
-        defaultSpaServiceFiltering("name.contains=" + DEFAULT_NAME, "name.contains=" + UPDATED_NAME);
+        // Get all the spaServiceList where nameVi contains
+        defaultSpaServiceFiltering("nameVi.contains=" + DEFAULT_NAME_VI, "nameVi.contains=" + UPDATED_NAME_VI);
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByNameNotContainsSomething() throws Exception {
+    void getAllSpaServicesByNameViNotContainsSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where name does not contain
-        defaultSpaServiceFiltering("name.doesNotContain=" + UPDATED_NAME, "name.doesNotContain=" + DEFAULT_NAME);
+        // Get all the spaServiceList where nameVi does not contain
+        defaultSpaServiceFiltering("nameVi.doesNotContain=" + UPDATED_NAME_VI, "nameVi.doesNotContain=" + DEFAULT_NAME_VI);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByNameEnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where nameEn equals to
+        defaultSpaServiceFiltering("nameEn.equals=" + DEFAULT_NAME_EN, "nameEn.equals=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByNameEnIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where nameEn in
+        defaultSpaServiceFiltering("nameEn.in=" + DEFAULT_NAME_EN + "," + UPDATED_NAME_EN, "nameEn.in=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByNameEnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where nameEn is not null
+        defaultSpaServiceFiltering("nameEn.specified=true", "nameEn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByNameEnContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where nameEn contains
+        defaultSpaServiceFiltering("nameEn.contains=" + DEFAULT_NAME_EN, "nameEn.contains=" + UPDATED_NAME_EN);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByNameEnNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where nameEn does not contain
+        defaultSpaServiceFiltering("nameEn.doesNotContain=" + UPDATED_NAME_EN, "nameEn.doesNotContain=" + DEFAULT_NAME_EN);
     }
 
     @Test
@@ -495,63 +627,125 @@ class SpaServiceResourceIT {
 
     @Test
     @Transactional
-    void getAllSpaServicesByShortDescriptionIsEqualToSomething() throws Exception {
+    void getAllSpaServicesByShortDescriptionViIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where shortDescription equals to
+        // Get all the spaServiceList where shortDescriptionVi equals to
         defaultSpaServiceFiltering(
-            "shortDescription.equals=" + DEFAULT_SHORT_DESCRIPTION,
-            "shortDescription.equals=" + UPDATED_SHORT_DESCRIPTION
+            "shortDescriptionVi.equals=" + DEFAULT_SHORT_DESCRIPTION_VI,
+            "shortDescriptionVi.equals=" + UPDATED_SHORT_DESCRIPTION_VI
         );
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByShortDescriptionIsInShouldWork() throws Exception {
+    void getAllSpaServicesByShortDescriptionViIsInShouldWork() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where shortDescription in
+        // Get all the spaServiceList where shortDescriptionVi in
         defaultSpaServiceFiltering(
-            "shortDescription.in=" + DEFAULT_SHORT_DESCRIPTION + "," + UPDATED_SHORT_DESCRIPTION,
-            "shortDescription.in=" + UPDATED_SHORT_DESCRIPTION
+            "shortDescriptionVi.in=" + DEFAULT_SHORT_DESCRIPTION_VI + "," + UPDATED_SHORT_DESCRIPTION_VI,
+            "shortDescriptionVi.in=" + UPDATED_SHORT_DESCRIPTION_VI
         );
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByShortDescriptionIsNullOrNotNull() throws Exception {
+    void getAllSpaServicesByShortDescriptionViIsNullOrNotNull() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where shortDescription is not null
-        defaultSpaServiceFiltering("shortDescription.specified=true", "shortDescription.specified=false");
+        // Get all the spaServiceList where shortDescriptionVi is not null
+        defaultSpaServiceFiltering("shortDescriptionVi.specified=true", "shortDescriptionVi.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByShortDescriptionContainsSomething() throws Exception {
+    void getAllSpaServicesByShortDescriptionViContainsSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where shortDescription contains
+        // Get all the spaServiceList where shortDescriptionVi contains
         defaultSpaServiceFiltering(
-            "shortDescription.contains=" + DEFAULT_SHORT_DESCRIPTION,
-            "shortDescription.contains=" + UPDATED_SHORT_DESCRIPTION
+            "shortDescriptionVi.contains=" + DEFAULT_SHORT_DESCRIPTION_VI,
+            "shortDescriptionVi.contains=" + UPDATED_SHORT_DESCRIPTION_VI
         );
     }
 
     @Test
     @Transactional
-    void getAllSpaServicesByShortDescriptionNotContainsSomething() throws Exception {
+    void getAllSpaServicesByShortDescriptionViNotContainsSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
 
-        // Get all the spaServiceList where shortDescription does not contain
+        // Get all the spaServiceList where shortDescriptionVi does not contain
         defaultSpaServiceFiltering(
-            "shortDescription.doesNotContain=" + UPDATED_SHORT_DESCRIPTION,
-            "shortDescription.doesNotContain=" + DEFAULT_SHORT_DESCRIPTION
+            "shortDescriptionVi.doesNotContain=" + UPDATED_SHORT_DESCRIPTION_VI,
+            "shortDescriptionVi.doesNotContain=" + DEFAULT_SHORT_DESCRIPTION_VI
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByShortDescriptionEnIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where shortDescriptionEn equals to
+        defaultSpaServiceFiltering(
+            "shortDescriptionEn.equals=" + DEFAULT_SHORT_DESCRIPTION_EN,
+            "shortDescriptionEn.equals=" + UPDATED_SHORT_DESCRIPTION_EN
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByShortDescriptionEnIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where shortDescriptionEn in
+        defaultSpaServiceFiltering(
+            "shortDescriptionEn.in=" + DEFAULT_SHORT_DESCRIPTION_EN + "," + UPDATED_SHORT_DESCRIPTION_EN,
+            "shortDescriptionEn.in=" + UPDATED_SHORT_DESCRIPTION_EN
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByShortDescriptionEnIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where shortDescriptionEn is not null
+        defaultSpaServiceFiltering("shortDescriptionEn.specified=true", "shortDescriptionEn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByShortDescriptionEnContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where shortDescriptionEn contains
+        defaultSpaServiceFiltering(
+            "shortDescriptionEn.contains=" + DEFAULT_SHORT_DESCRIPTION_EN,
+            "shortDescriptionEn.contains=" + UPDATED_SHORT_DESCRIPTION_EN
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByShortDescriptionEnNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where shortDescriptionEn does not contain
+        defaultSpaServiceFiltering(
+            "shortDescriptionEn.doesNotContain=" + UPDATED_SHORT_DESCRIPTION_EN,
+            "shortDescriptionEn.doesNotContain=" + DEFAULT_SHORT_DESCRIPTION_EN
         );
     }
 
@@ -696,6 +890,76 @@ class SpaServiceResourceIT {
 
         // Get all the spaServiceList where salePrice is greater than
         defaultSpaServiceFiltering("salePrice.greaterThan=" + SMALLER_SALE_PRICE, "salePrice.greaterThan=" + DEFAULT_SALE_PRICE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax equals to
+        defaultSpaServiceFiltering("priceMax.equals=" + DEFAULT_PRICE_MAX, "priceMax.equals=" + UPDATED_PRICE_MAX);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax in
+        defaultSpaServiceFiltering("priceMax.in=" + DEFAULT_PRICE_MAX + "," + UPDATED_PRICE_MAX, "priceMax.in=" + UPDATED_PRICE_MAX);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax is not null
+        defaultSpaServiceFiltering("priceMax.specified=true", "priceMax.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax is greater than or equal to
+        defaultSpaServiceFiltering("priceMax.greaterThanOrEqual=" + DEFAULT_PRICE_MAX, "priceMax.greaterThanOrEqual=" + UPDATED_PRICE_MAX);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax is less than or equal to
+        defaultSpaServiceFiltering("priceMax.lessThanOrEqual=" + DEFAULT_PRICE_MAX, "priceMax.lessThanOrEqual=" + SMALLER_PRICE_MAX);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax is less than
+        defaultSpaServiceFiltering("priceMax.lessThan=" + UPDATED_PRICE_MAX, "priceMax.lessThan=" + DEFAULT_PRICE_MAX);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByPriceMaxIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where priceMax is greater than
+        defaultSpaServiceFiltering("priceMax.greaterThan=" + SMALLER_PRICE_MAX, "priceMax.greaterThan=" + DEFAULT_PRICE_MAX);
     }
 
     @Test
@@ -868,6 +1132,88 @@ class SpaServiceResourceIT {
 
     @Test
     @Transactional
+    void getAllSpaServicesByDisplayOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder equals to
+        defaultSpaServiceFiltering("displayOrder.equals=" + DEFAULT_DISPLAY_ORDER, "displayOrder.equals=" + UPDATED_DISPLAY_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder in
+        defaultSpaServiceFiltering(
+            "displayOrder.in=" + DEFAULT_DISPLAY_ORDER + "," + UPDATED_DISPLAY_ORDER,
+            "displayOrder.in=" + UPDATED_DISPLAY_ORDER
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder is not null
+        defaultSpaServiceFiltering("displayOrder.specified=true", "displayOrder.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder is greater than or equal to
+        defaultSpaServiceFiltering(
+            "displayOrder.greaterThanOrEqual=" + DEFAULT_DISPLAY_ORDER,
+            "displayOrder.greaterThanOrEqual=" + UPDATED_DISPLAY_ORDER
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder is less than or equal to
+        defaultSpaServiceFiltering(
+            "displayOrder.lessThanOrEqual=" + DEFAULT_DISPLAY_ORDER,
+            "displayOrder.lessThanOrEqual=" + SMALLER_DISPLAY_ORDER
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder is less than
+        defaultSpaServiceFiltering("displayOrder.lessThan=" + UPDATED_DISPLAY_ORDER, "displayOrder.lessThan=" + DEFAULT_DISPLAY_ORDER);
+    }
+
+    @Test
+    @Transactional
+    void getAllSpaServicesByDisplayOrderIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
+
+        // Get all the spaServiceList where displayOrder is greater than
+        defaultSpaServiceFiltering(
+            "displayOrder.greaterThan=" + SMALLER_DISPLAY_ORDER,
+            "displayOrder.greaterThan=" + DEFAULT_DISPLAY_ORDER
+        );
+    }
+
+    @Test
+    @Transactional
     void getAllSpaServicesByActiveIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedSpaService = spaServiceRepository.saveAndFlush(spaService);
@@ -954,15 +1300,24 @@ class SpaServiceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(spaService.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].nameVi").value(hasItem(DEFAULT_NAME_VI)))
+            .andExpect(jsonPath("$.[*].nameEn").value(hasItem(DEFAULT_NAME_EN)))
             .andExpect(jsonPath("$.[*].slug").value(hasItem(DEFAULT_SLUG)))
-            .andExpect(jsonPath("$.[*].shortDescription").value(hasItem(DEFAULT_SHORT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].shortDescriptionVi").value(hasItem(DEFAULT_SHORT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].shortDescriptionEn").value(hasItem(DEFAULT_SHORT_DESCRIPTION_EN)))
+            .andExpect(jsonPath("$.[*].descriptionVi").value(hasItem(DEFAULT_DESCRIPTION_VI)))
+            .andExpect(jsonPath("$.[*].descriptionEn").value(hasItem(DEFAULT_DESCRIPTION_EN)))
+            .andExpect(jsonPath("$.[*].benefitsVi").value(hasItem(DEFAULT_BENEFITS_VI)))
+            .andExpect(jsonPath("$.[*].benefitsEn").value(hasItem(DEFAULT_BENEFITS_EN)))
+            .andExpect(jsonPath("$.[*].notesVi").value(hasItem(DEFAULT_NOTES_VI)))
+            .andExpect(jsonPath("$.[*].notesEn").value(hasItem(DEFAULT_NOTES_EN)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
             .andExpect(jsonPath("$.[*].salePrice").value(hasItem(sameNumber(DEFAULT_SALE_PRICE))))
+            .andExpect(jsonPath("$.[*].priceMax").value(hasItem(sameNumber(DEFAULT_PRICE_MAX))))
             .andExpect(jsonPath("$.[*].durationMinutes").value(hasItem(DEFAULT_DURATION_MINUTES)))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].featured").value(hasItem(DEFAULT_FEATURED)))
+            .andExpect(jsonPath("$.[*].displayOrder").value(hasItem(DEFAULT_DISPLAY_ORDER)))
             .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
 
         // Check, that the count call also returns 1
@@ -1012,15 +1367,24 @@ class SpaServiceResourceIT {
         // Disconnect from session so that the updates on updatedSpaService are not directly saved in db
         em.detach(updatedSpaService);
         updatedSpaService
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .shortDescription(UPDATED_SHORT_DESCRIPTION)
-            .description(UPDATED_DESCRIPTION)
+            .shortDescriptionVi(UPDATED_SHORT_DESCRIPTION_VI)
+            .shortDescriptionEn(UPDATED_SHORT_DESCRIPTION_EN)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
+            .benefitsVi(UPDATED_BENEFITS_VI)
+            .benefitsEn(UPDATED_BENEFITS_EN)
+            .notesVi(UPDATED_NOTES_VI)
+            .notesEn(UPDATED_NOTES_EN)
             .price(UPDATED_PRICE)
             .salePrice(UPDATED_SALE_PRICE)
+            .priceMax(UPDATED_PRICE_MAX)
             .durationMinutes(UPDATED_DURATION_MINUTES)
             .imageUrl(UPDATED_IMAGE_URL)
             .featured(UPDATED_FEATURED)
+            .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);
         SpaServiceDTO spaServiceDTO = spaServiceMapper.toDto(updatedSpaService);
 
@@ -1111,7 +1475,14 @@ class SpaServiceResourceIT {
         SpaService partialUpdatedSpaService = new SpaService();
         partialUpdatedSpaService.setId(spaService.getId());
 
-        partialUpdatedSpaService.shortDescription(UPDATED_SHORT_DESCRIPTION).description(UPDATED_DESCRIPTION).salePrice(UPDATED_SALE_PRICE);
+        partialUpdatedSpaService
+            .slug(UPDATED_SLUG)
+            .shortDescriptionVi(UPDATED_SHORT_DESCRIPTION_VI)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .priceMax(UPDATED_PRICE_MAX)
+            .durationMinutes(UPDATED_DURATION_MINUTES)
+            .featured(UPDATED_FEATURED)
+            .displayOrder(UPDATED_DISPLAY_ORDER);
 
         restSpaServiceMockMvc
             .perform(
@@ -1143,15 +1514,24 @@ class SpaServiceResourceIT {
         partialUpdatedSpaService.setId(spaService.getId());
 
         partialUpdatedSpaService
-            .name(UPDATED_NAME)
+            .nameVi(UPDATED_NAME_VI)
+            .nameEn(UPDATED_NAME_EN)
             .slug(UPDATED_SLUG)
-            .shortDescription(UPDATED_SHORT_DESCRIPTION)
-            .description(UPDATED_DESCRIPTION)
+            .shortDescriptionVi(UPDATED_SHORT_DESCRIPTION_VI)
+            .shortDescriptionEn(UPDATED_SHORT_DESCRIPTION_EN)
+            .descriptionVi(UPDATED_DESCRIPTION_VI)
+            .descriptionEn(UPDATED_DESCRIPTION_EN)
+            .benefitsVi(UPDATED_BENEFITS_VI)
+            .benefitsEn(UPDATED_BENEFITS_EN)
+            .notesVi(UPDATED_NOTES_VI)
+            .notesEn(UPDATED_NOTES_EN)
             .price(UPDATED_PRICE)
             .salePrice(UPDATED_SALE_PRICE)
+            .priceMax(UPDATED_PRICE_MAX)
             .durationMinutes(UPDATED_DURATION_MINUTES)
             .imageUrl(UPDATED_IMAGE_URL)
             .featured(UPDATED_FEATURED)
+            .displayOrder(UPDATED_DISPLAY_ORDER)
             .active(UPDATED_ACTIVE);
 
         restSpaServiceMockMvc

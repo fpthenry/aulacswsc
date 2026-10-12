@@ -1,0 +1,198 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (siteSetting(); as siteSettingRef) {
+      <div>
+        <h2 data-cy="siteSettingDetailsHeading"><span jhiTranslate="aulacswscApp.siteSetting.detail.title">Site Setting</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.siteName">Site Name</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.siteName }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.logoUrl">Logo Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.logoUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.sloganVi">Slogan Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.sloganVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.sloganEn">Slogan En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.sloganEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroSubtitleVi">Hero Subtitle Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.heroSubtitleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroSubtitleEn">Hero Subtitle En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.heroSubtitleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroImageUrl">Hero Image Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.heroImageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroVideoUrl">Hero Video Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.heroVideoUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroSlides">Hero Slides</span></dt>
+          <dd>
+            <span style="white-space: pre-line">{{ siteSettingRef.heroSlides }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.heroVideoEnabled">Hero Video Enabled</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.heroVideoEnabled }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.backgroundMusicUrl">Background Music Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.backgroundMusicUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.aboutTitleVi">About Title Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.aboutTitleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.aboutTitleEn">About Title En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.aboutTitleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.aboutContentVi">About Content Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.aboutContentVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.aboutContentEn">About Content En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.aboutContentEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight1TitleVi">Highlight 1 Title Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight1TitleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight1TitleEn">Highlight 1 Title En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight1TitleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight1TextVi">Highlight 1 Text Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight1TextVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight1TextEn">Highlight 1 Text En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight1TextEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight2TitleVi">Highlight 2 Title Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight2TitleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight2TitleEn">Highlight 2 Title En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight2TitleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight2TextVi">Highlight 2 Text Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight2TextVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight2TextEn">Highlight 2 Text En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight2TextEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight3TitleVi">Highlight 3 Title Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight3TitleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight3TitleEn">Highlight 3 Title En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight3TitleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight3TextVi">Highlight 3 Text Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight3TextVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.highlight3TextEn">Highlight 3 Text En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.highlight3TextEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.hotline">Hotline</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.hotline }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.email">Email</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.whatsappNumber">Whatsapp Number</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.whatsappNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.zaloNumber">Zalo Number</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.zaloNumber }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.messengerUrl">Messenger Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.messengerUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.facebookUrl">Facebook Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.facebookUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.instagramUrl">Instagram Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.instagramUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.tiktokUrl">Tiktok Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.tiktokUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.youtubeUrl">Youtube Url</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.youtubeUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.openingHoursVi">Opening Hours Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.openingHoursVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.openingHoursEn">Opening Hours En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.openingHoursEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.metaDescriptionVi">Meta Description Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.metaDescriptionVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.metaDescriptionEn">Meta Description En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.metaDescriptionEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.policyContentVi">Policy Content Vi</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.policyContentVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.siteSetting.policyContentEn">Policy Content En</span></dt>
+          <dd>
+            <span>{{ siteSettingRef.policyContentEn }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/site-setting', siteSettingRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

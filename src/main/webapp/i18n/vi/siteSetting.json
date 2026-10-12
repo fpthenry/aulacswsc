@@ -1,0 +1,65 @@
+{
+  "aulacswscApp": {
+    "siteSetting": {
+      "home": {
+        "title": "Site Settings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Site Setting",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Site Setting",
+        "notFound": "No Site Settings found"
+      },
+      "created": "Một Site Setting mới được tạo với định danh {{ param }}",
+      "updated": "Một Site Setting cập nhật với định danh {{ param }}",
+      "deleted": "Một Site Setting đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Site Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "Site Setting"
+      },
+      "id": "ID",
+      "siteName": "Site Name",
+      "logoUrl": "Logo Url",
+      "sloganVi": "Slogan Vi",
+      "sloganEn": "Slogan En",
+      "heroSubtitleVi": "Hero Subtitle Vi",
+      "heroSubtitleEn": "Hero Subtitle En",
+      "heroImageUrl": "Hero Image Url",
+      "heroVideoUrl": "Hero Video Url",
+      "heroSlides": "Ảnh slideshow đầu trang",
+      "heroVideoEnabled": "Hero Video Enabled",
+      "backgroundMusicUrl": "Background Music Url",
+      "aboutTitleVi": "About Title Vi",
+      "aboutTitleEn": "About Title En",
+      "aboutContentVi": "About Content Vi",
+      "aboutContentEn": "About Content En",
+      "highlight1TitleVi": "Highlight 1 Title Vi",
+      "highlight1TitleEn": "Highlight 1 Title En",
+      "highlight1TextVi": "Highlight 1 Text Vi",
+      "highlight1TextEn": "Highlight 1 Text En",
+      "highlight2TitleVi": "Highlight 2 Title Vi",
+      "highlight2TitleEn": "Highlight 2 Title En",
+      "highlight2TextVi": "Highlight 2 Text Vi",
+      "highlight2TextEn": "Highlight 2 Text En",
+      "highlight3TitleVi": "Highlight 3 Title Vi",
+      "highlight3TitleEn": "Highlight 3 Title En",
+      "highlight3TextVi": "Highlight 3 Text Vi",
+      "highlight3TextEn": "Highlight 3 Text En",
+      "hotline": "Hotline",
+      "email": "Email",
+      "whatsappNumber": "Whatsapp Number",
+      "zaloNumber": "Zalo Number",
+      "messengerUrl": "Messenger Url",
+      "facebookUrl": "Facebook Url",
+      "instagramUrl": "Instagram Url",
+      "tiktokUrl": "Tiktok Url",
+      "youtubeUrl": "Youtube Url",
+      "openingHoursVi": "Opening Hours Vi",
+      "openingHoursEn": "Opening Hours En",
+      "metaDescriptionVi": "Meta Description Vi",
+      "metaDescriptionEn": "Meta Description En",
+      "policyContentVi": "Policy Content Vi",
+      "policyContentEn": "Policy Content En"
+    }
+  }
+}

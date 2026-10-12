@@ -17,6 +17,13 @@
                                  referencedTableName="jhi_user"
                                  />
 
+        <addForeignKeyConstraint baseColumnNames="branch_id"
+                                 baseTableName="staff"
+                                 constraintName="fk_staff__branch_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="branch"
+                                 />
+
         <addForeignKeyConstraint baseColumnNames="staff_id"
                                  baseTableName="rel_staff__services"
                                  constraintName="fk_rel_staff__services__staff_id"

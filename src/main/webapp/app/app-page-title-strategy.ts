@@ -7,6 +7,10 @@ export class AppPageTitleStrategy extends TitleStrategy {
   private readonly translateService = inject(TranslateService);
 
   override updateTitle(routerState: RouterStateSnapshot): void {
+    // website khách tự đặt title/meta qua SeoService
+    if (/^\/(vi|en)(\/|\?|#|$)/.test(routerState.url)) {
+      return;
+    }
     let pageTitle = this.buildTitle(routerState);
     pageTitle ??= 'global.title';
     this.translateService.get(pageTitle).subscribe(title => {

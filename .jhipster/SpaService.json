@@ -3,11 +3,17 @@
     "changelogDate": "20261011043047"
   },
   "applications": ["aulacswsc"],
-  "documentation": "Dịch vụ spa cụ thể",
+  "documentation": "Dịch vụ spa",
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "nameVi",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "nameEn",
       "fieldType": "String",
       "fieldValidateRules": ["required", "maxlength"],
       "fieldValidateRulesMaxlength": "200"
@@ -19,23 +25,60 @@
       "fieldValidateRulesMaxlength": "220"
     },
     {
-      "fieldName": "shortDescription",
+      "fieldName": "shortDescriptionVi",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
       "fieldValidateRulesMaxlength": "500"
     },
     {
-      "fieldName": "description",
+      "fieldName": "shortDescriptionEn",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "500"
+    },
+    {
+      "fieldName": "descriptionVi",
       "fieldType": "TextBlob"
     },
     {
+      "fieldName": "descriptionEn",
+      "fieldType": "TextBlob"
+    },
+    {
+      "documentation": "Công dụng / lợi ích, mỗi dòng một ý",
+      "fieldName": "benefitsVi",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "benefitsEn",
+      "fieldType": "TextBlob"
+    },
+    {
+      "documentation": "Lưu ý, mỗi dòng một ý",
+      "fieldName": "notesVi",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "notesEn",
+      "fieldType": "TextBlob"
+    },
+    {
+      "documentation": "Giá gốc (hoặc giá thấp nhất nếu là khoảng giá)",
       "fieldName": "price",
       "fieldType": "BigDecimal",
       "fieldValidateRules": ["required", "min"],
       "fieldValidateRulesMin": "0"
     },
     {
+      "documentation": "Giá khuyến mãi, để trống nếu không giảm",
       "fieldName": "salePrice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "documentation": "Giá cao nhất nếu hiển thị dạng khoảng giá",
+      "fieldName": "priceMax",
       "fieldType": "BigDecimal",
       "fieldValidateRules": ["min"],
       "fieldValidateRulesMin": "0"
@@ -44,7 +87,7 @@
       "fieldName": "durationMinutes",
       "fieldType": "Integer",
       "fieldValidateRules": ["required", "min"],
-      "fieldValidateRulesMin": "5"
+      "fieldValidateRulesMin": "15"
     },
     {
       "fieldName": "imageUrl",
@@ -57,6 +100,10 @@
       "fieldType": "Boolean"
     },
     {
+      "fieldName": "displayOrder",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "active",
       "fieldType": "Boolean",
       "fieldValidateRules": ["required"]
@@ -67,7 +114,7 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "name",
+      "otherEntityField": "nameVi",
       "otherEntityName": "serviceCategory",
       "otherEntityRelationshipName": "services",
       "relationshipName": "category",

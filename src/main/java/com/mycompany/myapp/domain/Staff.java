@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Kỹ thuật viên / nhân viên spa, gắn với tài khoản User
+ * Kỹ thuật viên / nhân viên spa
  */
 @Entity
 @Table(name = "staff")
@@ -50,6 +50,9 @@ public class Staff implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Branch branch;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -163,6 +166,19 @@ public class Staff implements Serializable {
 
     public Staff user(User user) {
         this.setUser(user);
+        return this;
+    }
+
+    public Branch getBranch() {
+        return this.branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public Staff branch(Branch branch) {
+        this.setBranch(branch);
         return this;
     }
 

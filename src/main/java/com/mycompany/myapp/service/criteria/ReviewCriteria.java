@@ -24,11 +24,19 @@ public class ReviewCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private StringFilter authorName;
+
     private IntegerFilter rating;
 
     private StringFilter comment;
 
+    private StringFilter videoUrl;
+
+    private LocalDateFilter reviewDate;
+
     private BooleanFilter approved;
+
+    private BooleanFilter featured;
 
     private InstantFilter createdDate;
 
@@ -42,9 +50,13 @@ public class ReviewCriteria implements Serializable, Criteria {
 
     public ReviewCriteria(ReviewCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
+        this.authorName = other.optionalAuthorName().map(StringFilter::copy).orElse(null);
         this.rating = other.optionalRating().map(IntegerFilter::copy).orElse(null);
         this.comment = other.optionalComment().map(StringFilter::copy).orElse(null);
+        this.videoUrl = other.optionalVideoUrl().map(StringFilter::copy).orElse(null);
+        this.reviewDate = other.optionalReviewDate().map(LocalDateFilter::copy).orElse(null);
         this.approved = other.optionalApproved().map(BooleanFilter::copy).orElse(null);
+        this.featured = other.optionalFeatured().map(BooleanFilter::copy).orElse(null);
         this.createdDate = other.optionalCreatedDate().map(InstantFilter::copy).orElse(null);
         this.customerId = other.optionalCustomerId().map(LongFilter::copy).orElse(null);
         this.serviceId = other.optionalServiceId().map(LongFilter::copy).orElse(null);
@@ -73,6 +85,25 @@ public class ReviewCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public StringFilter getAuthorName() {
+        return authorName;
+    }
+
+    public Optional<StringFilter> optionalAuthorName() {
+        return Optional.ofNullable(authorName);
+    }
+
+    public StringFilter authorName() {
+        if (authorName == null) {
+            setAuthorName(new StringFilter());
+        }
+        return authorName;
+    }
+
+    public void setAuthorName(StringFilter authorName) {
+        this.authorName = authorName;
     }
 
     public IntegerFilter getRating() {
@@ -113,6 +144,44 @@ public class ReviewCriteria implements Serializable, Criteria {
         this.comment = comment;
     }
 
+    public StringFilter getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Optional<StringFilter> optionalVideoUrl() {
+        return Optional.ofNullable(videoUrl);
+    }
+
+    public StringFilter videoUrl() {
+        if (videoUrl == null) {
+            setVideoUrl(new StringFilter());
+        }
+        return videoUrl;
+    }
+
+    public void setVideoUrl(StringFilter videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public LocalDateFilter getReviewDate() {
+        return reviewDate;
+    }
+
+    public Optional<LocalDateFilter> optionalReviewDate() {
+        return Optional.ofNullable(reviewDate);
+    }
+
+    public LocalDateFilter reviewDate() {
+        if (reviewDate == null) {
+            setReviewDate(new LocalDateFilter());
+        }
+        return reviewDate;
+    }
+
+    public void setReviewDate(LocalDateFilter reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
     public BooleanFilter getApproved() {
         return approved;
     }
@@ -130,6 +199,25 @@ public class ReviewCriteria implements Serializable, Criteria {
 
     public void setApproved(BooleanFilter approved) {
         this.approved = approved;
+    }
+
+    public BooleanFilter getFeatured() {
+        return featured;
+    }
+
+    public Optional<BooleanFilter> optionalFeatured() {
+        return Optional.ofNullable(featured);
+    }
+
+    public BooleanFilter featured() {
+        if (featured == null) {
+            setFeatured(new BooleanFilter());
+        }
+        return featured;
+    }
+
+    public void setFeatured(BooleanFilter featured) {
+        this.featured = featured;
     }
 
     public InstantFilter getCreatedDate() {
@@ -219,9 +307,13 @@ public class ReviewCriteria implements Serializable, Criteria {
         final ReviewCriteria that = (ReviewCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(authorName, that.authorName) &&
             Objects.equals(rating, that.rating) &&
             Objects.equals(comment, that.comment) &&
+            Objects.equals(videoUrl, that.videoUrl) &&
+            Objects.equals(reviewDate, that.reviewDate) &&
             Objects.equals(approved, that.approved) &&
+            Objects.equals(featured, that.featured) &&
             Objects.equals(createdDate, that.createdDate) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(serviceId, that.serviceId) &&
@@ -231,7 +323,20 @@ public class ReviewCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rating, comment, approved, createdDate, customerId, serviceId, distinct);
+        return Objects.hash(
+            id,
+            authorName,
+            rating,
+            comment,
+            videoUrl,
+            reviewDate,
+            approved,
+            featured,
+            createdDate,
+            customerId,
+            serviceId,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -239,9 +344,13 @@ public class ReviewCriteria implements Serializable, Criteria {
     public String toString() {
         return "ReviewCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
+            optionalAuthorName().map(f -> "authorName=" + f + ", ").orElse("") +
             optionalRating().map(f -> "rating=" + f + ", ").orElse("") +
             optionalComment().map(f -> "comment=" + f + ", ").orElse("") +
+            optionalVideoUrl().map(f -> "videoUrl=" + f + ", ").orElse("") +
+            optionalReviewDate().map(f -> "reviewDate=" + f + ", ").orElse("") +
             optionalApproved().map(f -> "approved=" + f + ", ").orElse("") +
+            optionalFeatured().map(f -> "featured=" + f + ", ").orElse("") +
             optionalCreatedDate().map(f -> "createdDate=" + f + ", ").orElse("") +
             optionalCustomerId().map(f -> "customerId=" + f + ", ").orElse("") +
             optionalServiceId().map(f -> "serviceId=" + f + ", ").orElse("") +

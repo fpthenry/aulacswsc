@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.mycompany.myapp.domain.BookingItem} entity.
  */
-@Schema(description = "Chi tiết dịch vụ trong một lịch hẹn")
+@Schema(description = "Dịch vụ trong một lịch hẹn")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class BookingItemDTO implements Serializable {
 

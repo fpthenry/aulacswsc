@@ -1,8 +1,10 @@
 package com.mycompany.myapp.service.mapper;
 
+import com.mycompany.myapp.domain.Branch;
 import com.mycompany.myapp.domain.SpaService;
 import com.mycompany.myapp.domain.Staff;
 import com.mycompany.myapp.domain.User;
+import com.mycompany.myapp.service.dto.BranchDTO;
 import com.mycompany.myapp.service.dto.SpaServiceDTO;
 import com.mycompany.myapp.service.dto.StaffDTO;
 import com.mycompany.myapp.service.dto.UserDTO;
@@ -16,7 +18,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface StaffMapper extends EntityMapper<StaffDTO, Staff> {
     @Mapping(target = "user", source = "user", qualifiedByName = "userLogin")
-    @Mapping(target = "services", source = "services", qualifiedByName = "spaServiceNameSet")
+    @Mapping(target = "branch", source = "branch", qualifiedByName = "branchNameVi")
+    @Mapping(target = "services", source = "services", qualifiedByName = "spaServiceNameViSet")
     StaffDTO toDto(Staff s);
 
     @Mapping(target = "removeServices", ignore = true)
@@ -28,14 +31,20 @@ public interface StaffMapper extends EntityMapper<StaffDTO, Staff> {
     @Mapping(target = "login", source = "login")
     UserDTO toDtoUserLogin(User user);
 
-    @Named("spaServiceName")
+    @Named("branchNameVi")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    SpaServiceDTO toDtoSpaServiceName(SpaService spaService);
+    @Mapping(target = "nameVi", source = "nameVi")
+    BranchDTO toDtoBranchNameVi(Branch branch);
 
-    @Named("spaServiceNameSet")
-    default Set<SpaServiceDTO> toDtoSpaServiceNameSet(Set<SpaService> spaService) {
-        return spaService.stream().map(this::toDtoSpaServiceName).collect(Collectors.toSet());
+    @Named("spaServiceNameVi")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "nameVi", source = "nameVi")
+    SpaServiceDTO toDtoSpaServiceNameVi(SpaService spaService);
+
+    @Named("spaServiceNameViSet")
+    default Set<SpaServiceDTO> toDtoSpaServiceNameViSet(Set<SpaService> spaService) {
+        return spaService.stream().map(this::toDtoSpaServiceNameVi).collect(Collectors.toSet());
     }
 }

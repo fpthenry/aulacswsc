@@ -5,13 +5,15 @@ import { Observable, map } from 'rxjs';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IReview, NewReview } from '../review.model';
 
 export type PartialUpdateReview = Partial<IReview> & Pick<IReview, 'id'>;
 
-type RestOf<T extends IReview | NewReview> = Omit<T, 'createdDate'> & {
+type RestOf<T extends IReview | NewReview> = Omit<T, 'reviewDate' | 'createdDate'> & {
+  reviewDate?: string | null;
   createdDate?: string | null;
 };
 
@@ -100,6 +102,7 @@ export class ReviewService {
   protected convertDateFromClient<T extends IReview | NewReview | PartialUpdateReview>(review: T): RestOf<T> {
     return {
       ...review,
+      reviewDate: review.reviewDate?.format(DATE_FORMAT) ?? null,
       createdDate: review.createdDate?.toJSON() ?? null,
     };
   }
@@ -107,6 +110,7 @@ export class ReviewService {
   protected convertDateFromServer(restReview: RestReview): IReview {
     return {
       ...restReview,
+      reviewDate: restReview.reviewDate ? dayjs(restReview.reviewDate) : undefined,
       createdDate: restReview.createdDate ? dayjs(restReview.createdDate) : undefined,
     };
   }

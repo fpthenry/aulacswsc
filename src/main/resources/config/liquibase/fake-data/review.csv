@@ -1,11 +1,11 @@
-id;rating;comment;approved;created_date;customer_id;service_id
-1;2;downshift drat if;true;2026-10-10T11:37:17;1;1
-2;5;how ouch pfft;false;2026-10-10T14:09:00;2;2
-3;3;as;true;2026-10-10T20:31:30;3;3
-4;1;wholly waver;true;2026-10-10T06:50:25;4;4
-5;3;phew for;true;2026-10-10T13:28:33;5;5
-6;4;fatal worth an;true;2026-10-10T10:59:04;6;6
-7;2;ugh;false;2026-10-11T02:39:43;7;7
-8;2;skeleton emergent;false;2026-10-11T03:03:18;8;8
-9;5;realistic aw if;false;2026-10-10T14:27:30;9;9
-10;4;nocturnal speedily inasmuch;false;2026-10-10T15:15:29;10;10
+id;author_name;rating;comment;video_url;review_date;approved;featured;created_date
+1;via apropos;3;deploy confiscate monasticism;about;2026-10-10;true;false;2026-10-10T14:09:00
+2;meadow opposite;1;very navigate;morning;2026-10-10;false;false;2026-10-10T05:43:38
+3;long nicely restaurant;3;ah ugh;linear whereas waterlogged;2026-10-10;false;false;2026-10-10T19:45:47
+4;whether often;1;hastily;courtroom inscribe per;2026-10-10;false;true;2026-10-10T04:36:58
+5;aha within pish;5;tinted oddly unlike;dispense yet fond;2026-10-10;true;true;2026-10-10T16:57:09
+6;soulful incidentally meanwhile;1;caring know tribe;recovery diligently tomb;2026-10-10;true;false;2026-10-10T06:53:09
+7;entire bruised yesterday;4;whereas from deflect;adrenalin;2026-10-11;false;true;2026-10-10T22:37:54
+8;countess gift rightfully;3;quietly wafer whether;bright boohoo pilot;2026-10-10;true;true;2026-10-10T07:38:07
+9;elliptical for reboot;2;whoa excellent;skeletal fill;2026-10-10;true;false;2026-10-10T13:59:28
+10;though;3;bank amidst;even whenever;2026-10-11;true;true;2026-10-10T14:57:30

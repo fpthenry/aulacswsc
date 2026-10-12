@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
+import { ImageUploadComponent } from 'app/shared/image-upload/image-upload.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AlertError } from 'app/shared/alert/alert-error.model';
@@ -21,7 +22,7 @@ import { SpaServiceFormGroup, SpaServiceFormService } from './spa-service-form.s
 @Component({
   selector: 'jhi-spa-service-update',
   templateUrl: './spa-service-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule, ImageUploadComponent],
 })
 export class SpaServiceUpdateComponent implements OnInit {
   isSaving = false;

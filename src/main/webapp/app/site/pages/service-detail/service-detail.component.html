@@ -1,0 +1,108 @@
+@if (service(); as s) {
+  <article>
+    <div class="detail-hero">
+      <div class="container detail-grid">
+        <div class="media" siteReveal>
+          <site-image [url]="s.imageUrl" [alt]="name()" ratio="4 / 5" sizes="(min-width: 960px) 520px, 100vw" [eager]="true" />
+        </div>
+
+        <div class="info" siteReveal [revealDelay]="120">
+          <nav class="crumbs" [attr.aria-label]="'site.a11y.breadcrumb' | translate">
+            <a [routerLink]="state.link('services')">{{ 'site.nav.services' | translate }}</a>
+            @if (category(); as c) {
+              <span aria-hidden="true">/</span>
+              <a [routerLink]="state.link('services')" [queryParams]="{ category: c.slug }">{{ state.t(c, 'name') }}</a>
+            }
+          </nav>
+
+          <h1>{{ name() }}</h1>
+          <p class="lead">{{ state.t(s, 'shortDescription') }}</p>
+
+          <dl class="facts">
+            <div>
+              <dt><site-icon name="clock" [size]="18" />{{ 'site.services.duration' | translate }}</dt>
+              <dd>{{ duration() }}</dd>
+            </div>
+            <div>
+              <dt>{{ 'site.services.price' | translate }}</dt>
+              <dd><site-price [service]="s" /></dd>
+            </div>
+          </dl>
+
+          <div class="actions">
+            <button type="button" class="btn-site btn-gold" (click)="bookNow()">
+              <site-icon name="calendar" [size]="18" />{{ 'site.cta.bookThis' | translate }}
+            </button>
+            <button
+              type="button"
+              class="btn-site"
+              [class.btn-outline]="!selected()"
+              [class.btn-primary]="selected()"
+              [attr.aria-pressed]="selected()"
+              (click)="draft.toggle(s.id)"
+            >
+              <site-icon [name]="selected() ? 'check' : 'plus'" [size]="18" />
+              {{ (selected() ? 'site.cta.inCart' : 'site.cta.addToCart') | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container content-grid">
+        <div>
+          @if (description().length) {
+            <section siteReveal>
+              <h2>{{ 'site.services.about' | translate }}</h2>
+              @for (p of description(); track $index) {
+                <p>{{ p }}</p>
+              }
+            </section>
+          }
+        </div>
+        <aside class="side">
+          @if (benefits().length) {
+            <section class="box" siteReveal>
+              <h2>{{ 'site.services.benefits' | translate }}</h2>
+              <ul class="ticks">
+                @for (b of benefits(); track $index) {
+                  <li><site-icon name="check" [size]="18" />{{ b }}</li>
+                }
+              </ul>
+            </section>
+          }
+          @if (notes().length) {
+            <section class="box notes" siteReveal [revealDelay]="100">
+              <h2>{{ 'site.services.notes' | translate }}</h2>
+              <ul>
+                @for (n of notes(); track $index) {
+                  <li>{{ n }}</li>
+                }
+              </ul>
+            </section>
+          }
+        </aside>
+      </div>
+    </div>
+
+    @if (related().length) {
+      <section class="section section--tint" aria-labelledby="related-title">
+        <div class="container">
+          <h2 id="related-title" class="center">{{ 'site.services.related' | translate }}</h2>
+          <div class="grid grid-3">
+            @for (r of related(); track r.id) {
+              <site-service-card [service]="r" />
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </article>
+} @else {
+  <site-page-hero>
+    <h1>{{ 'site.notFound.title' | translate }}</h1>
+    <p class="lead">{{ 'site.notFound.service' | translate }}</p>
+    <a class="btn-site btn-primary" [routerLink]="state.link('services')">{{ 'site.cta.allServices' | translate }}</a>
+  </site-page-hero>
+}

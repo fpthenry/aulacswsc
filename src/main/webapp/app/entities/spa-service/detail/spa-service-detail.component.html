@@ -15,29 +15,79 @@
           <dd>
             <span>{{ spaServiceRef.id }}</span>
           </dd>
-          <dt><span jhiTranslate="aulacswscApp.spaService.name">Name</span></dt>
+          <dt><span jhiTranslate="aulacswscApp.spaService.nameVi">Name Vi</span></dt>
           <dd>
-            <span>{{ spaServiceRef.name }}</span>
+            <span>{{ spaServiceRef.nameVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.nameEn">Name En</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.nameEn }}</span>
           </dd>
           <dt><span jhiTranslate="aulacswscApp.spaService.slug">Slug</span></dt>
           <dd>
             <span>{{ spaServiceRef.slug }}</span>
           </dd>
-          <dt><span jhiTranslate="aulacswscApp.spaService.shortDescription">Short Description</span></dt>
+          <dt><span jhiTranslate="aulacswscApp.spaService.shortDescriptionVi">Short Description Vi</span></dt>
           <dd>
-            <span>{{ spaServiceRef.shortDescription }}</span>
+            <span>{{ spaServiceRef.shortDescriptionVi }}</span>
           </dd>
-          <dt><span jhiTranslate="aulacswscApp.spaService.description">Description</span></dt>
+          <dt><span jhiTranslate="aulacswscApp.spaService.shortDescriptionEn">Short Description En</span></dt>
           <dd>
-            <span>{{ spaServiceRef.description }}</span>
+            <span>{{ spaServiceRef.shortDescriptionEn }}</span>
           </dd>
-          <dt><span jhiTranslate="aulacswscApp.spaService.price">Price</span></dt>
+          <dt><span jhiTranslate="aulacswscApp.spaService.descriptionVi">Description Vi</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.descriptionVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.descriptionEn">Description En</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.descriptionEn }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.spaService.help.benefitsVi' | translate" jhiTranslate="aulacswscApp.spaService.benefitsVi"
+              >Benefits Vi</span
+            >
+          </dt>
+          <dd>
+            <span>{{ spaServiceRef.benefitsVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.benefitsEn">Benefits En</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.benefitsEn }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.spaService.help.notesVi' | translate" jhiTranslate="aulacswscApp.spaService.notesVi"
+              >Notes Vi</span
+            >
+          </dt>
+          <dd>
+            <span>{{ spaServiceRef.notesVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.notesEn">Notes En</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.notesEn }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.spaService.help.price' | translate" jhiTranslate="aulacswscApp.spaService.price">Price</span>
+          </dt>
           <dd>
             <span>{{ spaServiceRef.price }}</span>
           </dd>
-          <dt><span jhiTranslate="aulacswscApp.spaService.salePrice">Sale Price</span></dt>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.spaService.help.salePrice' | translate" jhiTranslate="aulacswscApp.spaService.salePrice"
+              >Sale Price</span
+            >
+          </dt>
           <dd>
             <span>{{ spaServiceRef.salePrice }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.spaService.help.priceMax' | translate" jhiTranslate="aulacswscApp.spaService.priceMax"
+              >Price Max</span
+            >
+          </dt>
+          <dd>
+            <span>{{ spaServiceRef.priceMax }}</span>
           </dd>
           <dt><span jhiTranslate="aulacswscApp.spaService.durationMinutes">Duration Minutes</span></dt>
           <dd>
@@ -51,6 +101,10 @@
           <dd>
             <span>{{ spaServiceRef.featured }}</span>
           </dd>
+          <dt><span jhiTranslate="aulacswscApp.spaService.displayOrder">Display Order</span></dt>
+          <dd>
+            <span>{{ spaServiceRef.displayOrder }}</span>
+          </dd>
           <dt><span jhiTranslate="aulacswscApp.spaService.active">Active</span></dt>
           <dd>
             <span>{{ spaServiceRef.active }}</span>
@@ -59,7 +113,7 @@
           <dd>
             @if (spaService()!.category) {
               <div>
-                <a [routerLink]="['/service-category', spaService()!.category?.id, 'view']">{{ spaServiceRef.category?.name }}</a>
+                <a [routerLink]="['/service-category', spaService()!.category?.id, 'view']">{{ spaServiceRef.category?.nameVi }}</a>
               </div>
             }
           </dd>

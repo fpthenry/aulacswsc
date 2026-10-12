@@ -81,16 +81,14 @@ public class ReviewResource {
         }
         if (!SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
             // khách hàng chỉ đánh giá dưới tên mình, đánh giá phải chờ ADMIN duyệt
+            Customer current = SecurityUtils.getCurrentUserLogin()
+                .flatMap(customerRepository::findOneByUserLogin)
+                .orElseThrow(() -> new BadRequestAlertException("Current user has no customer profile", ENTITY_NAME, "nocustomerprofile"));
             CustomerDTO customer = new CustomerDTO();
-            customer.setId(
-                SecurityUtils.getCurrentUserLogin()
-                    .flatMap(customerRepository::findOneByUserLogin)
-                    .map(Customer::getId)
-                    .orElseThrow(() ->
-                        new BadRequestAlertException("Current user has no customer profile", ENTITY_NAME, "nocustomerprofile")
-                    )
-            );
+            customer.setId(current.getId());
             reviewDTO.setCustomer(customer);
+            reviewDTO.setAuthorName(current.getFullName());
+            reviewDTO.setFeatured(false);
             reviewDTO.setApproved(false);
             reviewDTO.setCreatedDate(Instant.now());
         }

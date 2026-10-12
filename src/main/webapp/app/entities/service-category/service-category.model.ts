@@ -1,8 +1,10 @@
 export interface IServiceCategory {
   id: number;
-  name?: string | null;
+  nameVi?: string | null;
+  nameEn?: string | null;
   slug?: string | null;
-  description?: string | null;
+  descriptionVi?: string | null;
+  descriptionEn?: string | null;
   imageUrl?: string | null;
   displayOrder?: number | null;
   active?: boolean | null;

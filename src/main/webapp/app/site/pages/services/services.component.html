@@ -1,0 +1,91 @@
+<site-page-hero [image]="state.heroImageFor('services')">
+  <p class="eyebrow">{{ 'site.services.eyebrow' | translate }}</p>
+  <h1>{{ 'site.services.title' | translate }}</h1>
+  <p class="lead">{{ 'site.services.intro' | translate }}</p>
+</site-page-hero>
+
+<section class="section filters-section">
+  <div class="container">
+    <form class="filters" role="search" (submit)="$event.preventDefault(); submitSearch()">
+      <div class="search">
+        <label for="service-search" class="visually-hidden">{{ 'site.services.search' | translate }}</label>
+        <site-icon name="search" [size]="18" />
+        <input
+          id="service-search"
+          class="input"
+          type="search"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
+          (change)="submitSearch()"
+          [placeholder]="'site.services.searchPlaceholder' | translate"
+          autocomplete="off"
+        />
+      </div>
+
+      <fieldset>
+        <legend>{{ 'site.services.category' | translate }}</legend>
+        <div class="chips">
+          <button type="button" class="chip" [attr.aria-pressed]="activeCategory() === 'all'" (click)="setFilter('category', 'all')">
+            {{ 'site.services.all' | translate }}
+          </button>
+          @for (c of state.categories(); track c.id) {
+            <button type="button" class="chip" [attr.aria-pressed]="activeCategory() === c.slug" (click)="setFilter('category', c.slug)">
+              {{ state.t(c, 'name') }}
+            </button>
+          }
+        </div>
+      </fieldset>
+
+      <div class="selects">
+        <div class="field">
+          <label for="price-filter">{{ 'site.services.priceRange' | translate }}</label>
+          <select id="price-filter" class="input" [value]="activePrice().key" (change)="setFilter('price', $any($event.target).value)">
+            @for (r of priceRanges; track r.key) {
+              <option [value]="r.key" [selected]="r.key === activePrice().key">{{ rangeLabel(r, 'price') }}</option>
+            }
+          </select>
+        </div>
+        <div class="field">
+          <label for="duration-filter">{{ 'site.services.duration' | translate }}</label>
+          <select
+            id="duration-filter"
+            class="input"
+            [value]="activeDuration().key"
+            (change)="setFilter('duration', $any($event.target).value)"
+          >
+            @for (r of durationRanges; track r.key) {
+              <option [value]="r.key" [selected]="r.key === activeDuration().key">{{ rangeLabel(r, 'duration') }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <p class="result-count" aria-live="polite">{{ 'site.services.resultCount' | translate: { count: results().length } }}</p>
+
+    @if (results().length) {
+      <div class="grid grid-3">
+        @for (s of results(); track s.id; let i = $index) {
+          <site-service-card [service]="s" siteReveal [revealDelay]="(i % 3) * 80" />
+        }
+      </div>
+    } @else {
+      <div class="empty">
+        <p>{{ 'site.services.empty' | translate }}</p>
+        <button type="button" class="btn-site btn-outline" (click)="reset()">{{ 'site.services.reset' | translate }}</button>
+      </div>
+    }
+  </div>
+</section>
+
+@if (draft.count()) {
+  <div class="cart-bar" role="status">
+    <div class="container cart-inner">
+      <span
+        ><strong>{{ 'site.booking.selectedServices' | translate: { count: draft.count() } }}</strong>
+        <span class="muted"> · {{ 'site.booking.estimate' | translate }}</span></span
+      >
+      <a class="btn-site btn-gold btn-sm" [routerLink]="state.link('booking')">{{ 'site.cta.continueBooking' | translate }}</a>
+    </div>
+  </div>
+}

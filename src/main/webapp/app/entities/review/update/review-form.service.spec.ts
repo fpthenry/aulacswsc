@@ -20,9 +20,13 @@ describe('Review Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            authorName: expect.any(Object),
             rating: expect.any(Object),
             comment: expect.any(Object),
+            videoUrl: expect.any(Object),
+            reviewDate: expect.any(Object),
             approved: expect.any(Object),
+            featured: expect.any(Object),
             createdDate: expect.any(Object),
             customer: expect.any(Object),
             service: expect.any(Object),
@@ -36,9 +40,13 @@ describe('Review Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            authorName: expect.any(Object),
             rating: expect.any(Object),
             comment: expect.any(Object),
+            videoUrl: expect.any(Object),
+            reviewDate: expect.any(Object),
             approved: expect.any(Object),
+            featured: expect.any(Object),
             createdDate: expect.any(Object),
             customer: expect.any(Object),
             service: expect.any(Object),

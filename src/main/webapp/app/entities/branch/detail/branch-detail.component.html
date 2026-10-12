@@ -1,0 +1,116 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (branch(); as branchRef) {
+      <div>
+        <h2 data-cy="branchDetailsHeading"><span jhiTranslate="aulacswscApp.branch.detail.title">Branch</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ branchRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.nameVi">Name Vi</span></dt>
+          <dd>
+            <span>{{ branchRef.nameVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.nameEn">Name En</span></dt>
+          <dd>
+            <span>{{ branchRef.nameEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.slug">Slug</span></dt>
+          <dd>
+            <span>{{ branchRef.slug }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.addressVi">Address Vi</span></dt>
+          <dd>
+            <span>{{ branchRef.addressVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.addressEn">Address En</span></dt>
+          <dd>
+            <span>{{ branchRef.addressEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.phone">Phone</span></dt>
+          <dd>
+            <span>{{ branchRef.phone }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.whatsapp">Whatsapp</span></dt>
+          <dd>
+            <span>{{ branchRef.whatsapp }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.zalo">Zalo</span></dt>
+          <dd>
+            <span>{{ branchRef.zalo }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.email">Email</span></dt>
+          <dd>
+            <span>{{ branchRef.email }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.branch.help.openTime' | translate" jhiTranslate="aulacswscApp.branch.openTime"
+              >Open Time</span
+            >
+          </dt>
+          <dd>
+            <span>{{ branchRef.openTime }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.branch.help.closeTime' | translate" jhiTranslate="aulacswscApp.branch.closeTime"
+              >Close Time</span
+            >
+          </dt>
+          <dd>
+            <span>{{ branchRef.closeTime }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.branch.help.lastBookingTime' | translate" jhiTranslate="aulacswscApp.branch.lastBookingTime"
+              >Last Booking Time</span
+            >
+          </dt>
+          <dd>
+            <span>{{ branchRef.lastBookingTime }}</span>
+          </dd>
+          <dt>
+            <span [ngbTooltip]="'aulacswscApp.branch.help.capacity' | translate" jhiTranslate="aulacswscApp.branch.capacity">Capacity</span>
+          </dt>
+          <dd>
+            <span>{{ branchRef.capacity }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.mapEmbedUrl">Map Embed Url</span></dt>
+          <dd>
+            <span>{{ branchRef.mapEmbedUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.mapDirectionUrl">Map Direction Url</span></dt>
+          <dd>
+            <span>{{ branchRef.mapDirectionUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.imageUrl">Image Url</span></dt>
+          <dd>
+            <span>{{ branchRef.imageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.displayOrder">Display Order</span></dt>
+          <dd>
+            <span>{{ branchRef.displayOrder }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.branch.active">Active</span></dt>
+          <dd>
+            <span>{{ branchRef.active }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/branch', branchRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

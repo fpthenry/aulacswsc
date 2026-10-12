@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * Chi tiết dịch vụ trong một lịch hẹn
+ * Dịch vụ trong một lịch hẹn
  */
 @Entity
 @Table(name = "booking_item")
@@ -40,12 +40,12 @@ public class BookingItem implements Serializable {
     private SpaService service;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "user", "services" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "branch", "services" }, allowSetters = true)
     private Staff staff;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "items", "promotion", "customer" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "items", "branch", "promotion", "customer" }, allowSetters = true)
     private Booking booking;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -5,26 +5,22 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
+import { ImageUploadComponent } from 'app/shared/image-upload/image-upload.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { ServiceCategoryService } from '../service/service-category.service';
 import { IServiceCategory } from '../service-category.model';
+import { ServiceCategoryService } from '../service/service-category.service';
 import { ServiceCategoryFormGroup, ServiceCategoryFormService } from './service-category-form.service';
 
 @Component({
   selector: 'jhi-service-category-update',
   templateUrl: './service-category-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule, ImageUploadComponent],
 })
 export class ServiceCategoryUpdateComponent implements OnInit {
   isSaving = false;
   serviceCategory: IServiceCategory | null = null;
 
-  protected dataUtils = inject(DataUtils);
-  protected eventManager = inject(EventManager);
   protected serviceCategoryService = inject(ServiceCategoryService);
   protected serviceCategoryFormService = inject(ServiceCategoryFormService);
   protected activatedRoute = inject(ActivatedRoute);
@@ -38,21 +34,6 @@ export class ServiceCategoryUpdateComponent implements OnInit {
       if (serviceCategory) {
         this.updateForm(serviceCategory);
       }
-    });
-  }
-
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
-  }
-
-  openFile(base64String: string, contentType: string | null | undefined): void {
-    this.dataUtils.openFile(base64String, contentType);
-  }
-
-  setFileData(event: Event, field: string, isImage: boolean): void {
-    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('aulacswscApp.error', { ...err, key: `error.file.${err.key}` })),
     });
   }
 

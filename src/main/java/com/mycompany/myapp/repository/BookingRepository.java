@@ -1,6 +1,9 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Booking;
+import com.mycompany.myapp.domain.enumeration.BookingStatus;
+import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -27,14 +30,29 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
     }
 
     @Query(
-        value = "select booking from Booking booking left join fetch booking.promotion left join fetch booking.customer",
+        value = "select booking from Booking booking left join fetch booking.branch left join fetch booking.promotion left join fetch booking.customer",
         countQuery = "select count(booking) from Booking booking"
     )
     Page<Booking> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select booking from Booking booking left join fetch booking.promotion left join fetch booking.customer")
+    @Query(
+        "select booking from Booking booking left join fetch booking.branch left join fetch booking.promotion left join fetch booking.customer"
+    )
     List<Booking> findAllWithToOneRelationships();
 
-    @Query("select booking from Booking booking left join fetch booking.promotion left join fetch booking.customer where booking.id =:id")
+    @Query(
+        "select booking from Booking booking left join fetch booking.branch left join fetch booking.promotion left join fetch booking.customer where booking.id =:id"
+    )
     Optional<Booking> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<Booking> findAllByBranchIdAndStartTimeBetweenAndStatusNotIn(
+        Long branchId,
+        Instant from,
+        Instant to,
+        Collection<BookingStatus> excludedStatuses
+    );
+
+    Optional<Booking> findOneByCode(String code);
+
+    boolean existsByCode(String code);
 }

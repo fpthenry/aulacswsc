@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (blogPost(); as blogPostRef) {
+      <div>
+        <h2 data-cy="blogPostDetailsHeading"><span jhiTranslate="aulacswscApp.blogPost.detail.title">Blog Post</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ blogPostRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.titleVi">Title Vi</span></dt>
+          <dd>
+            <span>{{ blogPostRef.titleVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.titleEn">Title En</span></dt>
+          <dd>
+            <span>{{ blogPostRef.titleEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.slug">Slug</span></dt>
+          <dd>
+            <span>{{ blogPostRef.slug }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.excerptVi">Excerpt Vi</span></dt>
+          <dd>
+            <span>{{ blogPostRef.excerptVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.excerptEn">Excerpt En</span></dt>
+          <dd>
+            <span>{{ blogPostRef.excerptEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.contentVi">Content Vi</span></dt>
+          <dd>
+            <span>{{ blogPostRef.contentVi }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.contentEn">Content En</span></dt>
+          <dd>
+            <span>{{ blogPostRef.contentEn }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.coverImageUrl">Cover Image Url</span></dt>
+          <dd>
+            <span>{{ blogPostRef.coverImageUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.category">Category</span></dt>
+          <dd>
+            <span [jhiTranslate]="'aulacswscApp.BlogCategory.' + (blogPostRef.category ?? 'null')">{{
+              { null: '', NEWS: 'NEWS', EVENT: 'EVENT', REVIEW: 'REVIEW', TIPS: 'TIPS' }[blogPostRef.category ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.published">Published</span></dt>
+          <dd>
+            <span>{{ blogPostRef.published }}</span>
+          </dd>
+          <dt><span jhiTranslate="aulacswscApp.blogPost.publishedAt">Published At</span></dt>
+          <dd>
+            <span>{{ blogPostRef.publishedAt | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/blog-post', blogPostRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

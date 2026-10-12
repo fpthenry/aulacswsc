@@ -64,6 +64,7 @@ public class StaffAsserts {
     public static void assertStaffUpdatableRelationshipsEquals(Staff expected, Staff actual) {
         assertThat(actual)
             .as("Verify Staff relationships")
+            .satisfies(a -> assertThat(a.getBranch()).as("check branch").isEqualTo(expected.getBranch()))
             .satisfies(a -> assertThat(a.getServices()).as("check services").isEqualTo(expected.getServices()));
     }
 }

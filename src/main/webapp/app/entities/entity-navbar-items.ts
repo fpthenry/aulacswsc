@@ -46,4 +46,24 @@ export const EntityNavbarItems: NavbarItem[] = [
     route: '/contact-message',
     translationKey: 'global.menu.entities.contactMessage',
   },
+  {
+    name: 'SiteSetting',
+    route: '/site-setting',
+    translationKey: 'global.menu.entities.siteSetting',
+  },
+  {
+    name: 'Branch',
+    route: '/branch',
+    translationKey: 'global.menu.entities.branch',
+  },
+  {
+    name: 'GalleryImage',
+    route: '/gallery-image',
+    translationKey: 'global.menu.entities.galleryImage',
+  },
+  {
+    name: 'BlogPost',
+    route: '/blog-post',
+    translationKey: 'global.menu.entities.blogPost',
+  },
 ];

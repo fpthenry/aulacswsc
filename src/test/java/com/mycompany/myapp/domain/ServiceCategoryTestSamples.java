@@ -12,18 +12,37 @@ public class ServiceCategoryTestSamples {
     private static final AtomicInteger intCount = new AtomicInteger(random.nextInt() + (2 * Short.MAX_VALUE));
 
     public static ServiceCategory getServiceCategorySample1() {
-        return new ServiceCategory().id(1L).name("name1").slug("slug1").imageUrl("imageUrl1").displayOrder(1);
+        return new ServiceCategory()
+            .id(1L)
+            .nameVi("nameVi1")
+            .nameEn("nameEn1")
+            .slug("slug1")
+            .descriptionVi("descriptionVi1")
+            .descriptionEn("descriptionEn1")
+            .imageUrl("imageUrl1")
+            .displayOrder(1);
     }
 
     public static ServiceCategory getServiceCategorySample2() {
-        return new ServiceCategory().id(2L).name("name2").slug("slug2").imageUrl("imageUrl2").displayOrder(2);
+        return new ServiceCategory()
+            .id(2L)
+            .nameVi("nameVi2")
+            .nameEn("nameEn2")
+            .slug("slug2")
+            .descriptionVi("descriptionVi2")
+            .descriptionEn("descriptionEn2")
+            .imageUrl("imageUrl2")
+            .displayOrder(2);
     }
 
     public static ServiceCategory getServiceCategoryRandomSampleGenerator() {
         return new ServiceCategory()
             .id(longCount.incrementAndGet())
-            .name(UUID.randomUUID().toString())
+            .nameVi(UUID.randomUUID().toString())
+            .nameEn(UUID.randomUUID().toString())
             .slug(UUID.randomUUID().toString())
+            .descriptionVi(UUID.randomUUID().toString())
+            .descriptionEn(UUID.randomUUID().toString())
             .imageUrl(UUID.randomUUID().toString())
             .displayOrder(intCount.incrementAndGet());
     }

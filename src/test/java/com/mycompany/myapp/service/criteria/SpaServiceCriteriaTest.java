@@ -76,14 +76,18 @@ class SpaServiceCriteriaTest {
 
     private static void setAllFilters(SpaServiceCriteria spaServiceCriteria) {
         spaServiceCriteria.id();
-        spaServiceCriteria.name();
+        spaServiceCriteria.nameVi();
+        spaServiceCriteria.nameEn();
         spaServiceCriteria.slug();
-        spaServiceCriteria.shortDescription();
+        spaServiceCriteria.shortDescriptionVi();
+        spaServiceCriteria.shortDescriptionEn();
         spaServiceCriteria.price();
         spaServiceCriteria.salePrice();
+        spaServiceCriteria.priceMax();
         spaServiceCriteria.durationMinutes();
         spaServiceCriteria.imageUrl();
         spaServiceCriteria.featured();
+        spaServiceCriteria.displayOrder();
         spaServiceCriteria.active();
         spaServiceCriteria.categoryId();
         spaServiceCriteria.staffsId();
@@ -94,14 +98,18 @@ class SpaServiceCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId()) &&
-                condition.apply(criteria.getName()) &&
+                condition.apply(criteria.getNameVi()) &&
+                condition.apply(criteria.getNameEn()) &&
                 condition.apply(criteria.getSlug()) &&
-                condition.apply(criteria.getShortDescription()) &&
+                condition.apply(criteria.getShortDescriptionVi()) &&
+                condition.apply(criteria.getShortDescriptionEn()) &&
                 condition.apply(criteria.getPrice()) &&
                 condition.apply(criteria.getSalePrice()) &&
+                condition.apply(criteria.getPriceMax()) &&
                 condition.apply(criteria.getDurationMinutes()) &&
                 condition.apply(criteria.getImageUrl()) &&
                 condition.apply(criteria.getFeatured()) &&
+                condition.apply(criteria.getDisplayOrder()) &&
                 condition.apply(criteria.getActive()) &&
                 condition.apply(criteria.getCategoryId()) &&
                 condition.apply(criteria.getStaffsId()) &&
@@ -114,14 +122,18 @@ class SpaServiceCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
-                condition.apply(criteria.getName(), copy.getName()) &&
+                condition.apply(criteria.getNameVi(), copy.getNameVi()) &&
+                condition.apply(criteria.getNameEn(), copy.getNameEn()) &&
                 condition.apply(criteria.getSlug(), copy.getSlug()) &&
-                condition.apply(criteria.getShortDescription(), copy.getShortDescription()) &&
+                condition.apply(criteria.getShortDescriptionVi(), copy.getShortDescriptionVi()) &&
+                condition.apply(criteria.getShortDescriptionEn(), copy.getShortDescriptionEn()) &&
                 condition.apply(criteria.getPrice(), copy.getPrice()) &&
                 condition.apply(criteria.getSalePrice(), copy.getSalePrice()) &&
+                condition.apply(criteria.getPriceMax(), copy.getPriceMax()) &&
                 condition.apply(criteria.getDurationMinutes(), copy.getDurationMinutes()) &&
                 condition.apply(criteria.getImageUrl(), copy.getImageUrl()) &&
                 condition.apply(criteria.getFeatured(), copy.getFeatured()) &&
+                condition.apply(criteria.getDisplayOrder(), copy.getDisplayOrder()) &&
                 condition.apply(criteria.getActive(), copy.getActive()) &&
                 condition.apply(criteria.getCategoryId(), copy.getCategoryId()) &&
                 condition.apply(criteria.getStaffsId(), copy.getStaffsId()) &&

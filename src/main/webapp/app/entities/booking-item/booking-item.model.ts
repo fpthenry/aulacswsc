@@ -7,7 +7,7 @@ export interface IBookingItem {
   price?: number | null;
   quantity?: number | null;
   durationMinutes?: number | null;
-  service?: Pick<ISpaService, 'id' | 'name'> | null;
+  service?: Pick<ISpaService, 'id' | 'nameVi'> | null;
   staff?: Pick<IStaff, 'id' | 'fullName'> | null;
   booking?: Pick<IBooking, 'id' | 'code'> | null;
 }

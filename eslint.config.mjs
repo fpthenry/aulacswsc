@@ -42,7 +42,8 @@ export default tseslint.config(
         'error',
         {
           type: 'element',
-          prefix: 'jhi',
+          // 'site' = website khách trong app/site
+          prefix: ['jhi', 'site'],
           style: 'kebab-case',
         },
       ],
@@ -50,7 +51,7 @@ export default tseslint.config(
         'error',
         {
           type: 'attribute',
-          prefix: 'jhi',
+          prefix: ['jhi', 'site'],
           style: 'camelCase',
         },
       ],
@@ -110,6 +111,14 @@ export default tseslint.config(
       'object-shorthand': ['error', 'always', { avoidExplicitReturnArrows: true }],
       radix: 'error',
       'spaced-comment': ['warn', 'always'],
+    },
+  },
+  {
+    // website khách: các signal/handler được nhóm theo chức năng (header, nhạc, form...) cho dễ đọc,
+    // nên không ép thứ tự public/private của member-ordering
+    files: ['src/main/webapp/app/site/**/*.ts'],
+    rules: {
+      '@typescript-eslint/member-ordering': 'off',
     },
   },
   {
