@@ -8,11 +8,29 @@ Tài liệu **duy nhất** ghi lại mọi chức năng được thêm / sửa t
 2. Khi commit → đổi tiêu đề **[Chưa commit]** thành `## <ngày> — <mã commit> <tiêu đề commit>`, rồi tạo mục **[Chưa commit]** mới, trống.
 3. Mục **[Chưa commit]** luôn có phần **Nội dung commit** viết sẵn — copy dùng cho `git commit`.
 
-Chi tiết kỹ thuật xem thêm: [01 Database & phân quyền](01-database-va-phan-quyen.md) · [02 Luồng xử lý](02-luong-xu-ly-crud.md) · [03 Quy ước dự án](03-quy-uoc-du-an.md) · [04 Hướng dẫn quản trị nội dung](04-huong-dan-quan-tri-noi-dung.md)
+Chi tiết kỹ thuật xem thêm: [01 Database & phân quyền](01-database-va-phan-quyen.md) · [02 Luồng xử lý](02-luong-xu-ly-crud.md) · [03 Quy ước dự án](03-quy-uoc-du-an.md) · [04 Hướng dẫn quản trị nội dung](04-huong-dan-quan-tri-noi-dung.md) · [05 Triển khai server](05-trien-khai-server.md)
 
 ---
 
 ## [Chưa commit]
+
+_Chưa có thay đổi._
+
+---
+
+## 2026-10-12 — docs: hướng dẫn triển khai server
+
+### Thêm
+
+- Tài liệu [05 Triển khai server](05-trien-khai-server.md): đóng gói jar, cài Ubuntu + Java + MySQL + Nginx, file cấu hình bí mật `.env`, dịch vụ systemd, HTTPS Let's Encrypt, cập nhật phiên bản, sao lưu tự động DB + ảnh, lệnh vận hành, xử lý sự cố, phương án Docker, danh sách kiểm tra bàn giao.
+
+### Thay đổi
+
+- `application-prod.yml`: `server.forward-headers-strategy: native` — chạy sau Nginx vẫn nhận đúng `https://` và tên miền (sitemap, link chia sẻ).
+
+---
+
+## 2026-10-12 — `f22a5c6` feat(admin): giao diện quản trị tiếng Việt, tổng quan, bảng lịch hẹn và form thông minh
 
 ### Thêm — Trang quản trị bàn giao khách hàng
 
