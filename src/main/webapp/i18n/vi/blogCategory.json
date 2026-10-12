@@ -2,10 +2,10 @@
   "aulacswscApp": {
     "BlogCategory": {
       "null": "",
-      "NEWS": "NEWS",
-      "EVENT": "EVENT",
-      "REVIEW": "REVIEW",
-      "TIPS": "TIPS"
+      "NEWS": "Tin tức",
+      "EVENT": "Sự kiện",
+      "REVIEW": "Review",
+      "TIPS": "Cẩm nang"
     }
   }
 }

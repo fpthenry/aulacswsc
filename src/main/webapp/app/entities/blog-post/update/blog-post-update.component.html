@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-blog-post-heading" data-cy="BlogPostCreateUpdateHeading" jhiTranslate="aulacswscApp.blogPost.home.createOrEditLabel">
-        Create or edit a Blog Post
+      <h2 id="jhi-blog-post-heading" data-cy="BlogPostCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa bài viết
+          @if (editForm.controls.titleVi.value) {
+            <span class="form-title-name">{{ editForm.controls.titleVi.value }}</span>
+          }
+        } @else {
+          Thêm bài viết mới
+        }
       </h2>
 
       <div>
@@ -15,134 +22,217 @@
           </div>
         }
 
-        @let titleViRef = editForm.get('titleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_titleVi" jhiTranslate="aulacswscApp.blogPost.titleVi">Title Vi</label>
-          <input type="text" class="form-control" name="titleVi" id="field_titleVi" data-cy="titleVi" formControlName="titleVi" />
-          @if (titleViRef.invalid && (titleViRef.dirty || titleViRef.touched)) {
-            <div>
-              @if (editForm.get('titleVi')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('titleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '250' }"
-                  >This field cannot be longer than 250 characters.</small
-                >
-              }
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Tiêu đề &amp; tóm tắt</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Nội dung bài viết</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Ảnh bìa &amp; đăng bài</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Tiêu đề &amp; tóm tắt</h3>
+          <p class="form-section-desc">Hiện ở danh sách Tin tức và khi chia sẻ link.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let titleViRef = editForm.get('titleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_titleVi" jhiTranslate="aulacswscApp.blogPost.titleVi">Title Vi</label>
+                <input type="text" class="form-control" name="titleVi" id="field_titleVi" data-cy="titleVi" formControlName="titleVi" />
+                @if (titleViRef.invalid && (titleViRef.dirty || titleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('titleVi')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('titleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '250' }"
+                        >This field cannot be longer than 250 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let titleEnRef = editForm.get('titleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_titleEn" jhiTranslate="aulacswscApp.blogPost.titleEn">Title En</label>
-          <input type="text" class="form-control" name="titleEn" id="field_titleEn" data-cy="titleEn" formControlName="titleEn" />
-          @if (titleEnRef.invalid && (titleEnRef.dirty || titleEnRef.touched)) {
-            <div>
-              @if (editForm.get('titleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '250' }"
-                  >This field cannot be longer than 250 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let titleEnRef = editForm.get('titleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_titleEn" jhiTranslate="aulacswscApp.blogPost.titleEn">Title En</label>
+                <input type="text" class="form-control" name="titleEn" id="field_titleEn" data-cy="titleEn" formControlName="titleEn" />
+                @if (titleEnRef.invalid && (titleEnRef.dirty || titleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('titleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '250' }"
+                        >This field cannot be longer than 250 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let excerptViRef = editForm.get('excerptVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_excerptVi" jhiTranslate="aulacswscApp.blogPost.excerptVi">Excerpt Vi</label>
-          <input type="text" class="form-control" name="excerptVi" id="field_excerptVi" data-cy="excerptVi" formControlName="excerptVi" />
-          @if (excerptViRef.invalid && (excerptViRef.dirty || excerptViRef.touched)) {
-            <div>
-              @if (editForm.get('excerptVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let excerptViRef = editForm.get('excerptVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_excerptVi" jhiTranslate="aulacswscApp.blogPost.excerptVi">Excerpt Vi</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="excerptVi"
+                  id="field_excerptVi"
+                  data-cy="excerptVi"
+                  formControlName="excerptVi"
+                />
+                @if (excerptViRef.invalid && (excerptViRef.dirty || excerptViRef.touched)) {
+                  <div>
+                    @if (editForm.get('excerptVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">1–2 câu tóm tắt, hiện ở danh sách tin.</div>
+                <div class="form-text char-count" [class.over]="(editForm.get('excerptVi')?.value ?? '').length > 200">
+                  {{ (editForm.get('excerptVi')?.value ?? '').length }} / 200 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let excerptEnRef = editForm.get('excerptEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_excerptEn" jhiTranslate="aulacswscApp.blogPost.excerptEn">Excerpt En</label>
-          <input type="text" class="form-control" name="excerptEn" id="field_excerptEn" data-cy="excerptEn" formControlName="excerptEn" />
-          @if (excerptEnRef.invalid && (excerptEnRef.dirty || excerptEnRef.touched)) {
-            <div>
-              @if (editForm.get('excerptEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let excerptEnRef = editForm.get('excerptEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_excerptEn" jhiTranslate="aulacswscApp.blogPost.excerptEn">Excerpt En</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="excerptEn"
+                  id="field_excerptEn"
+                  data-cy="excerptEn"
+                  formControlName="excerptEn"
+                />
+                @if (excerptEnRef.invalid && (excerptEnRef.dirty || excerptEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('excerptEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text char-count" [class.over]="(editForm.get('excerptEn')?.value ?? '').length > 200">
+                  {{ (editForm.get('excerptEn')?.value ?? '').length }} / 200 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_contentVi" jhiTranslate="aulacswscApp.blogPost.contentVi">Content Vi</label>
-          <textarea class="form-control" name="contentVi" id="field_contentVi" data-cy="contentVi" formControlName="contentVi"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_contentEn" jhiTranslate="aulacswscApp.blogPost.contentEn">Content En</label>
-          <textarea class="form-control" name="contentEn" id="field_contentEn" data-cy="contentEn" formControlName="contentEn"></textarea>
-        </div>
-
-        @let coverImageUrlRef = editForm.get('coverImageUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_coverImageUrl" jhiTranslate="aulacswscApp.blogPost.coverImageUrl">Cover Image Url</label>
-          <jhi-image-upload [control]="editForm.controls.coverImageUrl" inputId="field_coverImageUrl" />
-          @if (coverImageUrlRef.invalid && (coverImageUrlRef.dirty || coverImageUrlRef.touched)) {
-            <div>
-              @if (editForm.get('coverImageUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_category" jhiTranslate="aulacswscApp.blogPost.category">Category</label>
-          <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
-            <option [ngValue]="null">{{ 'aulacswscApp.BlogCategory.null' | translate }}</option>
-            @for (blogCategory of blogCategoryValues; track $index) {
-              <option [value]="blogCategory">{{ 'aulacswscApp.BlogCategory.' + blogCategory | translate }}</option>
-            }
-          </select>
-        </div>
-
-        @let publishedRef = editForm.get('published')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_published" jhiTranslate="aulacswscApp.blogPost.published">Published</label>
-          <input type="checkbox" class="form-check" name="published" id="field_published" data-cy="published" formControlName="published" />
-          @if (publishedRef.invalid && (publishedRef.dirty || publishedRef.touched)) {
-            <div>
-              @if (editForm.get('published')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_publishedAt" jhiTranslate="aulacswscApp.blogPost.publishedAt">Published At</label>
-          <div class="d-flex">
-            <input
-              id="field_publishedAt"
-              data-cy="publishedAt"
-              type="datetime-local"
-              class="form-control"
-              name="publishedAt"
-              formControlName="publishedAt"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
           </div>
-        </div>
+        </section>
+
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Nội dung bài viết</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_contentVi" jhiTranslate="aulacswscApp.blogPost.contentVi">Content Vi</label>
+                <textarea
+                  class="form-control"
+                  name="contentVi"
+                  id="field_contentVi"
+                  data-cy="contentVi"
+                  formControlName="contentVi"
+                ></textarea>
+                <div class="form-text">Cách đoạn bằng một dòng trống. Chỉ chữ thường, không chèn link.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_contentEn" jhiTranslate="aulacswscApp.blogPost.contentEn">Content En</label>
+                <textarea
+                  class="form-control"
+                  name="contentEn"
+                  id="field_contentEn"
+                  data-cy="contentEn"
+                  formControlName="contentEn"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Ảnh bìa &amp; đăng bài</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-12">
+              @let coverImageUrlRef = editForm.get('coverImageUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_coverImageUrl" jhiTranslate="aulacswscApp.blogPost.coverImageUrl"
+                  >Cover Image Url</label
+                >
+                <jhi-image-upload [control]="editForm.controls.coverImageUrl" inputId="field_coverImageUrl" />
+                @if (coverImageUrlRef.invalid && (coverImageUrlRef.dirty || coverImageUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('coverImageUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_category" jhiTranslate="aulacswscApp.blogPost.category">Category</label>
+                <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
+                  <option [ngValue]="null">{{ 'aulacswscApp.BlogCategory.null' | translate }}</option>
+                  @for (blogCategory of blogCategoryValues; track $index) {
+                    <option [value]="blogCategory">{{ 'aulacswscApp.BlogCategory.' + blogCategory | translate }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_publishedAt" jhiTranslate="aulacswscApp.blogPost.publishedAt">Published At</label>
+                <div class="d-flex">
+                  <input
+                    id="field_publishedAt"
+                    data-cy="publishedAt"
+                    type="datetime-local"
+                    class="form-control"
+                    name="publishedAt"
+                    formControlName="publishedAt"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+                <div class="form-text">Bài mới nhất hiện trước.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let publishedRef = editForm.get('published')!;
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="published"
+                  id="field_published"
+                  data-cy="published"
+                  formControlName="published"
+                />
+                <label class="form-check-label" for="field_published" jhiTranslate="aulacswscApp.blogPost.published">Published</label>
+
+                @if (publishedRef.invalid && (publishedRef.dirty || publishedRef.touched)) {
+                  <div>
+                    @if (editForm.get('published')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+                <div class="form-text">Tắt = bản nháp, chưa hiện trên website.</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

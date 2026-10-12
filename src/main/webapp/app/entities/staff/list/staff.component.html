@@ -33,23 +33,14 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
+            <th scope="col" class="c-thumb">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <span jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</span>
               </div>
             </th>
             <th scope="col" jhiSortBy="fullName">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.fullName">Full Name</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="phone">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.phone">Phone</span>
+                <span>Họ tên</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -61,30 +52,10 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="bio">
+            <th scope="col" jhiSortBy="phone">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.bio">Bio</span>
+                <span>Điện thoại</span>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="avatarUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="active">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.active">Active</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="user.login">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.staff.user">User</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -94,24 +65,33 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span>Hiển thị</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
           @for (staff of staff(); track trackId(staff)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/staff', staff.id, 'view']">{{ staff.id }}</a>
+              <td class="c-thumb">
+                @if (staff.avatarUrl) {
+                  <img [src]="staff.avatarUrl" alt="" loading="lazy" />
+                } @else {
+                  <span class="thumb-empty" aria-hidden="true"></span>
+                }
               </td>
-              <td>{{ staff.fullName }}</td>
+              <td class="c-main">
+                <a [routerLink]="['/staff', staff.id, 'edit']">{{ staff.fullName }}</a>
+              </td>
+              <td class="c-long">
+                <span>{{ staff.position }}</span>
+              </td>
               <td>{{ staff.phone }}</td>
-              <td>{{ staff.position }}</td>
-              <td>{{ staff.bio }}</td>
-              <td>{{ staff.avatarUrl }}</td>
-              <td>{{ staff.active }}</td>
-              <td>
-                {{ staff.user?.login }}
-              </td>
               <td>
                 @if (staff.branch) {
                   <div>
@@ -119,21 +99,27 @@
                   </div>
                 }
               </td>
-              <td class="text-end">
+              <td>
+                <span class="yn" [class.yes]="staff.active">{{ staff.active ? 'Đang hiện' : 'Đã ẩn' }}</span>
+              </td>
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/staff', staff.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/staff', staff.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/staff', staff.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(staff)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(staff)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" title="Xóa">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

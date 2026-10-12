@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (galleryImage(); as galleryImageRef) {
       <div>
         <h2 data-cy="galleryImageDetailsHeading"><span jhiTranslate="aulacswscApp.galleryImage.detail.title">Gallery Image</span></h2>
@@ -17,7 +17,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.galleryImage.imageUrl">Image Url</span></dt>
           <dd>
-            <span>{{ galleryImageRef.imageUrl }}</span>
+            @if (galleryImageRef.imageUrl) {
+              <img class="detail-img" [src]="galleryImageRef.imageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.galleryImage.captionVi">Caption Vi</span></dt>
           <dd>

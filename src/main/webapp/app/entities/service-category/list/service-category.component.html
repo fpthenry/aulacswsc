@@ -33,87 +33,53 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
+            <th scope="col" class="c-thumb">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <span jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</span>
               </div>
             </th>
             <th scope="col" jhiSortBy="nameVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.nameVi">Name Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="nameEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.nameEn">Name En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="slug">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.slug">Slug</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="descriptionVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.descriptionVi">Description Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="descriptionEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.descriptionEn">Description En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="imageUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</span>
+                <span>Tên</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="displayOrder">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.displayOrder">Display Order</span>
+                <span>Thứ tự</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="active">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.serviceCategory.active">Active</span>
+                <span>Hiển thị</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
           @for (serviceCategory of serviceCategories(); track trackId(serviceCategory)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/service-category', serviceCategory.id, 'view']">{{ serviceCategory.id }}</a>
+              <td class="c-thumb">
+                @if (serviceCategory.imageUrl) {
+                  <img [src]="serviceCategory.imageUrl" alt="" loading="lazy" />
+                } @else {
+                  <span class="thumb-empty" aria-hidden="true"></span>
+                }
               </td>
-              <td>{{ serviceCategory.nameVi }}</td>
-              <td>{{ serviceCategory.nameEn }}</td>
-              <td>{{ serviceCategory.slug }}</td>
-              <td>{{ serviceCategory.descriptionVi }}</td>
-              <td>{{ serviceCategory.descriptionEn }}</td>
-              <td>{{ serviceCategory.imageUrl }}</td>
+              <td class="c-main">
+                <a [routerLink]="['/service-category', serviceCategory.id, 'edit']">{{ serviceCategory.nameVi }}</a>
+              </td>
               <td>{{ serviceCategory.displayOrder }}</td>
-              <td>{{ serviceCategory.active }}</td>
-              <td class="text-end">
+              <td>
+                <span class="yn" [class.yes]="serviceCategory.active">{{ serviceCategory.active ? 'Đang hiện' : 'Đã ẩn' }}</span>
+              </td>
+              <td class="c-actions">
                 <div class="btn-group">
                   <button
                     type="submit"
@@ -136,7 +102,6 @@
                     data-cy="entityDetailsButton"
                   >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a
@@ -145,12 +110,17 @@
                     data-cy="entityEditButton"
                   >
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(serviceCategory)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button
+                    type="submit"
+                    (click)="delete(serviceCategory)"
+                    class="btn btn-danger btn-sm"
+                    data-cy="entityDeleteButton"
+                    title="Xóa"
+                  >
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

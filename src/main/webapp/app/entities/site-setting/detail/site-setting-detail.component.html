@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (siteSetting(); as siteSettingRef) {
       <div>
         <h2 data-cy="siteSettingDetailsHeading"><span jhiTranslate="aulacswscApp.siteSetting.detail.title">Site Setting</span></h2>
@@ -21,7 +21,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.siteSetting.logoUrl">Logo Url</span></dt>
           <dd>
-            <span>{{ siteSettingRef.logoUrl }}</span>
+            @if (siteSettingRef.logoUrl) {
+              <img class="detail-img" [src]="siteSettingRef.logoUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.siteSetting.sloganVi">Slogan Vi</span></dt>
           <dd>
@@ -41,7 +45,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.siteSetting.heroImageUrl">Hero Image Url</span></dt>
           <dd>
-            <span>{{ siteSettingRef.heroImageUrl }}</span>
+            @if (siteSettingRef.heroImageUrl) {
+              <img class="detail-img" [src]="siteSettingRef.heroImageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.siteSetting.heroVideoUrl">Hero Video Url</span></dt>
           <dd>

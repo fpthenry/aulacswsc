@@ -2,12 +2,12 @@
   "aulacswscApp": {
     "BookingStatus": {
       "null": "",
-      "PENDING": "PENDING",
-      "CONFIRMED": "CONFIRMED",
-      "IN_PROGRESS": "IN_PROGRESS",
-      "COMPLETED": "COMPLETED",
-      "CANCELLED": "CANCELLED",
-      "NO_SHOW": "NO_SHOW"
+      "PENDING": "Chờ xác nhận",
+      "CONFIRMED": "Đã xác nhận",
+      "IN_PROGRESS": "Đang phục vụ",
+      "COMPLETED": "Hoàn thành",
+      "CANCELLED": "Đã hủy",
+      "NO_SHOW": "Không đến"
     }
   }
 }

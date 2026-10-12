@@ -72,6 +72,8 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+                    // trang quản trị: tổng quan, bảng lịch hẹn (lễ tân / nhân viên dùng được)
+                    .requestMatchers(mvc.pattern("/api/backoffice/**")).hasAnyAuthority(AuthoritiesConstants.ADMIN, AuthoritiesConstants.STAFF)
                     // ===== Website spa: nội dung công khai cho khách vãng lai =====
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/service-categories/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/spa-services/**")).permitAll()

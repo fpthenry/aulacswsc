@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (spaService(); as spaServiceRef) {
       <div>
         <h2 data-cy="spaServiceDetailsHeading"><span jhiTranslate="aulacswscApp.spaService.detail.title">Spa Service</span></h2>
@@ -95,7 +95,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</span></dt>
           <dd>
-            <span>{{ spaServiceRef.imageUrl }}</span>
+            @if (spaServiceRef.imageUrl) {
+              <img class="detail-img" [src]="spaServiceRef.imageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.spaService.featured">Featured</span></dt>
           <dd>

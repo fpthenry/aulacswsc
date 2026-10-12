@@ -1,24 +1,26 @@
 import { Component, OnInit, Renderer2, RendererFactory2, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
 import { isSiteUrl } from 'app/site/core/site-lang';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { AppPageTitleStrategy } from 'app/app-page-title-strategy';
-import FooterComponent from '../footer/footer.component';
-import PageRibbonComponent from '../profiles/page-ribbon.component';
+import { AdminShellComponent } from 'app/backoffice/layout/admin-shell.component';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
   providers: [AppPageTitleStrategy],
-  imports: [RouterOutlet, FooterComponent, PageRibbonComponent],
+  imports: [RouterOutlet, AdminShellComponent],
 })
 export default class MainComponent implements OnInit {
   /** true khi đang ở website khách /vi, /en → ẩn navbar/footer quản trị */
   readonly isSite = signal(isSiteUrl(window.location.pathname));
+  /** đã kiểm tra xong trạng thái đăng nhập (tránh nháy layout lúc mở trang) */
+  readonly authChecked = signal(false);
+  readonly account = inject(AccountService).trackCurrentAccount();
 
   private readonly renderer: Renderer2;
 
@@ -38,7 +40,10 @@ export default class MainComponent implements OnInit {
     });
 
     // try to log in automatically
-    this.accountService.identity().subscribe();
+    this.accountService
+      .identity()
+      .pipe(finalize(() => this.authChecked.set(true)))
+      .subscribe({ next: () => this.authChecked.set(true), error: () => this.authChecked.set(true) });
 
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.appPageTitleStrategy.updateTitle(this.router.routerState.snapshot);

@@ -1,13 +1,7 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-site-setting-heading"
-        data-cy="SiteSettingCreateUpdateHeading"
-        jhiTranslate="aulacswscApp.siteSetting.home.createOrEditLabel"
-      >
-        Create or edit a Site Setting
-      </h2>
+      <h2 id="jhi-site-setting-heading" data-cy="SiteSettingCreateUpdateHeading" class="form-title">Cài đặt website</h2>
 
       <div>
         <jhi-alert-error />
@@ -19,861 +13,979 @@
           </div>
         }
 
-        @let siteNameRef = editForm.get('siteName')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_siteName" jhiTranslate="aulacswscApp.siteSetting.siteName">Site Name</label>
-          <input type="text" class="form-control" name="siteName" id="field_siteName" data-cy="siteName" formControlName="siteName" />
-          @if (siteNameRef.invalid && (siteNameRef.dirty || siteNameRef.touched)) {
-            <div>
-              @if (editForm.get('siteName')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('siteName')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
-                >
-              }
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thương hiệu</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Đầu trang chủ</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Giới thiệu</button>
+          <button type="button" (click)="sec4.scrollIntoView({ behavior: 'smooth', block: 'start' })">Liên hệ &amp; mạng xã hội</button>
+          <button type="button" (click)="sec5.scrollIntoView({ behavior: 'smooth', block: 'start' })">SEO &amp; chính sách</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Thương hiệu</h3>
+          <p class="form-section-desc">Tên và logo hiển thị trên header, footer, tab trình duyệt.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let siteNameRef = editForm.get('siteName')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_siteName" jhiTranslate="aulacswscApp.siteSetting.siteName">Site Name</label>
+                <input type="text" class="form-control" name="siteName" id="field_siteName" data-cy="siteName" formControlName="siteName" />
+                @if (siteNameRef.invalid && (siteNameRef.dirty || siteNameRef.touched)) {
+                  <div>
+                    @if (editForm.get('siteName')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('siteName')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let logoUrlRef = editForm.get('logoUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_logoUrl" jhiTranslate="aulacswscApp.siteSetting.logoUrl">Logo Url</label>
-          <jhi-image-upload [control]="editForm.controls.logoUrl" inputId="field_logoUrl" />
-          @if (logoUrlRef.invalid && (logoUrlRef.dirty || logoUrlRef.touched)) {
-            <div>
-              @if (editForm.get('logoUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
+            <div class="col-12">
+              @let logoUrlRef = editForm.get('logoUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_logoUrl" jhiTranslate="aulacswscApp.siteSetting.logoUrl">Logo Url</label>
+                <jhi-image-upload [control]="editForm.controls.logoUrl" inputId="field_logoUrl" />
+                @if (logoUrlRef.invalid && (logoUrlRef.dirty || logoUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('logoUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        @let sloganViRef = editForm.get('sloganVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_sloganVi" jhiTranslate="aulacswscApp.siteSetting.sloganVi">Slogan Vi</label>
-          <input type="text" class="form-control" name="sloganVi" id="field_sloganVi" data-cy="sloganVi" formControlName="sloganVi" />
-          @if (sloganViRef.invalid && (sloganViRef.dirty || sloganViRef.touched)) {
-            <div>
-              @if (editForm.get('sloganVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
-                >
-              }
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Đầu trang chủ</h3>
+          <p class="form-section-desc">Slogan, ảnh slideshow, video và nhạc nền phần đầu trang chủ.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let sloganViRef = editForm.get('sloganVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_sloganVi" jhiTranslate="aulacswscApp.siteSetting.sloganVi">Slogan Vi</label>
+                <input type="text" class="form-control" name="sloganVi" id="field_sloganVi" data-cy="sloganVi" formControlName="sloganVi" />
+                @if (sloganViRef.invalid && (sloganViRef.dirty || sloganViRef.touched)) {
+                  <div>
+                    @if (editForm.get('sloganVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">Dùng dấu | để tách dòng in nghiêng màu đồng.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let sloganEnRef = editForm.get('sloganEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_sloganEn" jhiTranslate="aulacswscApp.siteSetting.sloganEn">Slogan En</label>
-          <input type="text" class="form-control" name="sloganEn" id="field_sloganEn" data-cy="sloganEn" formControlName="sloganEn" />
-          @if (sloganEnRef.invalid && (sloganEnRef.dirty || sloganEnRef.touched)) {
-            <div>
-              @if (editForm.get('sloganEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let sloganEnRef = editForm.get('sloganEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_sloganEn" jhiTranslate="aulacswscApp.siteSetting.sloganEn">Slogan En</label>
+                <input type="text" class="form-control" name="sloganEn" id="field_sloganEn" data-cy="sloganEn" formControlName="sloganEn" />
+                @if (sloganEnRef.invalid && (sloganEnRef.dirty || sloganEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('sloganEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let heroSubtitleViRef = editForm.get('heroSubtitleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_heroSubtitleVi" jhiTranslate="aulacswscApp.siteSetting.heroSubtitleVi"
-            >Hero Subtitle Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="heroSubtitleVi"
-            id="field_heroSubtitleVi"
-            data-cy="heroSubtitleVi"
-            formControlName="heroSubtitleVi"
-          />
-          @if (heroSubtitleViRef.invalid && (heroSubtitleViRef.dirty || heroSubtitleViRef.touched)) {
-            <div>
-              @if (editForm.get('heroSubtitleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let heroSubtitleViRef = editForm.get('heroSubtitleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_heroSubtitleVi" jhiTranslate="aulacswscApp.siteSetting.heroSubtitleVi"
+                  >Hero Subtitle Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="heroSubtitleVi"
+                  id="field_heroSubtitleVi"
+                  data-cy="heroSubtitleVi"
+                  formControlName="heroSubtitleVi"
+                />
+                @if (heroSubtitleViRef.invalid && (heroSubtitleViRef.dirty || heroSubtitleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('heroSubtitleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let heroSubtitleEnRef = editForm.get('heroSubtitleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_heroSubtitleEn" jhiTranslate="aulacswscApp.siteSetting.heroSubtitleEn"
-            >Hero Subtitle En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="heroSubtitleEn"
-            id="field_heroSubtitleEn"
-            data-cy="heroSubtitleEn"
-            formControlName="heroSubtitleEn"
-          />
-          @if (heroSubtitleEnRef.invalid && (heroSubtitleEnRef.dirty || heroSubtitleEnRef.touched)) {
-            <div>
-              @if (editForm.get('heroSubtitleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let heroSubtitleEnRef = editForm.get('heroSubtitleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_heroSubtitleEn" jhiTranslate="aulacswscApp.siteSetting.heroSubtitleEn"
+                  >Hero Subtitle En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="heroSubtitleEn"
+                  id="field_heroSubtitleEn"
+                  data-cy="heroSubtitleEn"
+                  formControlName="heroSubtitleEn"
+                />
+                @if (heroSubtitleEnRef.invalid && (heroSubtitleEnRef.dirty || heroSubtitleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('heroSubtitleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let heroImageUrlRef = editForm.get('heroImageUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_heroImageUrl" jhiTranslate="aulacswscApp.siteSetting.heroImageUrl">Hero Image Url</label>
-          <jhi-image-upload [control]="editForm.controls.heroImageUrl" inputId="field_heroImageUrl" />
-          @if (heroImageUrlRef.invalid && (heroImageUrlRef.dirty || heroImageUrlRef.touched)) {
-            <div>
-              @if (editForm.get('heroImageUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-12">
+              <div class="mb-3">
+                <p class="form-label mb-1" jhiTranslate="aulacswscApp.siteSetting.heroSlides">Hero Slides</p>
+                <small class="form-text text-muted d-block mb-2"
+                  >Slideshow ảnh nền đầu trang chủ (tự chuyển ảnh, hiệu ứng zoom chậm). Có video bật thì video được ưu tiên.</small
                 >
-              }
+                <jhi-image-list-upload [control]="editForm.controls.heroSlides" />
+              </div>
             </div>
-          }
-        </div>
-
-        @let heroVideoUrlRef = editForm.get('heroVideoUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_heroVideoUrl" jhiTranslate="aulacswscApp.siteSetting.heroVideoUrl">Hero Video Url</label>
-          <input
-            type="text"
-            class="form-control"
-            name="heroVideoUrl"
-            id="field_heroVideoUrl"
-            data-cy="heroVideoUrl"
-            formControlName="heroVideoUrl"
-          />
-          @if (heroVideoUrlRef.invalid && (heroVideoUrlRef.dirty || heroVideoUrlRef.touched)) {
-            <div>
-              @if (editForm.get('heroVideoUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-12">
+              @let heroImageUrlRef = editForm.get('heroImageUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_heroImageUrl" jhiTranslate="aulacswscApp.siteSetting.heroImageUrl"
+                  >Hero Image Url</label
                 >
-              }
+                <jhi-image-upload [control]="editForm.controls.heroImageUrl" inputId="field_heroImageUrl" />
+                @if (heroImageUrlRef.invalid && (heroImageUrlRef.dirty || heroImageUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('heroImageUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_heroVideoEnabled" jhiTranslate="aulacswscApp.siteSetting.heroVideoEnabled"
-            >Hero Video Enabled</label
-          >
-          <input
-            type="checkbox"
-            class="form-check"
-            name="heroVideoEnabled"
-            id="field_heroVideoEnabled"
-            data-cy="heroVideoEnabled"
-            formControlName="heroVideoEnabled"
-          />
-        </div>
-
-        <div class="mb-3">
-          <p class="form-label mb-1" jhiTranslate="aulacswscApp.siteSetting.heroSlides">Hero Slides</p>
-          <small class="form-text text-muted d-block mb-2"
-            >Slideshow ảnh nền đầu trang chủ (tự chuyển ảnh, hiệu ứng zoom chậm). Có video bật thì video được ưu tiên.</small
-          >
-          <jhi-image-list-upload [control]="editForm.controls.heroSlides" />
-        </div>
-
-        @let backgroundMusicUrlRef = editForm.get('backgroundMusicUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_backgroundMusicUrl" jhiTranslate="aulacswscApp.siteSetting.backgroundMusicUrl"
-            >Background Music Url</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="backgroundMusicUrl"
-            id="field_backgroundMusicUrl"
-            data-cy="backgroundMusicUrl"
-            formControlName="backgroundMusicUrl"
-          />
-          @if (backgroundMusicUrlRef.invalid && (backgroundMusicUrlRef.dirty || backgroundMusicUrlRef.touched)) {
-            <div>
-              @if (editForm.get('backgroundMusicUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let heroVideoUrlRef = editForm.get('heroVideoUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_heroVideoUrl" jhiTranslate="aulacswscApp.siteSetting.heroVideoUrl"
+                  >Hero Video Url</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="heroVideoUrl"
+                  id="field_heroVideoUrl"
+                  data-cy="heroVideoUrl"
+                  formControlName="heroVideoUrl"
+                />
+                @if (heroVideoUrlRef.invalid && (heroVideoUrlRef.dirty || heroVideoUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('heroVideoUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let aboutTitleViRef = editForm.get('aboutTitleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_aboutTitleVi" jhiTranslate="aulacswscApp.siteSetting.aboutTitleVi">About Title Vi</label>
-          <input
-            type="text"
-            class="form-control"
-            name="aboutTitleVi"
-            id="field_aboutTitleVi"
-            data-cy="aboutTitleVi"
-            formControlName="aboutTitleVi"
-          />
-          @if (aboutTitleViRef.invalid && (aboutTitleViRef.dirty || aboutTitleViRef.touched)) {
-            <div>
-              @if (editForm.get('aboutTitleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_heroVideoEnabled" jhiTranslate="aulacswscApp.siteSetting.heroVideoEnabled"
+                  >Hero Video Enabled</label
                 >
-              }
+                <input
+                  type="checkbox"
+                  class="form-check"
+                  name="heroVideoEnabled"
+                  id="field_heroVideoEnabled"
+                  data-cy="heroVideoEnabled"
+                  formControlName="heroVideoEnabled"
+                />
+                <div class="form-text">Bật để dùng video thay cho slideshow ảnh.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let aboutTitleEnRef = editForm.get('aboutTitleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_aboutTitleEn" jhiTranslate="aulacswscApp.siteSetting.aboutTitleEn">About Title En</label>
-          <input
-            type="text"
-            class="form-control"
-            name="aboutTitleEn"
-            id="field_aboutTitleEn"
-            data-cy="aboutTitleEn"
-            formControlName="aboutTitleEn"
-          />
-          @if (aboutTitleEnRef.invalid && (aboutTitleEnRef.dirty || aboutTitleEnRef.touched)) {
-            <div>
-              @if (editForm.get('aboutTitleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              @let backgroundMusicUrlRef = editForm.get('backgroundMusicUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_backgroundMusicUrl" jhiTranslate="aulacswscApp.siteSetting.backgroundMusicUrl"
+                  >Background Music Url</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="backgroundMusicUrl"
+                  id="field_backgroundMusicUrl"
+                  data-cy="backgroundMusicUrl"
+                  formControlName="backgroundMusicUrl"
+                />
+                @if (backgroundMusicUrlRef.invalid && (backgroundMusicUrlRef.dirty || backgroundMusicUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('backgroundMusicUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_aboutContentVi" jhiTranslate="aulacswscApp.siteSetting.aboutContentVi"
-            >About Content Vi</label
-          >
-          <textarea
-            class="form-control"
-            name="aboutContentVi"
-            id="field_aboutContentVi"
-            data-cy="aboutContentVi"
-            formControlName="aboutContentVi"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_aboutContentEn" jhiTranslate="aulacswscApp.siteSetting.aboutContentEn"
-            >About Content En</label
-          >
-          <textarea
-            class="form-control"
-            name="aboutContentEn"
-            id="field_aboutContentEn"
-            data-cy="aboutContentEn"
-            formControlName="aboutContentEn"
-          ></textarea>
-        </div>
-
-        @let highlight1TitleViRef = editForm.get('highlight1TitleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight1TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight1TitleVi"
-            >Highlight 1 Title Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight1TitleVi"
-            id="field_highlight1TitleVi"
-            data-cy="highlight1TitleVi"
-            formControlName="highlight1TitleVi"
-          />
-          @if (highlight1TitleViRef.invalid && (highlight1TitleViRef.dirty || highlight1TitleViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight1TitleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Giới thiệu</h3>
+          <p class="form-section-desc">Phần "Về chúng tôi" và 3 điểm nổi bật trên trang chủ.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let aboutTitleViRef = editForm.get('aboutTitleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_aboutTitleVi" jhiTranslate="aulacswscApp.siteSetting.aboutTitleVi"
+                  >About Title Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="aboutTitleVi"
+                  id="field_aboutTitleVi"
+                  data-cy="aboutTitleVi"
+                  formControlName="aboutTitleVi"
+                />
+                @if (aboutTitleViRef.invalid && (aboutTitleViRef.dirty || aboutTitleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('aboutTitleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight1TitleEnRef = editForm.get('highlight1TitleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight1TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight1TitleEn"
-            >Highlight 1 Title En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight1TitleEn"
-            id="field_highlight1TitleEn"
-            data-cy="highlight1TitleEn"
-            formControlName="highlight1TitleEn"
-          />
-          @if (highlight1TitleEnRef.invalid && (highlight1TitleEnRef.dirty || highlight1TitleEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight1TitleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let aboutTitleEnRef = editForm.get('aboutTitleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_aboutTitleEn" jhiTranslate="aulacswscApp.siteSetting.aboutTitleEn"
+                  >About Title En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="aboutTitleEn"
+                  id="field_aboutTitleEn"
+                  data-cy="aboutTitleEn"
+                  formControlName="aboutTitleEn"
+                />
+                @if (aboutTitleEnRef.invalid && (aboutTitleEnRef.dirty || aboutTitleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('aboutTitleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight1TextViRef = editForm.get('highlight1TextVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight1TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight1TextVi"
-            >Highlight 1 Text Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight1TextVi"
-            id="field_highlight1TextVi"
-            data-cy="highlight1TextVi"
-            formControlName="highlight1TextVi"
-          />
-          @if (highlight1TextViRef.invalid && (highlight1TextViRef.dirty || highlight1TextViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight1TextVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_aboutContentVi" jhiTranslate="aulacswscApp.siteSetting.aboutContentVi"
+                  >About Content Vi</label
                 >
-              }
+                <textarea
+                  class="form-control"
+                  name="aboutContentVi"
+                  id="field_aboutContentVi"
+                  data-cy="aboutContentVi"
+                  formControlName="aboutContentVi"
+                ></textarea>
+                <div class="form-text">Cách đoạn bằng một dòng trống.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight1TextEnRef = editForm.get('highlight1TextEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight1TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight1TextEn"
-            >Highlight 1 Text En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight1TextEn"
-            id="field_highlight1TextEn"
-            data-cy="highlight1TextEn"
-            formControlName="highlight1TextEn"
-          />
-          @if (highlight1TextEnRef.invalid && (highlight1TextEnRef.dirty || highlight1TextEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight1TextEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_aboutContentEn" jhiTranslate="aulacswscApp.siteSetting.aboutContentEn"
+                  >About Content En</label
                 >
-              }
+                <textarea
+                  class="form-control"
+                  name="aboutContentEn"
+                  id="field_aboutContentEn"
+                  data-cy="aboutContentEn"
+                  formControlName="aboutContentEn"
+                ></textarea>
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight2TitleViRef = editForm.get('highlight2TitleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight2TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight2TitleVi"
-            >Highlight 2 Title Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight2TitleVi"
-            id="field_highlight2TitleVi"
-            data-cy="highlight2TitleVi"
-            formControlName="highlight2TitleVi"
-          />
-          @if (highlight2TitleViRef.invalid && (highlight2TitleViRef.dirty || highlight2TitleViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight2TitleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let highlight1TitleViRef = editForm.get('highlight1TitleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight1TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight1TitleVi"
+                  >Highlight 1 Title Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight1TitleVi"
+                  id="field_highlight1TitleVi"
+                  data-cy="highlight1TitleVi"
+                  formControlName="highlight1TitleVi"
+                />
+                @if (highlight1TitleViRef.invalid && (highlight1TitleViRef.dirty || highlight1TitleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight1TitleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight2TitleEnRef = editForm.get('highlight2TitleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight2TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight2TitleEn"
-            >Highlight 2 Title En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight2TitleEn"
-            id="field_highlight2TitleEn"
-            data-cy="highlight2TitleEn"
-            formControlName="highlight2TitleEn"
-          />
-          @if (highlight2TitleEnRef.invalid && (highlight2TitleEnRef.dirty || highlight2TitleEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight2TitleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let highlight1TitleEnRef = editForm.get('highlight1TitleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight1TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight1TitleEn"
+                  >Highlight 1 Title En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight1TitleEn"
+                  id="field_highlight1TitleEn"
+                  data-cy="highlight1TitleEn"
+                  formControlName="highlight1TitleEn"
+                />
+                @if (highlight1TitleEnRef.invalid && (highlight1TitleEnRef.dirty || highlight1TitleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight1TitleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight2TextViRef = editForm.get('highlight2TextVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight2TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight2TextVi"
-            >Highlight 2 Text Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight2TextVi"
-            id="field_highlight2TextVi"
-            data-cy="highlight2TextVi"
-            formControlName="highlight2TextVi"
-          />
-          @if (highlight2TextViRef.invalid && (highlight2TextViRef.dirty || highlight2TextViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight2TextVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let highlight1TextViRef = editForm.get('highlight1TextVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight1TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight1TextVi"
+                  >Highlight 1 Text Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight1TextVi"
+                  id="field_highlight1TextVi"
+                  data-cy="highlight1TextVi"
+                  formControlName="highlight1TextVi"
+                />
+                @if (highlight1TextViRef.invalid && (highlight1TextViRef.dirty || highlight1TextViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight1TextVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight2TextEnRef = editForm.get('highlight2TextEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight2TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight2TextEn"
-            >Highlight 2 Text En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight2TextEn"
-            id="field_highlight2TextEn"
-            data-cy="highlight2TextEn"
-            formControlName="highlight2TextEn"
-          />
-          @if (highlight2TextEnRef.invalid && (highlight2TextEnRef.dirty || highlight2TextEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight2TextEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let highlight1TextEnRef = editForm.get('highlight1TextEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight1TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight1TextEn"
+                  >Highlight 1 Text En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight1TextEn"
+                  id="field_highlight1TextEn"
+                  data-cy="highlight1TextEn"
+                  formControlName="highlight1TextEn"
+                />
+                @if (highlight1TextEnRef.invalid && (highlight1TextEnRef.dirty || highlight1TextEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight1TextEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight3TitleViRef = editForm.get('highlight3TitleVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight3TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight3TitleVi"
-            >Highlight 3 Title Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight3TitleVi"
-            id="field_highlight3TitleVi"
-            data-cy="highlight3TitleVi"
-            formControlName="highlight3TitleVi"
-          />
-          @if (highlight3TitleViRef.invalid && (highlight3TitleViRef.dirty || highlight3TitleViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight3TitleVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let highlight2TitleViRef = editForm.get('highlight2TitleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight2TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight2TitleVi"
+                  >Highlight 2 Title Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight2TitleVi"
+                  id="field_highlight2TitleVi"
+                  data-cy="highlight2TitleVi"
+                  formControlName="highlight2TitleVi"
+                />
+                @if (highlight2TitleViRef.invalid && (highlight2TitleViRef.dirty || highlight2TitleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight2TitleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight3TitleEnRef = editForm.get('highlight3TitleEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight3TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight3TitleEn"
-            >Highlight 3 Title En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight3TitleEn"
-            id="field_highlight3TitleEn"
-            data-cy="highlight3TitleEn"
-            formControlName="highlight3TitleEn"
-          />
-          @if (highlight3TitleEnRef.invalid && (highlight3TitleEnRef.dirty || highlight3TitleEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight3TitleEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let highlight2TitleEnRef = editForm.get('highlight2TitleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight2TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight2TitleEn"
+                  >Highlight 2 Title En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight2TitleEn"
+                  id="field_highlight2TitleEn"
+                  data-cy="highlight2TitleEn"
+                  formControlName="highlight2TitleEn"
+                />
+                @if (highlight2TitleEnRef.invalid && (highlight2TitleEnRef.dirty || highlight2TitleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight2TitleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight3TextViRef = editForm.get('highlight3TextVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight3TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight3TextVi"
-            >Highlight 3 Text Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight3TextVi"
-            id="field_highlight3TextVi"
-            data-cy="highlight3TextVi"
-            formControlName="highlight3TextVi"
-          />
-          @if (highlight3TextViRef.invalid && (highlight3TextViRef.dirty || highlight3TextViRef.touched)) {
-            <div>
-              @if (editForm.get('highlight3TextVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let highlight2TextViRef = editForm.get('highlight2TextVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight2TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight2TextVi"
+                  >Highlight 2 Text Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight2TextVi"
+                  id="field_highlight2TextVi"
+                  data-cy="highlight2TextVi"
+                  formControlName="highlight2TextVi"
+                />
+                @if (highlight2TextViRef.invalid && (highlight2TextViRef.dirty || highlight2TextViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight2TextVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let highlight3TextEnRef = editForm.get('highlight3TextEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_highlight3TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight3TextEn"
-            >Highlight 3 Text En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="highlight3TextEn"
-            id="field_highlight3TextEn"
-            data-cy="highlight3TextEn"
-            formControlName="highlight3TextEn"
-          />
-          @if (highlight3TextEnRef.invalid && (highlight3TextEnRef.dirty || highlight3TextEnRef.touched)) {
-            <div>
-              @if (editForm.get('highlight3TextEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6">
+              @let highlight2TextEnRef = editForm.get('highlight2TextEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight2TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight2TextEn"
+                  >Highlight 2 Text En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight2TextEn"
+                  id="field_highlight2TextEn"
+                  data-cy="highlight2TextEn"
+                  formControlName="highlight2TextEn"
+                />
+                @if (highlight2TextEnRef.invalid && (highlight2TextEnRef.dirty || highlight2TextEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight2TextEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let hotlineRef = editForm.get('hotline')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_hotline" jhiTranslate="aulacswscApp.siteSetting.hotline">Hotline</label>
-          <input type="text" class="form-control" name="hotline" id="field_hotline" data-cy="hotline" formControlName="hotline" />
-          @if (hotlineRef.invalid && (hotlineRef.dirty || hotlineRef.touched)) {
-            <div>
-              @if (editForm.get('hotline')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
-                  >This field cannot be longer than 20 characters.</small
+            <div class="col-md-6">
+              @let highlight3TitleViRef = editForm.get('highlight3TitleVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight3TitleVi" jhiTranslate="aulacswscApp.siteSetting.highlight3TitleVi"
+                  >Highlight 3 Title Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight3TitleVi"
+                  id="field_highlight3TitleVi"
+                  data-cy="highlight3TitleVi"
+                  formControlName="highlight3TitleVi"
+                />
+                @if (highlight3TitleViRef.invalid && (highlight3TitleViRef.dirty || highlight3TitleViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight3TitleVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let emailRef = editForm.get('email')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_email" jhiTranslate="aulacswscApp.siteSetting.email">Email</label>
-          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
-          @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
-            <div>
-              @if (editForm.get('email')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+            <div class="col-md-6">
+              @let highlight3TitleEnRef = editForm.get('highlight3TitleEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight3TitleEn" jhiTranslate="aulacswscApp.siteSetting.highlight3TitleEn"
+                  >Highlight 3 Title En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight3TitleEn"
+                  id="field_highlight3TitleEn"
+                  data-cy="highlight3TitleEn"
+                  formControlName="highlight3TitleEn"
+                />
+                @if (highlight3TitleEnRef.invalid && (highlight3TitleEnRef.dirty || highlight3TitleEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight3TitleEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let whatsappNumberRef = editForm.get('whatsappNumber')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_whatsappNumber" jhiTranslate="aulacswscApp.siteSetting.whatsappNumber"
-            >Whatsapp Number</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="whatsappNumber"
-            id="field_whatsappNumber"
-            data-cy="whatsappNumber"
-            formControlName="whatsappNumber"
-          />
-          @if (whatsappNumberRef.invalid && (whatsappNumberRef.dirty || whatsappNumberRef.touched)) {
-            <div>
-              @if (editForm.get('whatsappNumber')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
-                  >This field cannot be longer than 20 characters.</small
+            <div class="col-md-6">
+              @let highlight3TextViRef = editForm.get('highlight3TextVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight3TextVi" jhiTranslate="aulacswscApp.siteSetting.highlight3TextVi"
+                  >Highlight 3 Text Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight3TextVi"
+                  id="field_highlight3TextVi"
+                  data-cy="highlight3TextVi"
+                  formControlName="highlight3TextVi"
+                />
+                @if (highlight3TextViRef.invalid && (highlight3TextViRef.dirty || highlight3TextViRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight3TextVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let zaloNumberRef = editForm.get('zaloNumber')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_zaloNumber" jhiTranslate="aulacswscApp.siteSetting.zaloNumber">Zalo Number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="zaloNumber"
-            id="field_zaloNumber"
-            data-cy="zaloNumber"
-            formControlName="zaloNumber"
-          />
-          @if (zaloNumberRef.invalid && (zaloNumberRef.dirty || zaloNumberRef.touched)) {
-            <div>
-              @if (editForm.get('zaloNumber')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
-                  >This field cannot be longer than 20 characters.</small
+            <div class="col-md-6">
+              @let highlight3TextEnRef = editForm.get('highlight3TextEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_highlight3TextEn" jhiTranslate="aulacswscApp.siteSetting.highlight3TextEn"
+                  >Highlight 3 Text En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="highlight3TextEn"
+                  id="field_highlight3TextEn"
+                  data-cy="highlight3TextEn"
+                  formControlName="highlight3TextEn"
+                />
+                @if (highlight3TextEnRef.invalid && (highlight3TextEnRef.dirty || highlight3TextEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('highlight3TextEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        @let messengerUrlRef = editForm.get('messengerUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_messengerUrl" jhiTranslate="aulacswscApp.siteSetting.messengerUrl">Messenger Url</label>
-          <input
-            type="text"
-            class="form-control"
-            name="messengerUrl"
-            id="field_messengerUrl"
-            data-cy="messengerUrl"
-            formControlName="messengerUrl"
-          />
-          @if (messengerUrlRef.invalid && (messengerUrlRef.dirty || messengerUrlRef.touched)) {
-            <div>
-              @if (editForm.get('messengerUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+        <section class="form-section" #sec4>
+          <h3><span class="sec-no">4</span>Liên hệ &amp; mạng xã hội</h3>
+          <p class="form-section-desc">Hotline, nút WhatsApp / Zalo nổi, biểu tượng mạng xã hội ở footer, giờ mở cửa.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let hotlineRef = editForm.get('hotline')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_hotline" jhiTranslate="aulacswscApp.siteSetting.hotline">Hotline</label>
+                <input type="text" class="form-control" name="hotline" id="field_hotline" data-cy="hotline" formControlName="hotline" />
+                @if (hotlineRef.invalid && (hotlineRef.dirty || hotlineRef.touched)) {
+                  <div>
+                    @if (editForm.get('hotline')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
+                        >This field cannot be longer than 20 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let emailRef = editForm.get('email')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_email" jhiTranslate="aulacswscApp.siteSetting.email">Email</label>
+                <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+                @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+                  <div>
+                    @if (editForm.get('email')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let whatsappNumberRef = editForm.get('whatsappNumber')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_whatsappNumber" jhiTranslate="aulacswscApp.siteSetting.whatsappNumber"
+                  >Whatsapp Number</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="whatsappNumber"
+                  id="field_whatsappNumber"
+                  data-cy="whatsappNumber"
+                  formControlName="whatsappNumber"
+                />
+                @if (whatsappNumberRef.invalid && (whatsappNumberRef.dirty || whatsappNumberRef.touched)) {
+                  <div>
+                    @if (editForm.get('whatsappNumber')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
+                        >This field cannot be longer than 20 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">Số quốc tế, vd 84901234567.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let facebookUrlRef = editForm.get('facebookUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_facebookUrl" jhiTranslate="aulacswscApp.siteSetting.facebookUrl">Facebook Url</label>
-          <input
-            type="text"
-            class="form-control"
-            name="facebookUrl"
-            id="field_facebookUrl"
-            data-cy="facebookUrl"
-            formControlName="facebookUrl"
-          />
-          @if (facebookUrlRef.invalid && (facebookUrlRef.dirty || facebookUrlRef.touched)) {
-            <div>
-              @if (editForm.get('facebookUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6 col-xl-4">
+              @let zaloNumberRef = editForm.get('zaloNumber')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_zaloNumber" jhiTranslate="aulacswscApp.siteSetting.zaloNumber">Zalo Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="zaloNumber"
+                  id="field_zaloNumber"
+                  data-cy="zaloNumber"
+                  formControlName="zaloNumber"
+                />
+                @if (zaloNumberRef.invalid && (zaloNumberRef.dirty || zaloNumberRef.touched)) {
+                  <div>
+                    @if (editForm.get('zaloNumber')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
+                        >This field cannot be longer than 20 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">Số điện thoại đăng ký Zalo.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let messengerUrlRef = editForm.get('messengerUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_messengerUrl" jhiTranslate="aulacswscApp.siteSetting.messengerUrl"
+                  >Messenger Url</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="messengerUrl"
+                  id="field_messengerUrl"
+                  data-cy="messengerUrl"
+                  formControlName="messengerUrl"
+                />
+                @if (messengerUrlRef.invalid && (messengerUrlRef.dirty || messengerUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('messengerUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let instagramUrlRef = editForm.get('instagramUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_instagramUrl" jhiTranslate="aulacswscApp.siteSetting.instagramUrl">Instagram Url</label>
-          <input
-            type="text"
-            class="form-control"
-            name="instagramUrl"
-            id="field_instagramUrl"
-            data-cy="instagramUrl"
-            formControlName="instagramUrl"
-          />
-          @if (instagramUrlRef.invalid && (instagramUrlRef.dirty || instagramUrlRef.touched)) {
-            <div>
-              @if (editForm.get('instagramUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              @let facebookUrlRef = editForm.get('facebookUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_facebookUrl" jhiTranslate="aulacswscApp.siteSetting.facebookUrl">Facebook Url</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="facebookUrl"
+                  id="field_facebookUrl"
+                  data-cy="facebookUrl"
+                  formControlName="facebookUrl"
+                />
+                @if (facebookUrlRef.invalid && (facebookUrlRef.dirty || facebookUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('facebookUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let instagramUrlRef = editForm.get('instagramUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_instagramUrl" jhiTranslate="aulacswscApp.siteSetting.instagramUrl"
+                  >Instagram Url</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="instagramUrl"
+                  id="field_instagramUrl"
+                  data-cy="instagramUrl"
+                  formControlName="instagramUrl"
+                />
+                @if (instagramUrlRef.invalid && (instagramUrlRef.dirty || instagramUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('instagramUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let tiktokUrlRef = editForm.get('tiktokUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_tiktokUrl" jhiTranslate="aulacswscApp.siteSetting.tiktokUrl">Tiktok Url</label>
-          <input type="text" class="form-control" name="tiktokUrl" id="field_tiktokUrl" data-cy="tiktokUrl" formControlName="tiktokUrl" />
-          @if (tiktokUrlRef.invalid && (tiktokUrlRef.dirty || tiktokUrlRef.touched)) {
-            <div>
-              @if (editForm.get('tiktokUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              @let tiktokUrlRef = editForm.get('tiktokUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_tiktokUrl" jhiTranslate="aulacswscApp.siteSetting.tiktokUrl">Tiktok Url</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="tiktokUrl"
+                  id="field_tiktokUrl"
+                  data-cy="tiktokUrl"
+                  formControlName="tiktokUrl"
+                />
+                @if (tiktokUrlRef.invalid && (tiktokUrlRef.dirty || tiktokUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('tiktokUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let youtubeUrlRef = editForm.get('youtubeUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_youtubeUrl" jhiTranslate="aulacswscApp.siteSetting.youtubeUrl">Youtube Url</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="youtubeUrl"
+                  id="field_youtubeUrl"
+                  data-cy="youtubeUrl"
+                  formControlName="youtubeUrl"
+                />
+                @if (youtubeUrlRef.invalid && (youtubeUrlRef.dirty || youtubeUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('youtubeUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="w-100 m-0"></div>
+            <div class="col-md-6">
+              @let openingHoursViRef = editForm.get('openingHoursVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_openingHoursVi" jhiTranslate="aulacswscApp.siteSetting.openingHoursVi"
+                  >Opening Hours Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="openingHoursVi"
+                  id="field_openingHoursVi"
+                  data-cy="openingHoursVi"
+                  formControlName="openingHoursVi"
+                />
+                @if (openingHoursViRef.invalid && (openingHoursViRef.dirty || openingHoursViRef.touched)) {
+                  <div>
+                    @if (editForm.get('openingHoursVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
+                        >This field cannot be longer than 200 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let youtubeUrlRef = editForm.get('youtubeUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_youtubeUrl" jhiTranslate="aulacswscApp.siteSetting.youtubeUrl">Youtube Url</label>
-          <input
-            type="text"
-            class="form-control"
-            name="youtubeUrl"
-            id="field_youtubeUrl"
-            data-cy="youtubeUrl"
-            formControlName="youtubeUrl"
-          />
-          @if (youtubeUrlRef.invalid && (youtubeUrlRef.dirty || youtubeUrlRef.touched)) {
-            <div>
-              @if (editForm.get('youtubeUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              @let openingHoursEnRef = editForm.get('openingHoursEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_openingHoursEn" jhiTranslate="aulacswscApp.siteSetting.openingHoursEn"
+                  >Opening Hours En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="openingHoursEn"
+                  id="field_openingHoursEn"
+                  data-cy="openingHoursEn"
+                  formControlName="openingHoursEn"
+                />
+                @if (openingHoursEnRef.invalid && (openingHoursEnRef.dirty || openingHoursEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('openingHoursEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
+                        >This field cannot be longer than 200 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        @let openingHoursViRef = editForm.get('openingHoursVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_openingHoursVi" jhiTranslate="aulacswscApp.siteSetting.openingHoursVi"
-            >Opening Hours Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="openingHoursVi"
-            id="field_openingHoursVi"
-            data-cy="openingHoursVi"
-            formControlName="openingHoursVi"
-          />
-          @if (openingHoursViRef.invalid && (openingHoursViRef.dirty || openingHoursViRef.touched)) {
-            <div>
-              @if (editForm.get('openingHoursVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
-                  >This field cannot be longer than 200 characters.</small
+        <section class="form-section" #sec5>
+          <h3><span class="sec-no">5</span>SEO &amp; chính sách</h3>
+          <p class="form-section-desc">Mô tả hiện trên Google / khi chia sẻ link, và trang Chính sách đặt lịch.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let metaDescriptionViRef = editForm.get('metaDescriptionVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_metaDescriptionVi" jhiTranslate="aulacswscApp.siteSetting.metaDescriptionVi"
+                  >Meta Description Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="metaDescriptionVi"
+                  id="field_metaDescriptionVi"
+                  data-cy="metaDescriptionVi"
+                  formControlName="metaDescriptionVi"
+                />
+                @if (metaDescriptionViRef.invalid && (metaDescriptionViRef.dirty || metaDescriptionViRef.touched)) {
+                  <div>
+                    @if (editForm.get('metaDescriptionVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text char-count" [class.over]="(editForm.get('metaDescriptionVi')?.value ?? '').length > 160">
+                  {{ (editForm.get('metaDescriptionVi')?.value ?? '').length }} / 160 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let openingHoursEnRef = editForm.get('openingHoursEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_openingHoursEn" jhiTranslate="aulacswscApp.siteSetting.openingHoursEn"
-            >Opening Hours En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="openingHoursEn"
-            id="field_openingHoursEn"
-            data-cy="openingHoursEn"
-            formControlName="openingHoursEn"
-          />
-          @if (openingHoursEnRef.invalid && (openingHoursEnRef.dirty || openingHoursEnRef.touched)) {
-            <div>
-              @if (editForm.get('openingHoursEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
-                  >This field cannot be longer than 200 characters.</small
+            <div class="col-md-6">
+              @let metaDescriptionEnRef = editForm.get('metaDescriptionEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_metaDescriptionEn" jhiTranslate="aulacswscApp.siteSetting.metaDescriptionEn"
+                  >Meta Description En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="metaDescriptionEn"
+                  id="field_metaDescriptionEn"
+                  data-cy="metaDescriptionEn"
+                  formControlName="metaDescriptionEn"
+                />
+                @if (metaDescriptionEnRef.invalid && (metaDescriptionEnRef.dirty || metaDescriptionEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('metaDescriptionEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text char-count" [class.over]="(editForm.get('metaDescriptionEn')?.value ?? '').length > 160">
+                  {{ (editForm.get('metaDescriptionEn')?.value ?? '').length }} / 160 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let metaDescriptionViRef = editForm.get('metaDescriptionVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_metaDescriptionVi" jhiTranslate="aulacswscApp.siteSetting.metaDescriptionVi"
-            >Meta Description Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="metaDescriptionVi"
-            id="field_metaDescriptionVi"
-            data-cy="metaDescriptionVi"
-            formControlName="metaDescriptionVi"
-          />
-          @if (metaDescriptionViRef.invalid && (metaDescriptionViRef.dirty || metaDescriptionViRef.touched)) {
-            <div>
-              @if (editForm.get('metaDescriptionVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_policyContentVi" jhiTranslate="aulacswscApp.siteSetting.policyContentVi"
+                  >Policy Content Vi</label
                 >
-              }
+                <textarea
+                  class="form-control"
+                  name="policyContentVi"
+                  id="field_policyContentVi"
+                  data-cy="policyContentVi"
+                  formControlName="policyContentVi"
+                ></textarea>
+                <div class="form-text">Cách đoạn bằng một dòng trống.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let metaDescriptionEnRef = editForm.get('metaDescriptionEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_metaDescriptionEn" jhiTranslate="aulacswscApp.siteSetting.metaDescriptionEn"
-            >Meta Description En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="metaDescriptionEn"
-            id="field_metaDescriptionEn"
-            data-cy="metaDescriptionEn"
-            formControlName="metaDescriptionEn"
-          />
-          @if (metaDescriptionEnRef.invalid && (metaDescriptionEnRef.dirty || metaDescriptionEnRef.touched)) {
-            <div>
-              @if (editForm.get('metaDescriptionEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_policyContentEn" jhiTranslate="aulacswscApp.siteSetting.policyContentEn"
+                  >Policy Content En</label
                 >
-              }
+                <textarea
+                  class="form-control"
+                  name="policyContentEn"
+                  id="field_policyContentEn"
+                  data-cy="policyContentEn"
+                  formControlName="policyContentEn"
+                ></textarea>
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_policyContentVi" jhiTranslate="aulacswscApp.siteSetting.policyContentVi"
-            >Policy Content Vi</label
-          >
-          <textarea
-            class="form-control"
-            name="policyContentVi"
-            id="field_policyContentVi"
-            data-cy="policyContentVi"
-            formControlName="policyContentVi"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_policyContentEn" jhiTranslate="aulacswscApp.siteSetting.policyContentEn"
-            >Policy Content En</label
-          >
-          <textarea
-            class="form-control"
-            name="policyContentEn"
-            id="field_policyContentEn"
-            data-cy="policyContentEn"
-            formControlName="policyContentEn"
-          ></textarea>
-        </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

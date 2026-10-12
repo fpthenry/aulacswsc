@@ -119,11 +119,24 @@ public class PublicBookingService {
 
     // ===================== Đặt lịch =====================
 
+    /** Khách đặt trên website: trạng thái PENDING, nguồn WEBSITE / QUICK. */
+    public BookingConfirmationDTO create(BookingRequestDTO request) {
+        return create(request, request.quick() ? BookingSource.QUICK : BookingSource.WEBSITE, BookingStatus.PENDING, false);
+    }
+
     /**
-     * synchronized: kiểm tra chỗ trống và lưu là một bước, tránh 2 khách cùng giữ chỗ cuối cùng (1 máy chủ).
+     * Tạo lịch hẹn. synchronized: kiểm tra chỗ trống và lưu là một bước, tránh 2 khách cùng giữ chỗ cuối cùng (1 máy chủ).
+     *
+     * @param staffEntry true khi lễ tân nhập ở trang quản trị (khách gọi điện / khách đến trực tiếp):
+     *                   cho nhập giờ lẻ trong giờ mở cửa, không cần đặt trước 30 phút, họ tên có thể để trống.
      */
-    public synchronized BookingConfirmationDTO create(BookingRequestDTO request) {
-        Branch branch = request.branchId() == null && request.quick()
+    public synchronized BookingConfirmationDTO create(
+        BookingRequestDTO request,
+        BookingSource source,
+        BookingStatus status,
+        boolean staffEntry
+    ) {
+        Branch branch = request.branchId() == null && (request.quick() || staffEntry)
             ? branchRepository
                 .findAllByActiveTrueOrderByDisplayOrderAscIdAsc()
                 .stream()
@@ -133,7 +146,7 @@ public class PublicBookingService {
 
         String phone = normalizePhone(request.phone()).orElseThrow(() -> error("Invalid Vietnamese phone number", "invalidphone"));
         String fullName = StringUtils.hasText(request.fullName()) ? request.fullName().trim() : null;
-        if (fullName == null && !request.quick()) {
+        if (fullName == null && !request.quick() && !staffEntry) {
             throw error("Full name is required", "namerequired");
         }
         int people = request.numberOfPeople() == null ? 1 : request.numberOfPeople();
@@ -150,11 +163,15 @@ public class PublicBookingService {
         // Thời gian
         validateDate(request.date());
         LocalTime time = LocalTime.parse(request.time());
-        if (!slotTimes(branch).contains(time)) {
+        boolean inHours = staffEntry
+            ? !time.isBefore(LocalTime.parse(branch.getOpenTime())) && time.isBefore(LocalTime.parse(branch.getCloseTime()))
+            : slotTimes(branch).contains(time);
+        if (!inHours) {
             throw error("Time is outside opening hours", "invalidtime");
         }
         ZonedDateTime start = request.date().atTime(time).atZone(ZONE);
-        if (start.isBefore(ZonedDateTime.now(ZONE).plusMinutes(LEAD_MINUTES))) {
+        ZonedDateTime earliest = staffEntry ? ZonedDateTime.now(ZONE).minusHours(3) : ZonedDateTime.now(ZONE).plusMinutes(LEAD_MINUTES);
+        if (start.isBefore(earliest)) {
             throw error("Time has passed", "pasttime");
         }
         if (!fits(bookingsAround(branch, request.date()), start.toInstant(), duration, people, branch.getCapacity())) {
@@ -170,8 +187,8 @@ public class PublicBookingService {
         booking.setStartTime(start.toInstant());
         booking.setEndTime(start.plusMinutes(duration).toInstant());
         booking.setNumberOfPeople(people);
-        booking.setStatus(BookingStatus.PENDING);
-        booking.setSource(request.quick() ? BookingSource.QUICK : BookingSource.WEBSITE);
+        booking.setStatus(status);
+        booking.setSource(source);
         booking.setPaymentStatus(PaymentStatus.UNPAID);
         booking.setNote(StringUtils.hasText(request.note()) ? request.note().trim() : null);
         booking.setCreatedDate(Instant.now());

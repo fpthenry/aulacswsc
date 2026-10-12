@@ -1,12 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-gallery-image-heading"
-        data-cy="GalleryImageCreateUpdateHeading"
-        jhiTranslate="aulacswscApp.galleryImage.home.createOrEditLabel"
-      >
-        Create or edit a Gallery Image
+      <h2 id="jhi-gallery-image-heading" data-cy="GalleryImageCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa ảnh thư viện
+          @if (editForm.controls.captionVi.value) {
+            <span class="form-title-name">{{ editForm.controls.captionVi.value }}</span>
+          }
+        } @else {
+          Thêm ảnh thư viện mới
+        }
       </h2>
 
       <div>
@@ -19,145 +22,209 @@
           </div>
         }
 
-        @let imageUrlRef = editForm.get('imageUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_imageUrl" jhiTranslate="aulacswscApp.galleryImage.imageUrl">Image Url</label>
-          <jhi-image-upload
-            [control]="editForm.controls.imageUrl"
-            inputId="field_imageUrl"
-            (dimensions)="editForm.patchValue({ width: $event.width, height: $event.height })"
-          />
-          @if (imageUrlRef.invalid && (imageUrlRef.dirty || imageUrlRef.touched)) {
-            <div>
-              @if (editForm.get('imageUrl')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('imageUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Ảnh</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Chú thích</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Hiển thị</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Ảnh</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-12">
+              @let imageUrlRef = editForm.get('imageUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_imageUrl" jhiTranslate="aulacswscApp.galleryImage.imageUrl">Image Url</label>
+                <jhi-image-upload
+                  [control]="editForm.controls.imageUrl"
+                  inputId="field_imageUrl"
+                  (dimensions)="editForm.patchValue({ width: $event.width, height: $event.height })"
+                />
+                @if (imageUrlRef.invalid && (imageUrlRef.dirty || imageUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('imageUrl')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('imageUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.galleryImage.branch">Branch</label>
+                <select
+                  class="form-control"
+                  id="field_branch"
+                  data-cy="branch"
+                  name="branch"
+                  formControlName="branch"
+                  [compareWith]="compareBranch"
                 >
-              }
+                  <option [ngValue]="null"></option>
+                  @for (branchOption of branchesSharedCollection; track $index) {
+                    <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
+                  }
+                </select>
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        @let captionViRef = editForm.get('captionVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_captionVi" jhiTranslate="aulacswscApp.galleryImage.captionVi">Caption Vi</label>
-          <input type="text" class="form-control" name="captionVi" id="field_captionVi" data-cy="captionVi" formControlName="captionVi" />
-          @if (captionViRef.invalid && (captionViRef.dirty || captionViRef.touched)) {
-            <div>
-              @if (editForm.get('captionVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Chú thích</h3>
+          <p class="form-section-desc">Chú thích hiện khi xem ảnh phóng to; mô tả ảnh giúp Google và người khiếm thị.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let captionViRef = editForm.get('captionVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_captionVi" jhiTranslate="aulacswscApp.galleryImage.captionVi">Caption Vi</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="captionVi"
+                  id="field_captionVi"
+                  data-cy="captionVi"
+                  formControlName="captionVi"
+                />
+                @if (captionViRef.invalid && (captionViRef.dirty || captionViRef.touched)) {
+                  <div>
+                    @if (editForm.get('captionVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let captionEnRef = editForm.get('captionEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_captionEn" jhiTranslate="aulacswscApp.galleryImage.captionEn">Caption En</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="captionEn"
+                  id="field_captionEn"
+                  data-cy="captionEn"
+                  formControlName="captionEn"
+                />
+                @if (captionEnRef.invalid && (captionEnRef.dirty || captionEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('captionEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let altViRef = editForm.get('altVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_altVi" jhiTranslate="aulacswscApp.galleryImage.altVi">Alt Vi</label>
+                <input type="text" class="form-control" name="altVi" id="field_altVi" data-cy="altVi" formControlName="altVi" />
+                @if (altViRef.invalid && (altViRef.dirty || altViRef.touched)) {
+                  <div>
+                    @if (editForm.get('altVi')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('altVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">Mô tả ngắn nội dung ảnh.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let altEnRef = editForm.get('altEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_altEn" jhiTranslate="aulacswscApp.galleryImage.altEn">Alt En</label>
+                <input type="text" class="form-control" name="altEn" id="field_altEn" data-cy="altEn" formControlName="altEn" />
+                @if (altEnRef.invalid && (altEnRef.dirty || altEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('altEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
+                        >This field cannot be longer than 300 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Hiển thị</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let activeRef = editForm.get('active')!;
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="active"
+                  id="field_active"
+                  data-cy="active"
+                  formControlName="active"
+                />
+                <label class="form-check-label" for="field_active" jhiTranslate="aulacswscApp.galleryImage.active">Active</label>
+
+                @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+                  <div>
+                    @if (editForm.get('active')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+                <div class="form-text">Tắt để ẩn khỏi website — dữ liệu vẫn được giữ.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_displayOrder" jhiTranslate="aulacswscApp.galleryImage.displayOrder"
+                  >Display Order</label
                 >
-              }
+                <input
+                  type="number"
+                  class="form-control"
+                  name="displayOrder"
+                  id="field_displayOrder"
+                  data-cy="displayOrder"
+                  formControlName="displayOrder"
+                />
+                <div class="form-text">Số nhỏ hiện trước.</div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let captionEnRef = editForm.get('captionEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_captionEn" jhiTranslate="aulacswscApp.galleryImage.captionEn">Caption En</label>
-          <input type="text" class="form-control" name="captionEn" id="field_captionEn" data-cy="captionEn" formControlName="captionEn" />
-          @if (captionEnRef.invalid && (captionEnRef.dirty || captionEnRef.touched)) {
-            <div>
-              @if (editForm.get('captionEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
-                >
-              }
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_width" jhiTranslate="aulacswscApp.galleryImage.width">Width</label>
+                <input type="number" class="form-control" name="width" id="field_width" data-cy="width" formControlName="width" />
+              </div>
             </div>
-          }
-        </div>
-
-        @let altViRef = editForm.get('altVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_altVi" jhiTranslate="aulacswscApp.galleryImage.altVi">Alt Vi</label>
-          <input type="text" class="form-control" name="altVi" id="field_altVi" data-cy="altVi" formControlName="altVi" />
-          @if (altViRef.invalid && (altViRef.dirty || altViRef.touched)) {
-            <div>
-              @if (editForm.get('altVi')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('altVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
-                >
-              }
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_height" jhiTranslate="aulacswscApp.galleryImage.height">Height</label>
+                <input type="number" class="form-control" name="height" id="field_height" data-cy="height" formControlName="height" />
+              </div>
             </div>
-          }
-        </div>
-
-        @let altEnRef = editForm.get('altEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_altEn" jhiTranslate="aulacswscApp.galleryImage.altEn">Alt En</label>
-          <input type="text" class="form-control" name="altEn" id="field_altEn" data-cy="altEn" formControlName="altEn" />
-          @if (altEnRef.invalid && (altEnRef.dirty || altEnRef.touched)) {
-            <div>
-              @if (editForm.get('altEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '300' }"
-                  >This field cannot be longer than 300 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_width" jhiTranslate="aulacswscApp.galleryImage.width">Width</label>
-          <input type="number" class="form-control" name="width" id="field_width" data-cy="width" formControlName="width" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_height" jhiTranslate="aulacswscApp.galleryImage.height">Height</label>
-          <input type="number" class="form-control" name="height" id="field_height" data-cy="height" formControlName="height" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_displayOrder" jhiTranslate="aulacswscApp.galleryImage.displayOrder">Display Order</label>
-          <input
-            type="number"
-            class="form-control"
-            name="displayOrder"
-            id="field_displayOrder"
-            data-cy="displayOrder"
-            formControlName="displayOrder"
-          />
-        </div>
-
-        @let activeRef = editForm.get('active')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_active" jhiTranslate="aulacswscApp.galleryImage.active">Active</label>
-          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
-          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
-            <div>
-              @if (editForm.get('active')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.galleryImage.branch">Branch</label>
-          <select
-            class="form-control"
-            id="field_branch"
-            data-cy="branch"
-            name="branch"
-            formControlName="branch"
-            [compareWith]="compareBranch"
-          >
-            <option [ngValue]="null"></option>
-            @for (branchOption of branchesSharedCollection; track $index) {
-              <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
-            }
-          </select>
-        </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

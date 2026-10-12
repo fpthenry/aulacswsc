@@ -2,9 +2,9 @@
   "aulacswscApp": {
     "Gender": {
       "null": "",
-      "MALE": "MALE",
-      "FEMALE": "FEMALE",
-      "OTHER": "OTHER"
+      "MALE": "Nam",
+      "FEMALE": "Nữ",
+      "OTHER": "Khác"
     }
   }
 }

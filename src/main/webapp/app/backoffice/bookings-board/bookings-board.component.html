@@ -1,0 +1,300 @@
+<div class="ad-page-head">
+  <div>
+    <h1>Bảng lịch hẹn</h1>
+    <p>{{ dateLabel() }}</p>
+  </div>
+  <div class="head-actions">
+    <a class="ad-btn" routerLink="/booking" title="Bảng dữ liệu đầy đủ (sửa chi tiết, xuất danh sách)"
+      ><site-icon name="list" [size]="16" />Danh sách đầy đủ</a
+    >
+    <button type="button" class="ad-btn ad-btn-primary" (click)="openCreate()"><site-icon name="plus" [size]="16" />Tạo lịch hẹn</button>
+  </div>
+</div>
+
+<!-- ===================== thanh công cụ ===================== -->
+<div class="ad-card toolbar">
+  <div class="date-nav">
+    <button type="button" class="ad-btn ad-btn-sm" (click)="shiftDate(-1)" aria-label="Trước"><site-icon name="left" [size]="16" /></button>
+    <button type="button" class="ad-btn ad-btn-sm" (click)="goToday()" [class.on]="isToday()">Hôm nay</button>
+    <button type="button" class="ad-btn ad-btn-sm" (click)="shiftDate(1)" aria-label="Sau"><site-icon name="right" [size]="16" /></button>
+    <input
+      type="date"
+      class="form-control form-control-sm date-input"
+      [value]="date()"
+      (change)="setFilter({ date: $any($event.target).value })"
+      aria-label="Chọn ngày"
+    />
+    <div class="seg" role="group" aria-label="Khoảng thời gian">
+      <button type="button" [class.on]="days() === 1" (click)="setFilter({ days: null })">1 ngày</button>
+      <button type="button" [class.on]="days() === 7" (click)="setFilter({ days: 7 })">7 ngày</button>
+    </div>
+  </div>
+  <div class="filters">
+    <select
+      class="form-select form-select-sm"
+      [value]="branchId() ?? ''"
+      (change)="setFilter({ branch: $any($event.target).value || null })"
+      aria-label="Cơ sở"
+    >
+      <option value="">Tất cả cơ sở</option>
+      @for (b of branches(); track b.id) {
+        <option [value]="b.id" [selected]="b.id === branchId()">{{ b.nameVi }}</option>
+      }
+    </select>
+    <div class="search">
+      <site-icon name="search" [size]="16" />
+      <input
+        class="form-control form-control-sm"
+        type="search"
+        placeholder="Tìm SĐT, tên, mã lịch…"
+        [value]="q()"
+        (keyup.enter)="search($any($event.target).value)"
+        (search)="search($any($event.target).value)"
+        aria-label="Tìm lịch hẹn"
+      />
+    </div>
+  </div>
+  <div class="status-chips" role="group" aria-label="Lọc trạng thái">
+    <button type="button" class="chip" [class.on]="!status()" (click)="setFilter({ status: null })">Tất cả</button>
+    @for (s of statuses; track s) {
+      <button type="button" class="chip" [class.on]="status() === s" (click)="setFilter({ status: s })">
+        <span class="st st-{{ s }}">{{ statusText(s) }}</span>
+      </button>
+    }
+  </div>
+</div>
+
+<!-- ===================== tóm tắt ===================== -->
+<div class="sum-row">
+  <span
+    ><strong>{{ summary().count }}</strong> lịch hẹn</span
+  >
+  <span
+    ><strong>{{ summary().guests }}</strong> khách</span
+  >
+  <span
+    >Dự kiến <strong>{{ money(summary().expected) }}</strong></span
+  >
+  <span
+    >Đã thu <strong class="pay-PAID">{{ money(summary().collected) }}</strong></span
+  >
+  <button type="button" class="ad-btn ad-btn-sm refresh" (click)="load()" [disabled]="loading()">
+    <site-icon name="refresh" [size]="14" />Làm mới
+  </button>
+</div>
+
+<!-- ===================== danh sách ===================== -->
+@if (loading() && !rows().length) {
+  <div class="ad-card empty">Đang tải…</div>
+} @else if (!rows().length) {
+  <div class="ad-card empty">
+    <p>Không có lịch hẹn nào{{ status() ? ' ở trạng thái "' + statusText(status()!) + '"' : '' }}.</p>
+    <button type="button" class="ad-btn ad-btn-primary" (click)="openCreate()"><site-icon name="plus" [size]="16" />Tạo lịch hẹn</button>
+  </div>
+} @else {
+  @for (g of groups(); track g.day) {
+    @if (days() > 1) {
+      <h2 class="day-head">
+        {{ dayHeading(g.day) }} <span class="ad-muted">· {{ g.items.length }} lịch</span>
+      </h2>
+    }
+    <div class="rows">
+      @for (r of g.items; track r.id) {
+        <article class="ad-card row-card st-border-{{ r.status }}" [class.busy]="busyId() === r.id">
+          <div class="rc-time">
+            <strong>{{ time(r.startTime) }}</strong>
+            <span class="ad-muted">{{ time(r.endTime) }}</span>
+          </div>
+
+          <div class="rc-main">
+            <div class="rc-top">
+              <span class="st st-{{ r.status }}">{{ statusText(r.status) }}</span>
+              <span class="code">{{ r.code }}</span>
+              @if (r.source) {
+                <span class="src">{{ 'aulacswscApp.BookingSource.' + r.source | translate }}</span>
+              }
+            </div>
+            <p class="rc-customer">
+              <strong>{{ r.customerName }}</strong>
+              @if (r.customerPhone) {
+                <a [href]="'tel:' + r.customerPhone" class="phone"><site-icon name="phone" [size]="14" />{{ r.customerPhone }}</a>
+                @if (zalo(r.customerPhone); as z) {
+                  <a [href]="z" target="_blank" rel="noopener" class="zalo">Zalo</a>
+                }
+              }
+            </p>
+            <p class="rc-detail ad-muted">
+              {{ r.services.join(', ') }} · {{ r.numberOfPeople }} khách · {{ r.branchName }}
+              @if (r.staff.length) {
+                · KTV: {{ r.staff.join(', ') }}
+              }
+            </p>
+            @if (r.note) {
+              <p class="rc-note"><site-icon name="edit" [size]="13" /> {{ r.note }}</p>
+            }
+          </div>
+
+          <div class="rc-money">
+            <strong>{{ money(r.totalAmount) }}</strong>
+            <span class="pay-{{ r.paymentStatus || 'UNPAID' }}">{{
+              r.paymentStatus === 'PAID' ? 'Đã thanh toán' : 'Chưa thanh toán'
+            }}</span>
+          </div>
+
+          <div class="rc-actions">
+            @for (a of actionsFor[r.status]; track a.label) {
+              <button
+                type="button"
+                class="ad-btn ad-btn-sm"
+                [class.ad-btn-primary]="a.tone === 'primary'"
+                [class.ad-btn-danger]="a.tone === 'danger'"
+                [disabled]="busyId() === r.id"
+                (click)="act(r, a)"
+              >
+                {{ a.label }}
+              </button>
+            }
+            @if (r.status === 'IN_PROGRESS' || (r.status === 'COMPLETED' && r.paymentStatus !== 'PAID')) {
+              @if (payingId() === r.id) {
+                <div class="pay-box">
+                  <span class="ad-muted">Thu tiền bằng:</span>
+                  @for (m of payMethods; track m) {
+                    <button type="button" class="ad-btn ad-btn-sm" (click)="r.status === 'IN_PROGRESS' ? complete(r, m) : markPaid(r, m)">
+                      {{ 'aulacswscApp.PaymentMethod.' + m | translate }}
+                    </button>
+                  }
+                  @if (r.status === 'IN_PROGRESS') {
+                    <button type="button" class="ad-btn ad-btn-sm" (click)="completeUnpaid(r)">Chưa thu</button>
+                  }
+                  <button type="button" class="ad-btn ad-btn-sm" (click)="payingId.set(null)" aria-label="Đóng">
+                    <site-icon name="x" [size]="14" />
+                  </button>
+                </div>
+              } @else {
+                <button type="button" class="ad-btn ad-btn-sm ad-btn-success" [disabled]="busyId() === r.id" (click)="payingId.set(r.id)">
+                  <site-icon name="check" [size]="14" />{{ r.status === 'IN_PROGRESS' ? 'Hoàn thành & thu tiền' : 'Ghi đã thanh toán' }}
+                </button>
+              }
+            }
+            <a class="ad-btn ad-btn-sm" [routerLink]="['/booking', r.id, 'edit']" title="Sửa chi tiết"
+              ><site-icon name="edit" [size]="14"
+            /></a>
+          </div>
+        </article>
+      }
+    </div>
+  }
+}
+
+<!-- ===================== tạo nhanh lịch hẹn ===================== -->
+@if (createOpen()) {
+  <button type="button" class="drawer-backdrop" (click)="closeCreate()" aria-label="Đóng"></button>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="create-title">
+    <header>
+      <h2 id="create-title">Tạo lịch hẹn</h2>
+      <button type="button" class="ad-btn ad-btn-sm" (click)="closeCreate()" aria-label="Đóng"><site-icon name="x" [size]="16" /></button>
+    </header>
+    <form (submit)="$event.preventDefault(); submitCreate()" novalidate>
+      <div class="seg wide" role="group" aria-label="Nguồn">
+        <button type="button" [class.on]="form().source === 'PHONE'" (click)="patchForm({ source: 'PHONE' })">Khách gọi điện</button>
+        <button type="button" [class.on]="form().source === 'WALK_IN'" (click)="patchForm({ source: 'WALK_IN' })">
+          Khách đến trực tiếp
+        </button>
+      </div>
+
+      <div class="grid2">
+        <div class="mb-3">
+          <label class="form-label" for="q-phone">Số điện thoại *</label>
+          <input
+            id="q-phone"
+            class="form-control"
+            type="tel"
+            [value]="form().phone"
+            (input)="patchForm({ phone: $any($event.target).value })"
+            placeholder="09xx xxx xxx"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="q-name">Họ tên khách</label>
+          <input id="q-name" class="form-control" [value]="form().fullName" (input)="patchForm({ fullName: $any($event.target).value })" />
+        </div>
+      </div>
+
+      <div class="grid3">
+        <div class="mb-3">
+          <label class="form-label" for="q-branch">Cơ sở</label>
+          <select id="q-branch" class="form-select" (change)="patchForm({ branchId: +$any($event.target).value })">
+            @for (b of branches(); track b.id) {
+              <option [value]="b.id" [selected]="b.id === form().branchId">{{ b.nameVi }}</option>
+            }
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="q-date">Ngày *</label>
+          <input
+            id="q-date"
+            class="form-control"
+            type="date"
+            [value]="form().date"
+            (change)="patchForm({ date: $any($event.target).value })"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="q-time">Giờ *</label>
+          <input
+            id="q-time"
+            class="form-control"
+            type="time"
+            step="300"
+            [value]="form().time"
+            (change)="patchForm({ time: $any($event.target).value })"
+          />
+        </div>
+      </div>
+
+      <p class="form-label mb-1">Dịch vụ *</p>
+      <div class="svc-picker">
+        @for (s of services(); track s.id) {
+          <button type="button" class="svc" [class.on]="form().serviceIds.includes(s.id)" (click)="toggleService(s.id)">
+            <span>{{ s.nameVi }}</span>
+            <small>{{ s.durationMinutes }}′ · {{ money(s.salePrice ?? s.price) }}</small>
+          </button>
+        }
+      </div>
+
+      <div class="grid2">
+        <div class="mb-3">
+          <label class="form-label" for="q-people">Số khách</label>
+          <input
+            id="q-people"
+            class="form-control"
+            type="number"
+            min="1"
+            max="20"
+            [value]="form().people"
+            (change)="patchForm({ people: +$any($event.target).value || 1 })"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="q-note">Ghi chú</label>
+          <input id="q-note" class="form-control" [value]="form().note" (input)="patchForm({ note: $any($event.target).value })" />
+        </div>
+      </div>
+
+      <div class="create-sum">
+        <span>{{ formDuration() }} phút</span>
+        <strong>{{ money(formTotal()) }}</strong>
+      </div>
+      @if (formError(); as e) {
+        <div class="alert alert-danger py-2">{{ e }}</div>
+      }
+      <button type="submit" class="ad-btn ad-btn-primary submit" [disabled]="saving()">
+        <site-icon name="check" [size]="16" />{{ saving() ? 'Đang lưu…' : 'Lưu lịch hẹn (xác nhận luôn)' }}
+      </button>
+    </form>
+  </aside>
+}
+
+@if (toast(); as t) {
+  <div class="toast-msg" role="status">{{ t }}</div>
+}

@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (blogPost(); as blogPostRef) {
       <div>
         <h2 data-cy="blogPostDetailsHeading"><span jhiTranslate="aulacswscApp.blogPost.detail.title">Blog Post</span></h2>
@@ -45,7 +45,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.blogPost.coverImageUrl">Cover Image Url</span></dt>
           <dd>
-            <span>{{ blogPostRef.coverImageUrl }}</span>
+            @if (blogPostRef.coverImageUrl) {
+              <img class="detail-img" [src]="blogPostRef.coverImageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.blogPost.category">Category</span></dt>
           <dd>

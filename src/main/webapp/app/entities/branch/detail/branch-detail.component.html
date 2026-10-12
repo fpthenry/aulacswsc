@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (branch(); as branchRef) {
       <div>
         <h2 data-cy="branchDetailsHeading"><span jhiTranslate="aulacswscApp.branch.detail.title">Branch</span></h2>
@@ -91,7 +91,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.branch.imageUrl">Image Url</span></dt>
           <dd>
-            <span>{{ branchRef.imageUrl }}</span>
+            @if (branchRef.imageUrl) {
+              <img class="detail-img" [src]="branchRef.imageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.branch.displayOrder">Display Order</span></dt>
           <dd>

@@ -33,72 +33,14 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="imageUrl">
+            <th scope="col" class="c-thumb">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.galleryImage.imageUrl">Image Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="captionVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.captionVi">Caption Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="captionEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.captionEn">Caption En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="altVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.altVi">Alt Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="altEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.altEn">Alt En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="width">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.width">Width</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="height">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.height">Height</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="displayOrder">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.displayOrder">Display Order</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="active">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.galleryImage.active">Active</span>
+                <span>Chú thích</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -109,24 +51,36 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" jhiSortBy="displayOrder">
+              <div class="d-flex">
+                <span>Thứ tự</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span>Hiển thị</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
           @for (galleryImage of galleryImages(); track trackId(galleryImage)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/gallery-image', galleryImage.id, 'view']">{{ galleryImage.id }}</a>
+              <td class="c-thumb c-thumb-lg">
+                @if (galleryImage.imageUrl) {
+                  <img [src]="galleryImage.imageUrl" alt="" loading="lazy" />
+                } @else {
+                  <span class="thumb-empty" aria-hidden="true"></span>
+                }
               </td>
-              <td>{{ galleryImage.imageUrl }}</td>
-              <td>{{ galleryImage.captionVi }}</td>
-              <td>{{ galleryImage.captionEn }}</td>
-              <td>{{ galleryImage.altVi }}</td>
-              <td>{{ galleryImage.altEn }}</td>
-              <td>{{ galleryImage.width }}</td>
-              <td>{{ galleryImage.height }}</td>
-              <td>{{ galleryImage.displayOrder }}</td>
-              <td>{{ galleryImage.active }}</td>
+              <td class="c-long">
+                <span>{{ galleryImage.captionVi }}</span>
+              </td>
               <td>
                 @if (galleryImage.branch) {
                   <div>
@@ -134,21 +88,34 @@
                   </div>
                 }
               </td>
-              <td class="text-end">
+              <td>{{ galleryImage.displayOrder }}</td>
+              <td>
+                <span class="yn" [class.yes]="galleryImage.active">{{ galleryImage.active ? 'Đang hiện' : 'Đã ẩn' }}</span>
+              </td>
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/gallery-image', galleryImage.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/gallery-image', galleryImage.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/gallery-image', galleryImage.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(galleryImage)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button
+                    type="submit"
+                    (click)="delete(galleryImage)"
+                    class="btn btn-danger btn-sm"
+                    data-cy="entityDeleteButton"
+                    title="Xóa"
+                  >
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -55,4 +56,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
     Optional<Booking> findOneByCode(String code);
 
     boolean existsByCode(String code);
+
+    /** Lịch hẹn trong khoảng thời gian, kèm khách + cơ sở (trang quản trị). */
+    @Query(
+        "select booking from Booking booking left join fetch booking.customer left join fetch booking.branch " +
+        "where booking.startTime >= :from and booking.startTime < :to order by booking.startTime asc"
+    )
+    List<Booking> findAllInRangeWithDetails(@Param("from") Instant from, @Param("to") Instant to);
+
+    long countByStatus(BookingStatus status);
 }

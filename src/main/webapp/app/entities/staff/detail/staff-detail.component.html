@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (staff(); as staffRef) {
       <div>
         <h2 data-cy="staffDetailsHeading"><span jhiTranslate="aulacswscApp.staff.detail.title">Staff</span></h2>
@@ -33,7 +33,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</span></dt>
           <dd>
-            <span>{{ staffRef.avatarUrl }}</span>
+            @if (staffRef.avatarUrl) {
+              <img class="detail-img" [src]="staffRef.avatarUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.staff.active">Active</span></dt>
           <dd>

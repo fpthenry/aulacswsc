@@ -2,40 +2,40 @@
   "aulacswscApp": {
     "branch": {
       "home": {
-        "title": "Branches",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Branch",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Branch",
-        "notFound": "No Branches found"
+        "title": "Cơ sở",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm cơ sở",
+        "createOrEditLabel": "Thêm / sửa cơ sở",
+        "notFound": "Chưa có cơ sở nào"
       },
-      "created": "Một Branch mới được tạo với định danh {{ param }}",
-      "updated": "Một Branch cập nhật với định danh {{ param }}",
-      "deleted": "Một Branch đã xóa với định danh {{ param }}",
+      "created": "Đã thêm cơ sở (ID {{ param }})",
+      "updated": "Đã lưu cơ sở (ID {{ param }})",
+      "deleted": "Đã xóa cơ sở (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Branch {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa cơ sở #{{ id }}?"
       },
       "detail": {
-        "title": "Branch"
+        "title": "Cơ sở"
       },
       "id": "ID",
-      "nameVi": "Name Vi",
-      "nameEn": "Name En",
-      "slug": "Slug",
-      "addressVi": "Address Vi",
-      "addressEn": "Address En",
-      "phone": "Phone",
-      "whatsapp": "Whatsapp",
+      "nameVi": "Tên (Tiếng Việt)",
+      "nameEn": "Tên (English)",
+      "slug": "Đường dẫn (tự tạo)",
+      "addressVi": "Địa chỉ (Tiếng Việt)",
+      "addressEn": "Địa chỉ (English)",
+      "phone": "Số điện thoại",
+      "whatsapp": "WhatsApp",
       "zalo": "Zalo",
       "email": "Email",
-      "openTime": "Open Time",
-      "closeTime": "Close Time",
-      "lastBookingTime": "Last Booking Time",
-      "capacity": "Capacity",
-      "mapEmbedUrl": "Map Embed Url",
-      "mapDirectionUrl": "Map Direction Url",
-      "imageUrl": "Image Url",
-      "displayOrder": "Display Order",
-      "active": "Active",
+      "openTime": "Giờ mở cửa (HH:mm)",
+      "closeTime": "Giờ đóng cửa (HH:mm)",
+      "lastBookingTime": "Giờ nhận khách cuối (HH:mm)",
+      "capacity": "Sức chứa (số khách phục vụ cùng lúc)",
+      "mapEmbedUrl": "Link nhúng Google Maps",
+      "mapDirectionUrl": "Link chỉ đường Google Maps",
+      "imageUrl": "Ảnh",
+      "displayOrder": "Thứ tự hiển thị (số nhỏ hiện trước)",
+      "active": "Đang hoạt động (hiện trên website)",
       "help": {
         "openTime": "Giờ mở cửa dạng HH:mm, vd 10:00",
         "closeTime": "Giờ đóng cửa dạng HH:mm, vd 22:00",

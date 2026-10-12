@@ -1,12 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-spa-service-heading"
-        data-cy="SpaServiceCreateUpdateHeading"
-        jhiTranslate="aulacswscApp.spaService.home.createOrEditLabel"
-      >
-        Create or edit a Spa Service
+      <h2 id="jhi-spa-service-heading" data-cy="SpaServiceCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa dịch vụ
+          @if (editForm.controls.nameVi.value) {
+            <span class="form-title-name">{{ editForm.controls.nameVi.value }}</span>
+          }
+        } @else {
+          Thêm dịch vụ mới
+        }
       </h2>
 
       <div>
@@ -19,360 +22,478 @@
           </div>
         }
 
-        @let nameViRef = editForm.get('nameVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_nameVi" jhiTranslate="aulacswscApp.spaService.nameVi">Name Vi</label>
-          <input type="text" class="form-control" name="nameVi" id="field_nameVi" data-cy="nameVi" formControlName="nameVi" />
-          @if (nameViRef.invalid && (nameViRef.dirty || nameViRef.touched)) {
-            <div>
-              @if (editForm.get('nameVi')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('nameVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
-                  >This field cannot be longer than 200 characters.</small
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thông tin chính</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Giá &amp; thời lượng</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Ảnh</button>
+          <button type="button" (click)="sec4.scrollIntoView({ behavior: 'smooth', block: 'start' })">Nội dung chi tiết</button>
+          <button type="button" (click)="sec5.scrollIntoView({ behavior: 'smooth', block: 'start' })">Hiển thị &amp; kỹ thuật viên</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Thông tin chính</h3>
+          <p class="form-section-desc">Tên và mô tả ngắn hiện trên thẻ dịch vụ.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let nameViRef = editForm.get('nameVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_nameVi" jhiTranslate="aulacswscApp.spaService.nameVi">Name Vi</label>
+                <input type="text" class="form-control" name="nameVi" id="field_nameVi" data-cy="nameVi" formControlName="nameVi" />
+                @if (nameViRef.invalid && (nameViRef.dirty || nameViRef.touched)) {
+                  <div>
+                    @if (editForm.get('nameVi')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('nameVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
+                        >This field cannot be longer than 200 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let nameEnRef = editForm.get('nameEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_nameEn" jhiTranslate="aulacswscApp.spaService.nameEn">Name En</label>
+                <input type="text" class="form-control" name="nameEn" id="field_nameEn" data-cy="nameEn" formControlName="nameEn" />
+                @if (nameEnRef.invalid && (nameEnRef.dirty || nameEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('nameEn')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('nameEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
+                        >This field cannot be longer than 200 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let shortDescriptionViRef = editForm.get('shortDescriptionVi')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_shortDescriptionVi" jhiTranslate="aulacswscApp.spaService.shortDescriptionVi"
+                  >Short Description Vi</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="shortDescriptionVi"
+                  id="field_shortDescriptionVi"
+                  data-cy="shortDescriptionVi"
+                  formControlName="shortDescriptionVi"
+                />
+                @if (shortDescriptionViRef.invalid && (shortDescriptionViRef.dirty || shortDescriptionViRef.touched)) {
+                  <div>
+                    @if (editForm.get('shortDescriptionVi')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text">Một câu ngắn hiện trên thẻ dịch vụ.</div>
+                <div class="form-text char-count" [class.over]="(editForm.get('shortDescriptionVi')?.value ?? '').length > 120">
+                  {{ (editForm.get('shortDescriptionVi')?.value ?? '').length }} / 120 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let nameEnRef = editForm.get('nameEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_nameEn" jhiTranslate="aulacswscApp.spaService.nameEn">Name En</label>
-          <input type="text" class="form-control" name="nameEn" id="field_nameEn" data-cy="nameEn" formControlName="nameEn" />
-          @if (nameEnRef.invalid && (nameEnRef.dirty || nameEnRef.touched)) {
-            <div>
-              @if (editForm.get('nameEn')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('nameEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
-                  >This field cannot be longer than 200 characters.</small
+            <div class="col-md-6">
+              @let shortDescriptionEnRef = editForm.get('shortDescriptionEn')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_shortDescriptionEn" jhiTranslate="aulacswscApp.spaService.shortDescriptionEn"
+                  >Short Description En</label
                 >
-              }
+                <input
+                  type="text"
+                  class="form-control"
+                  name="shortDescriptionEn"
+                  id="field_shortDescriptionEn"
+                  data-cy="shortDescriptionEn"
+                  formControlName="shortDescriptionEn"
+                />
+                @if (shortDescriptionEnRef.invalid && (shortDescriptionEnRef.dirty || shortDescriptionEnRef.touched)) {
+                  <div>
+                    @if (editForm.get('shortDescriptionEn')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+                <div class="form-text char-count" [class.over]="(editForm.get('shortDescriptionEn')?.value ?? '').length > 120">
+                  {{ (editForm.get('shortDescriptionEn')?.value ?? '').length }} / 120 ký tự
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        @let shortDescriptionViRef = editForm.get('shortDescriptionVi')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_shortDescriptionVi" jhiTranslate="aulacswscApp.spaService.shortDescriptionVi"
-            >Short Description Vi</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="shortDescriptionVi"
-            id="field_shortDescriptionVi"
-            data-cy="shortDescriptionVi"
-            formControlName="shortDescriptionVi"
-          />
-          @if (shortDescriptionViRef.invalid && (shortDescriptionViRef.dirty || shortDescriptionViRef.touched)) {
-            <div>
-              @if (editForm.get('shortDescriptionVi')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_category" jhiTranslate="aulacswscApp.spaService.category">Category</label>
+                <select
+                  class="form-control"
+                  id="field_category"
+                  data-cy="category"
+                  name="category"
+                  formControlName="category"
+                  [compareWith]="compareServiceCategory"
                 >
+                  @if (editForm.get(['category'])!.value === null) {
+                    <option [ngValue]="null" selected></option>
+                  }
+                  @for (serviceCategoryOption of serviceCategoriesSharedCollection; track $index) {
+                    <option [ngValue]="serviceCategoryOption">{{ serviceCategoryOption.nameVi }}</option>
+                  }
+                </select>
+              </div>
+              @if (editForm.get(['category'])!.invalid && (editForm.get(['category'])!.dirty || editForm.get(['category'])!.touched)) {
+                <div>
+                  @if (editForm.get(['category'])?.errors?.required) {
+                    <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                  }
+                </div>
               }
             </div>
-          }
-        </div>
-
-        @let shortDescriptionEnRef = editForm.get('shortDescriptionEn')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_shortDescriptionEn" jhiTranslate="aulacswscApp.spaService.shortDescriptionEn"
-            >Short Description En</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="shortDescriptionEn"
-            id="field_shortDescriptionEn"
-            data-cy="shortDescriptionEn"
-            formControlName="shortDescriptionEn"
-          />
-          @if (shortDescriptionEnRef.invalid && (shortDescriptionEnRef.dirty || shortDescriptionEnRef.touched)) {
-            <div>
-              @if (editForm.get('shortDescriptionEn')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_descriptionVi" jhiTranslate="aulacswscApp.spaService.descriptionVi">Description Vi</label>
-          <textarea
-            class="form-control"
-            name="descriptionVi"
-            id="field_descriptionVi"
-            data-cy="descriptionVi"
-            formControlName="descriptionVi"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_descriptionEn" jhiTranslate="aulacswscApp.spaService.descriptionEn">Description En</label>
-          <textarea
-            class="form-control"
-            name="descriptionEn"
-            id="field_descriptionEn"
-            data-cy="descriptionEn"
-            formControlName="descriptionEn"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label
-            class="form-label"
-            for="field_benefitsVi"
-            [ngbTooltip]="'aulacswscApp.spaService.help.benefitsVi' | translate"
-            jhiTranslate="aulacswscApp.spaService.benefitsVi"
-            >Benefits Vi</label
-          >
-          <textarea
-            class="form-control"
-            name="benefitsVi"
-            id="field_benefitsVi"
-            data-cy="benefitsVi"
-            formControlName="benefitsVi"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_benefitsEn" jhiTranslate="aulacswscApp.spaService.benefitsEn">Benefits En</label>
-          <textarea
-            class="form-control"
-            name="benefitsEn"
-            id="field_benefitsEn"
-            data-cy="benefitsEn"
-            formControlName="benefitsEn"
-          ></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label
-            class="form-label"
-            for="field_notesVi"
-            [ngbTooltip]="'aulacswscApp.spaService.help.notesVi' | translate"
-            jhiTranslate="aulacswscApp.spaService.notesVi"
-            >Notes Vi</label
-          >
-          <textarea class="form-control" name="notesVi" id="field_notesVi" data-cy="notesVi" formControlName="notesVi"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_notesEn" jhiTranslate="aulacswscApp.spaService.notesEn">Notes En</label>
-          <textarea class="form-control" name="notesEn" id="field_notesEn" data-cy="notesEn" formControlName="notesEn"></textarea>
-        </div>
-
-        @let priceRef = editForm.get('price')!;
-        <div class="mb-3">
-          <label
-            class="form-label"
-            for="field_price"
-            [ngbTooltip]="'aulacswscApp.spaService.help.price' | translate"
-            jhiTranslate="aulacswscApp.spaService.price"
-            >Price</label
-          >
-          <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
-          @if (priceRef.invalid && (priceRef.dirty || priceRef.touched)) {
-            <div>
-              @if (editForm.get('price')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('price')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number" jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let salePriceRef = editForm.get('salePrice')!;
-        <div class="mb-3">
-          <label
-            class="form-label"
-            for="field_salePrice"
-            [ngbTooltip]="'aulacswscApp.spaService.help.salePrice' | translate"
-            jhiTranslate="aulacswscApp.spaService.salePrice"
-            >Sale Price</label
-          >
-          <input type="number" class="form-control" name="salePrice" id="field_salePrice" data-cy="salePrice" formControlName="salePrice" />
-          @if (salePriceRef.invalid && (salePriceRef.dirty || salePriceRef.touched)) {
-            <div>
-              @if (editForm.get('salePrice')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('salePrice')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let priceMaxRef = editForm.get('priceMax')!;
-        <div class="mb-3">
-          <label
-            class="form-label"
-            for="field_priceMax"
-            [ngbTooltip]="'aulacswscApp.spaService.help.priceMax' | translate"
-            jhiTranslate="aulacswscApp.spaService.priceMax"
-            >Price Max</label
-          >
-          <input type="number" class="form-control" name="priceMax" id="field_priceMax" data-cy="priceMax" formControlName="priceMax" />
-          @if (priceMaxRef.invalid && (priceMaxRef.dirty || priceMaxRef.touched)) {
-            <div>
-              @if (editForm.get('priceMax')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('priceMax')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let durationMinutesRef = editForm.get('durationMinutes')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_durationMinutes" jhiTranslate="aulacswscApp.spaService.durationMinutes"
-            >Duration Minutes</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            name="durationMinutes"
-            id="field_durationMinutes"
-            data-cy="durationMinutes"
-            formControlName="durationMinutes"
-          />
-          @if (durationMinutesRef.invalid && (durationMinutesRef.dirty || durationMinutesRef.touched)) {
-            <div>
-              @if (editForm.get('durationMinutes')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('durationMinutes')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '15' }"
-                  >This field should be at least 15.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('durationMinutes')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let imageUrlRef = editForm.get('imageUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_imageUrl" jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</label>
-          <jhi-image-upload [control]="editForm.controls.imageUrl" inputId="field_imageUrl" />
-          @if (imageUrlRef.invalid && (imageUrlRef.dirty || imageUrlRef.touched)) {
-            <div>
-              @if (editForm.get('imageUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_featured" jhiTranslate="aulacswscApp.spaService.featured">Featured</label>
-          <input type="checkbox" class="form-check" name="featured" id="field_featured" data-cy="featured" formControlName="featured" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_displayOrder" jhiTranslate="aulacswscApp.spaService.displayOrder">Display Order</label>
-          <input
-            type="number"
-            class="form-control"
-            name="displayOrder"
-            id="field_displayOrder"
-            data-cy="displayOrder"
-            formControlName="displayOrder"
-          />
-        </div>
-
-        @let activeRef = editForm.get('active')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_active" jhiTranslate="aulacswscApp.spaService.active">Active</label>
-          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
-          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
-            <div>
-              @if (editForm.get('active')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_category" jhiTranslate="aulacswscApp.spaService.category">Category</label>
-          <select
-            class="form-control"
-            id="field_category"
-            data-cy="category"
-            name="category"
-            formControlName="category"
-            [compareWith]="compareServiceCategory"
-          >
-            @if (editForm.get(['category'])!.value === null) {
-              <option [ngValue]="null" selected></option>
-            }
-            @for (serviceCategoryOption of serviceCategoriesSharedCollection; track $index) {
-              <option [ngValue]="serviceCategoryOption">{{ serviceCategoryOption.nameVi }}</option>
-            }
-          </select>
-        </div>
-        @if (editForm.get(['category'])!.invalid && (editForm.get(['category'])!.dirty || editForm.get(['category'])!.touched)) {
-          <div>
-            @if (editForm.get(['category'])?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
           </div>
-        }
+        </section>
 
-        <div class="mb-3">
-          <label for="field_staffs" jhiTranslate="aulacswscApp.spaService.staffs">Staffs</label>
-          <select
-            class="form-control"
-            id="field_staffs"
-            data-cy="staffs"
-            multiple
-            name="staffs"
-            formControlName="staffs"
-            [compareWith]="compareStaff"
-          >
-            @for (staffOption of staffSharedCollection; track $index) {
-              <option [ngValue]="staffOption">{{ staffOption.id }}</option>
-            }
-          </select>
-        </div>
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Giá &amp; thời lượng</h3>
+          <p class="form-section-desc">Giá hiển thị trên website và dùng để tính tổng tiền khi khách đặt lịch.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let priceRef = editForm.get('price')!;
+              <div class="mb-3">
+                <label
+                  class="form-label"
+                  for="field_price"
+                  [ngbTooltip]="'aulacswscApp.spaService.help.price' | translate"
+                  jhiTranslate="aulacswscApp.spaService.price"
+                  >Price</label
+                >
+                <input type="number" class="form-control" name="price" id="field_price" data-cy="price" formControlName="price" />
+                @if (priceRef.invalid && (priceRef.dirty || priceRef.touched)) {
+                  <div>
+                    @if (editForm.get('price')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('price')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('price')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                @if (editForm.get('price')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('price')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let salePriceRef = editForm.get('salePrice')!;
+              <div class="mb-3">
+                <label
+                  class="form-label"
+                  for="field_salePrice"
+                  [ngbTooltip]="'aulacswscApp.spaService.help.salePrice' | translate"
+                  jhiTranslate="aulacswscApp.spaService.salePrice"
+                  >Sale Price</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="salePrice"
+                  id="field_salePrice"
+                  data-cy="salePrice"
+                  formControlName="salePrice"
+                />
+                @if (salePriceRef.invalid && (salePriceRef.dirty || salePriceRef.touched)) {
+                  <div>
+                    @if (editForm.get('salePrice')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('salePrice')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                <div class="form-text">Để trống nếu không giảm giá.</div>
+                @if (editForm.get('salePrice')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('salePrice')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let priceMaxRef = editForm.get('priceMax')!;
+              <div class="mb-3">
+                <label
+                  class="form-label"
+                  for="field_priceMax"
+                  [ngbTooltip]="'aulacswscApp.spaService.help.priceMax' | translate"
+                  jhiTranslate="aulacswscApp.spaService.priceMax"
+                  >Price Max</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="priceMax"
+                  id="field_priceMax"
+                  data-cy="priceMax"
+                  formControlName="priceMax"
+                />
+                @if (priceMaxRef.invalid && (priceMaxRef.dirty || priceMaxRef.touched)) {
+                  <div>
+                    @if (editForm.get('priceMax')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('priceMax')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                <div class="form-text">Chỉ điền nếu giá dao động (vd 450.000 – 650.000 đ).</div>
+                @if (editForm.get('priceMax')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('priceMax')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let durationMinutesRef = editForm.get('durationMinutes')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_durationMinutes" jhiTranslate="aulacswscApp.spaService.durationMinutes"
+                  >Duration Minutes</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="durationMinutes"
+                  id="field_durationMinutes"
+                  data-cy="durationMinutes"
+                  formControlName="durationMinutes"
+                />
+                @if (durationMinutesRef.invalid && (durationMinutesRef.dirty || durationMinutesRef.touched)) {
+                  <div>
+                    @if (editForm.get('durationMinutes')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('durationMinutes')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '15' }"
+                        >This field should be at least 15.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('durationMinutes')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Ảnh</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-12">
+              @let imageUrlRef = editForm.get('imageUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_imageUrl" jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</label>
+                <jhi-image-upload [control]="editForm.controls.imageUrl" inputId="field_imageUrl" />
+                @if (imageUrlRef.invalid && (imageUrlRef.dirty || imageUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('imageUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec4>
+          <h3><span class="sec-no">4</span>Nội dung chi tiết</h3>
+          <p class="form-section-desc">Hiện ở trang chi tiết dịch vụ.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_descriptionVi" jhiTranslate="aulacswscApp.spaService.descriptionVi"
+                  >Description Vi</label
+                >
+                <textarea
+                  class="form-control"
+                  name="descriptionVi"
+                  id="field_descriptionVi"
+                  data-cy="descriptionVi"
+                  formControlName="descriptionVi"
+                ></textarea>
+                <div class="form-text">Cách đoạn bằng một dòng trống.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_descriptionEn" jhiTranslate="aulacswscApp.spaService.descriptionEn"
+                  >Description En</label
+                >
+                <textarea
+                  class="form-control"
+                  name="descriptionEn"
+                  id="field_descriptionEn"
+                  data-cy="descriptionEn"
+                  formControlName="descriptionEn"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label
+                  class="form-label"
+                  for="field_benefitsVi"
+                  [ngbTooltip]="'aulacswscApp.spaService.help.benefitsVi' | translate"
+                  jhiTranslate="aulacswscApp.spaService.benefitsVi"
+                  >Benefits Vi</label
+                >
+                <textarea
+                  class="form-control"
+                  name="benefitsVi"
+                  id="field_benefitsVi"
+                  data-cy="benefitsVi"
+                  formControlName="benefitsVi"
+                ></textarea>
+                <div class="form-text">Mỗi dòng một ý — website tự hiện thành danh sách có dấu ✓.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_benefitsEn" jhiTranslate="aulacswscApp.spaService.benefitsEn">Benefits En</label>
+                <textarea
+                  class="form-control"
+                  name="benefitsEn"
+                  id="field_benefitsEn"
+                  data-cy="benefitsEn"
+                  formControlName="benefitsEn"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label
+                  class="form-label"
+                  for="field_notesVi"
+                  [ngbTooltip]="'aulacswscApp.spaService.help.notesVi' | translate"
+                  jhiTranslate="aulacswscApp.spaService.notesVi"
+                  >Notes Vi</label
+                >
+                <textarea class="form-control" name="notesVi" id="field_notesVi" data-cy="notesVi" formControlName="notesVi"></textarea>
+                <div class="form-text">Mỗi dòng một ý.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label" for="field_notesEn" jhiTranslate="aulacswscApp.spaService.notesEn">Notes En</label>
+                <textarea class="form-control" name="notesEn" id="field_notesEn" data-cy="notesEn" formControlName="notesEn"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec5>
+          <h3><span class="sec-no">5</span>Hiển thị &amp; kỹ thuật viên</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let activeRef = editForm.get('active')!;
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="active"
+                  id="field_active"
+                  data-cy="active"
+                  formControlName="active"
+                />
+                <label class="form-check-label" for="field_active" jhiTranslate="aulacswscApp.spaService.active">Active</label>
+
+                @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+                  <div>
+                    @if (editForm.get('active')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+                <div class="form-text">Tắt để ẩn khỏi website — dữ liệu vẫn được giữ.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="featured"
+                  id="field_featured"
+                  data-cy="featured"
+                  formControlName="featured"
+                />
+                <label class="form-check-label" for="field_featured" jhiTranslate="aulacswscApp.spaService.featured">Featured</label>
+                <div class="form-text">Hiện ở mục nổi bật trên trang chủ.</div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_displayOrder" jhiTranslate="aulacswscApp.spaService.displayOrder">Display Order</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="displayOrder"
+                  id="field_displayOrder"
+                  data-cy="displayOrder"
+                  formControlName="displayOrder"
+                />
+                <div class="form-text">Số nhỏ hiện trước.</div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="field_staffs" jhiTranslate="aulacswscApp.spaService.staffs">Staffs</label>
+                <jhi-check-list
+                  [control]="editForm.controls.staffs"
+                  [options]="staffSharedCollection"
+                  labelKey="fullName"
+                  [compareWith]="compareStaff"
+                  inputId="field_staffs"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

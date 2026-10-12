@@ -2,30 +2,30 @@
   "aulacswscApp": {
     "promotion": {
       "home": {
-        "title": "Promotions",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Promotion",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Promotion",
-        "notFound": "No Promotions found"
+        "title": "Khuyến mãi",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm khuyến mãi",
+        "createOrEditLabel": "Thêm / sửa khuyến mãi",
+        "notFound": "Chưa có khuyến mãi nào"
       },
-      "created": "Một Promotion mới được tạo với định danh {{ param }}",
-      "updated": "Một Promotion cập nhật với định danh {{ param }}",
-      "deleted": "Một Promotion đã xóa với định danh {{ param }}",
+      "created": "Đã thêm khuyến mãi (ID {{ param }})",
+      "updated": "Đã lưu khuyến mãi (ID {{ param }})",
+      "deleted": "Đã xóa khuyến mãi (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Promotion {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa khuyến mãi #{{ id }}?"
       },
       "detail": {
-        "title": "Promotion"
+        "title": "Khuyến mãi"
       },
       "id": "ID",
-      "code": "Code",
-      "name": "Name",
-      "description": "Description",
-      "discountPercent": "Discount Percent",
-      "discountAmount": "Discount Amount",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "active": "Active"
+      "code": "Mã",
+      "name": "Tên",
+      "description": "Mô tả",
+      "discountPercent": "Giảm (%)",
+      "discountAmount": "Giảm giá (đ)",
+      "startDate": "Ngày bắt đầu",
+      "endDate": "Ngày kết thúc",
+      "active": "Đang hoạt động (hiện trên website)"
     }
   }
 }

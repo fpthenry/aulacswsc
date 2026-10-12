@@ -39,4 +39,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, JpaSpecif
     Optional<Review> findOneWithToOneRelationships(@Param("id") Long id);
 
     Page<Review> findAllByApprovedTrue(Pageable pageable);
+
+    long countByApprovedIsNullOrApprovedFalse();
 }

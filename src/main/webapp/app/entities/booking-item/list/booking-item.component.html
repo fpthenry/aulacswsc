@@ -33,31 +33,9 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
+            <th scope="col" jhiSortBy="booking.code">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="price">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.bookingItem.price">Price</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="quantity">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.bookingItem.quantity">Quantity</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="durationMinutes">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.bookingItem.durationMinutes">Duration Minutes</span>
-
+                <span jhiTranslate="aulacswscApp.bookingItem.booking">Booking</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -73,24 +51,40 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="booking.code">
+            <th scope="col" jhiSortBy="quantity">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.bookingItem.booking">Booking</span>
+                <span>SL</span>
+
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" jhiSortBy="durationMinutes">
+              <div class="d-flex">
+                <span>Thời lượng</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="price">
+              <div class="d-flex">
+                <span>Giá</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody>
           @for (bookingItem of bookingItems(); track trackId(bookingItem)) {
             <tr data-cy="entityTable">
               <td>
-                <a [routerLink]="['/booking-item', bookingItem.id, 'view']">{{ bookingItem.id }}</a>
+                @if (bookingItem.booking) {
+                  <div>
+                    <a [routerLink]="['/booking', bookingItem.booking.id, 'view']">{{ bookingItem.booking.code }}</a>
+                  </div>
+                }
               </td>
-              <td>{{ bookingItem.price }}</td>
-              <td>{{ bookingItem.quantity }}</td>
-              <td>{{ bookingItem.durationMinutes }}</td>
               <td>
                 @if (bookingItem.service) {
                   <div>
@@ -105,28 +99,33 @@
                   </div>
                 }
               </td>
-              <td>
-                @if (bookingItem.booking) {
-                  <div>
-                    <a [routerLink]="['/booking', bookingItem.booking.id, 'view']">{{ bookingItem.booking.code }}</a>
-                  </div>
-                }
-              </td>
-              <td class="text-end">
+              <td>{{ bookingItem.quantity }}</td>
+              <td class="c-num">{{ (bookingItem.durationMinutes ?? null) !== null ? bookingItem.durationMinutes + ' phút' : '' }}</td>
+              <td class="c-num">{{ (bookingItem.price ?? null) !== null ? (bookingItem.price | number: '1.0-0' : 'vi') + ' đ' : '' }}</td>
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/booking-item', bookingItem.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/booking-item', bookingItem.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/booking-item', bookingItem.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(bookingItem)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button
+                    type="submit"
+                    (click)="delete(bookingItem)"
+                    class="btn btn-danger btn-sm"
+                    data-cy="entityDeleteButton"
+                    title="Xóa"
+                  >
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

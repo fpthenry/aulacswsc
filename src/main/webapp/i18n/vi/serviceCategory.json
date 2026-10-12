@@ -2,31 +2,31 @@
   "aulacswscApp": {
     "serviceCategory": {
       "home": {
-        "title": "Service Categories",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Service Category",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Service Category",
-        "notFound": "No Service Categories found"
+        "title": "Danh mục dịch vụ",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm danh mục dịch vụ",
+        "createOrEditLabel": "Thêm / sửa danh mục dịch vụ",
+        "notFound": "Chưa có danh mục dịch vụ nào"
       },
-      "created": "Một Service Category mới được tạo với định danh {{ param }}",
-      "updated": "Một Service Category cập nhật với định danh {{ param }}",
-      "deleted": "Một Service Category đã xóa với định danh {{ param }}",
+      "created": "Đã thêm danh mục dịch vụ (ID {{ param }})",
+      "updated": "Đã lưu danh mục dịch vụ (ID {{ param }})",
+      "deleted": "Đã xóa danh mục dịch vụ (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Service Category {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa danh mục dịch vụ #{{ id }}?"
       },
       "detail": {
-        "title": "Service Category"
+        "title": "Danh mục dịch vụ"
       },
       "id": "ID",
-      "nameVi": "Name Vi",
-      "nameEn": "Name En",
-      "slug": "Slug",
-      "descriptionVi": "Description Vi",
-      "descriptionEn": "Description En",
-      "imageUrl": "Image Url",
-      "displayOrder": "Display Order",
-      "active": "Active",
-      "services": "Services"
+      "nameVi": "Tên (Tiếng Việt)",
+      "nameEn": "Tên (English)",
+      "slug": "Đường dẫn (tự tạo)",
+      "descriptionVi": "Mô tả (Tiếng Việt)",
+      "descriptionEn": "Mô tả (English)",
+      "imageUrl": "Ảnh",
+      "displayOrder": "Thứ tự hiển thị (số nhỏ hiện trước)",
+      "active": "Đang hoạt động (hiện trên website)",
+      "services": "Dịch vụ làm được"
     }
   }
 }

@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-promotion-heading" data-cy="PromotionCreateUpdateHeading" jhiTranslate="aulacswscApp.promotion.home.createOrEditLabel">
-        Create or edit a Promotion
+      <h2 id="jhi-promotion-heading" data-cy="PromotionCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa khuyến mãi
+          @if (editForm.controls.code.value) {
+            <span class="form-title-name">{{ editForm.controls.code.value }}</span>
+          }
+        } @else {
+          Thêm khuyến mãi mới
+        }
       </h2>
 
       <div>
@@ -15,172 +22,222 @@
           </div>
         }
 
-        @let codeRef = editForm.get('code')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_code" jhiTranslate="aulacswscApp.promotion.code">Code</label>
-          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
-          @if (codeRef.invalid && (codeRef.dirty || codeRef.touched)) {
-            <div>
-              @if (editForm.get('code')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('code')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
-                  >This field cannot be longer than 50 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Mã khuyến mãi</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Mức giảm</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thời gian áp dụng</button>
+        </nav>
 
-        @let nameRef = editForm.get('name')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_name" jhiTranslate="aulacswscApp.promotion.name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
-            <div>
-              @if (editForm.get('name')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('name')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
-                  >This field cannot be longer than 200 characters.</small
-                >
-              }
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Mã khuyến mãi</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let codeRef = editForm.get('code')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_code" jhiTranslate="aulacswscApp.promotion.code">Code</label>
+                <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+                @if (codeRef.invalid && (codeRef.dirty || codeRef.touched)) {
+                  <div>
+                    @if (editForm.get('code')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('code')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '50' }"
+                        >This field cannot be longer than 50 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let descriptionRef = editForm.get('description')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_description" jhiTranslate="aulacswscApp.promotion.description">Description</label>
-          <input
-            type="text"
-            class="form-control"
-            name="description"
-            id="field_description"
-            data-cy="description"
-            formControlName="description"
-          />
-          @if (descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)) {
-            <div>
-              @if (editForm.get('description')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1000' }"
-                  >This field cannot be longer than 1000 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let nameRef = editForm.get('name')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_name" jhiTranslate="aulacswscApp.promotion.name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+                @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+                  <div>
+                    @if (editForm.get('name')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('name')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '200' }"
+                        >This field cannot be longer than 200 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let discountPercentRef = editForm.get('discountPercent')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_discountPercent" jhiTranslate="aulacswscApp.promotion.discountPercent"
-            >Discount Percent</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            name="discountPercent"
-            id="field_discountPercent"
-            data-cy="discountPercent"
-            formControlName="discountPercent"
-          />
-          @if (discountPercentRef.invalid && (discountPercentRef.dirty || discountPercentRef.touched)) {
-            <div>
-              @if (editForm.get('discountPercent')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              @if (editForm.get('discountPercent')?.errors?.max) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '100' }"
-                  >This field cannot be more than 100.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('discountPercent')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
+            <div class="col-md-6">
+              @let descriptionRef = editForm.get('description')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_description" jhiTranslate="aulacswscApp.promotion.description">Description</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="description"
+                  id="field_description"
+                  data-cy="description"
+                  formControlName="description"
+                />
+                @if (descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)) {
+                  <div>
+                    @if (editForm.get('description')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1000' }"
+                        >This field cannot be longer than 1000 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let discountAmountRef = editForm.get('discountAmount')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_discountAmount" jhiTranslate="aulacswscApp.promotion.discountAmount">Discount Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="discountAmount"
-            id="field_discountAmount"
-            data-cy="discountAmount"
-            formControlName="discountAmount"
-          />
-          @if (discountAmountRef.invalid && (discountAmountRef.dirty || discountAmountRef.touched)) {
-            <div>
-              @if (editForm.get('discountAmount')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('discountAmount')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_startDate" jhiTranslate="aulacswscApp.promotion.startDate">Start Date</label>
-          <div class="d-flex">
-            <input
-              id="field_startDate"
-              data-cy="startDate"
-              type="datetime-local"
-              class="form-control"
-              name="startDate"
-              formControlName="startDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
           </div>
-        </div>
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_endDate" jhiTranslate="aulacswscApp.promotion.endDate">End Date</label>
-          <div class="d-flex">
-            <input
-              id="field_endDate"
-              data-cy="endDate"
-              type="datetime-local"
-              class="form-control"
-              name="endDate"
-              formControlName="endDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
-        </div>
-
-        @let activeRef = editForm.get('active')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_active" jhiTranslate="aulacswscApp.promotion.active">Active</label>
-          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
-          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
-            <div>
-              @if (editForm.get('active')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Mức giảm</h3>
+          <p class="form-section-desc">Điền một trong hai: giảm theo % hoặc giảm số tiền.</p>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let discountPercentRef = editForm.get('discountPercent')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_discountPercent" jhiTranslate="aulacswscApp.promotion.discountPercent"
+                  >Discount Percent</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="discountPercent"
+                  id="field_discountPercent"
+                  data-cy="discountPercent"
+                  formControlName="discountPercent"
+                />
+                @if (discountPercentRef.invalid && (discountPercentRef.dirty || discountPercentRef.touched)) {
+                  <div>
+                    @if (editForm.get('discountPercent')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    @if (editForm.get('discountPercent')?.errors?.max) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '100' }"
+                        >This field cannot be more than 100.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('discountPercent')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                <div class="form-text">Ví dụ 10 = giảm 10%.</div>
+              </div>
             </div>
-          }
-        </div>
+            <div class="col-md-6 col-xl-4">
+              @let discountAmountRef = editForm.get('discountAmount')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_discountAmount" jhiTranslate="aulacswscApp.promotion.discountAmount"
+                  >Discount Amount</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="discountAmount"
+                  id="field_discountAmount"
+                  data-cy="discountAmount"
+                  formControlName="discountAmount"
+                />
+                @if (discountAmountRef.invalid && (discountAmountRef.dirty || discountAmountRef.touched)) {
+                  <div>
+                    @if (editForm.get('discountAmount')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('discountAmount')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                @if (editForm.get('discountAmount')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('discountAmount')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Thời gian áp dụng</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_startDate" jhiTranslate="aulacswscApp.promotion.startDate">Start Date</label>
+                <div class="d-flex">
+                  <input
+                    id="field_startDate"
+                    data-cy="startDate"
+                    type="datetime-local"
+                    class="form-control"
+                    name="startDate"
+                    formControlName="startDate"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_endDate" jhiTranslate="aulacswscApp.promotion.endDate">End Date</label>
+                <div class="d-flex">
+                  <input
+                    id="field_endDate"
+                    data-cy="endDate"
+                    type="datetime-local"
+                    class="form-control"
+                    name="endDate"
+                    formControlName="endDate"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let activeRef = editForm.get('active')!;
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="active"
+                  id="field_active"
+                  data-cy="active"
+                  formControlName="active"
+                />
+                <label class="form-check-label" for="field_active" jhiTranslate="aulacswscApp.promotion.active">Active</label>
+
+                @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+                  <div>
+                    @if (editForm.get('active')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+                <div class="form-text">Tắt để ẩn khỏi website — dữ liệu vẫn được giữ.</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

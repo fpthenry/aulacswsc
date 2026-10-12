@@ -234,3 +234,87 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* ==============================================================
+Trang đăng nhập / quên mật khẩu (chưa đăng nhập) — cùng thương hiệu với website
+===============================================================*/
+.auth-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgb(185 139 78 / 20%), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgb(122 139 111 / 18%), transparent 50%), #f5f1ea;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  a {
+    color: #5b4636;
+  }
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  strong {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #3a2d23;
+  }
+}
+.auth-logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #b98b4e, #8a6330);
+  color: #fff;
+  font-weight: 700;
+}
+.auth-card {
+  width: min(100%, 520px);
+  padding: 2rem;
+  border: 1px solid #e7ded1;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 40px -18px rgb(43 33 26 / 35%);
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .btn-primary {
+    background: #5b4636;
+    border-color: #5b4636;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .row,
+  .col-md-8 {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+    margin: 0;
+  }
+}
+.auth-back {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.auth-loading {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e7ded1;
+  border-top-color: #b98b4e;
+  border-radius: 50%;
+  animation: auth-spin 0.9s linear infinite;
+}
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

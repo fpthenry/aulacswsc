@@ -1,18 +1,21 @@
 @if (isSite()) {
   <!-- website khách (/vi, /en): layout riêng trong app/site -->
   <router-outlet />
+} @else if (!authChecked()) {
+  <!-- đang kiểm tra đăng nhập: tránh nháy giữa 2 kiểu layout -->
+  <div class="auth-layout"><span class="auth-loading" aria-label="Đang tải"></span></div>
+} @else if (account()) {
+  <!-- đã đăng nhập: khung quản trị (menu trái + thanh trên) -->
+  <jhi-admin-shell>
+    <router-outlet />
+  </jhi-admin-shell>
 } @else {
-  <jhi-page-ribbon />
-
-  <div>
-    <router-outlet name="navbar" />
-  </div>
-
-  <div class="container-fluid">
-    <div class="card jh-card">
+  <!-- chưa đăng nhập: trang đăng nhập / quên mật khẩu gọn, có thương hiệu -->
+  <div class="auth-layout">
+    <a class="auth-brand" href="/vi"><span class="auth-logo">ÂL</span><strong>Âu Lạc Spa</strong></a>
+    <div class="auth-card">
       <router-outlet />
     </div>
-
-    <jhi-footer />
+    <a class="auth-back" href="/vi">← Về trang chủ website</a>
   </div>
 }

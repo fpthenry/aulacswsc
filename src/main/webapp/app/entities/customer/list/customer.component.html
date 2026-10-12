@@ -35,23 +35,16 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="fullName">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.fullName">Full Name</span>
+                <span>Họ tên</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="phone">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.phone">Phone</span>
+                <span>Điện thoại</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -70,20 +63,6 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="dateOfBirth">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.dateOfBirth">Date Of Birth</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="address">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.address">Address</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="note">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.customer.note">Note</span>
@@ -93,40 +72,30 @@
             </th>
             <th scope="col" jhiSortBy="createdDate">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.createdDate">Created Date</span>
+                <span>Ngày gửi</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="user.login">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.customer.user">User</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col"></th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody>
           @for (customer of customers(); track trackId(customer)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/customer', customer.id, 'view']">{{ customer.id }}</a>
+              <td class="c-main">
+                <a [routerLink]="['/customer', customer.id, 'edit']">{{ customer.fullName }}</a>
               </td>
-              <td>{{ customer.fullName }}</td>
               <td>{{ customer.phone }}</td>
               <td>{{ customer.email }}</td>
               <td [jhiTranslate]="'aulacswscApp.Gender.' + (customer.gender ?? 'null')">
                 {{ { null: '', MALE: 'MALE', FEMALE: 'FEMALE', OTHER: 'OTHER' }[customer.gender ?? 'null'] }}
               </td>
-              <td>{{ customer.dateOfBirth | formatMediumDate }}</td>
-              <td>{{ customer.address }}</td>
-              <td>{{ customer.note }}</td>
-              <td>{{ customer.createdDate | formatMediumDatetime }}</td>
-              <td>
-                {{ customer.user?.login }}
+              <td class="c-long">
+                <span>{{ customer.note }}</span>
               </td>
-              <td class="text-end">
+              <td>{{ customer.createdDate?.format('HH:mm DD/MM/YYYY') }}</td>
+              <td class="c-actions">
                 <div class="btn-group">
                   <button
                     type="submit"
@@ -143,19 +112,22 @@
                       >Show Bookings</span
                     >
                   </button>
-                  <a [routerLink]="['/customer', customer.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/customer', customer.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/customer', customer.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(customer)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(customer)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" title="Xóa">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

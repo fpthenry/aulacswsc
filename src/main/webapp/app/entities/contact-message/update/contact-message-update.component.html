@@ -1,12 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2
-        id="jhi-contact-message-heading"
-        data-cy="ContactMessageCreateUpdateHeading"
-        jhiTranslate="aulacswscApp.contactMessage.home.createOrEditLabel"
-      >
-        Create or edit a Contact Message
+      <h2 id="jhi-contact-message-heading" data-cy="ContactMessageCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa tin nhắn liên hệ
+          @if (editForm.controls.fullName.value) {
+            <span class="form-title-name">{{ editForm.controls.fullName.value }}</span>
+          }
+        } @else {
+          Thêm tin nhắn liên hệ mới
+        }
       </h2>
 
       <div>
@@ -19,94 +22,124 @@
           </div>
         }
 
-        @let fullNameRef = editForm.get('fullName')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_fullName" jhiTranslate="aulacswscApp.contactMessage.fullName">Full Name</label>
-          <input type="text" class="form-control" name="fullName" id="field_fullName" data-cy="fullName" formControlName="fullName" />
-          @if (fullNameRef.invalid && (fullNameRef.dirty || fullNameRef.touched)) {
-            <div>
-              @if (editForm.get('fullName')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('fullName')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
-                >
-              }
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Người gửi</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let fullNameRef = editForm.get('fullName')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_fullName" jhiTranslate="aulacswscApp.contactMessage.fullName">Full Name</label>
+                <input type="text" class="form-control" name="fullName" id="field_fullName" data-cy="fullName" formControlName="fullName" />
+                @if (fullNameRef.invalid && (fullNameRef.dirty || fullNameRef.touched)) {
+                  <div>
+                    @if (editForm.get('fullName')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('fullName')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let phoneRef = editForm.get('phone')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_phone" jhiTranslate="aulacswscApp.contactMessage.phone">Phone</label>
-          <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
-          @if (phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)) {
-            <div>
-              @if (editForm.get('phone')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
-                  >This field cannot be longer than 20 characters.</small
-                >
-              }
+            <div class="col-md-6 col-xl-4">
+              @let phoneRef = editForm.get('phone')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_phone" jhiTranslate="aulacswscApp.contactMessage.phone">Phone</label>
+                <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+                @if (phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)) {
+                  <div>
+                    @if (editForm.get('phone')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
+                        >This field cannot be longer than 20 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let emailRef = editForm.get('email')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_email" jhiTranslate="aulacswscApp.contactMessage.email">Email</label>
-          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
-          @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
-            <div>
-              @if (editForm.get('email')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
-                >
-              }
+            <div class="col-md-6">
+              @let emailRef = editForm.get('email')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_email" jhiTranslate="aulacswscApp.contactMessage.email">Email</label>
+                <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+                @if (emailRef.invalid && (emailRef.dirty || emailRef.touched)) {
+                  <div>
+                    @if (editForm.get('email')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let messageRef = editForm.get('message')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_message" jhiTranslate="aulacswscApp.contactMessage.message">Message</label>
-          <input type="text" class="form-control" name="message" id="field_message" data-cy="message" formControlName="message" />
-          @if (messageRef.invalid && (messageRef.dirty || messageRef.touched)) {
-            <div>
-              @if (editForm.get('message')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('message')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '2000' }"
-                  >This field cannot be longer than 2000 characters.</small
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_createdDate" jhiTranslate="aulacswscApp.contactMessage.createdDate"
+                  >Created Date</label
                 >
-              }
+                <div class="d-flex">
+                  <input
+                    id="field_createdDate"
+                    data-cy="createdDate"
+                    type="datetime-local"
+                    class="form-control"
+                    name="createdDate"
+                    formControlName="createdDate"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_handled" jhiTranslate="aulacswscApp.contactMessage.handled">Handled</label>
-          <input type="checkbox" class="form-check" name="handled" id="field_handled" data-cy="handled" formControlName="handled" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_createdDate" jhiTranslate="aulacswscApp.contactMessage.createdDate">Created Date</label>
-          <div class="d-flex">
-            <input
-              id="field_createdDate"
-              data-cy="createdDate"
-              type="datetime-local"
-              class="form-control"
-              name="createdDate"
-              formControlName="createdDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
           </div>
-        </div>
+        </section>
+
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Nội dung</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let messageRef = editForm.get('message')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_message" jhiTranslate="aulacswscApp.contactMessage.message">Message</label>
+                <input type="text" class="form-control" name="message" id="field_message" data-cy="message" formControlName="message" />
+                @if (messageRef.invalid && (messageRef.dirty || messageRef.touched)) {
+                  <div>
+                    @if (editForm.get('message')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('message')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '2000' }"
+                        >This field cannot be longer than 2000 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="handled"
+                  id="field_handled"
+                  data-cy="handled"
+                  formControlName="handled"
+                />
+                <label class="form-check-label" for="field_handled" jhiTranslate="aulacswscApp.contactMessage.handled">Handled</label>
+                <div class="form-text">Bật sau khi đã trả lời khách.</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

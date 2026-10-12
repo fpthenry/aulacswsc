@@ -1,0 +1,65 @@
+<div class="admin-shell" [class.nav-open]="navOpen()">
+  <aside class="as-side" aria-label="Menu quản trị">
+    <a class="as-brand" routerLink="/dashboard">
+      <span class="as-logo"><site-icon name="leaf" [size]="20" /></span>
+      <span class="as-brand-text"><strong>Âu Lạc Spa</strong><small>Trang quản trị</small></span>
+    </a>
+
+    <nav class="as-nav">
+      @for (g of menu(); track $index) {
+        @if (g.title) {
+          <p class="as-group">{{ g.title }}</p>
+        }
+        <ul>
+          @for (item of g.items; track item.route) {
+            <li>
+              <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: !!item.exact }">
+                <site-icon [name]="item.icon" [size]="18" />
+                <span>{{ item.label }}</span>
+                @if (badge(item) > 0) {
+                  <span class="as-badge" [attr.aria-label]="badge(item) + ' việc cần xử lý'">{{ badge(item) }}</span>
+                }
+              </a>
+            </li>
+          }
+        </ul>
+      }
+    </nav>
+
+    <a class="as-site-link" href="/vi" target="_blank" rel="noopener"> <site-icon name="external" [size]="16" /> Xem website </a>
+  </aside>
+  <button type="button" class="as-backdrop" aria-label="Đóng menu" (click)="navOpen.set(false)"></button>
+
+  <div class="as-main">
+    <header class="as-top">
+      <button type="button" class="as-icon-btn as-menu-btn" (click)="navOpen.set(!navOpen())" aria-label="Mở menu">
+        <site-icon name="menu" />
+      </button>
+      <div class="as-top-spacer"></div>
+      <a class="as-top-link" href="/vi" target="_blank" rel="noopener"><site-icon name="home" [size]="16" /><span>Xem website</span></a>
+      @if (account(); as a) {
+        <div class="as-user">
+          <button type="button" class="as-user-btn" (click)="userMenu.set(!userMenu())" [attr.aria-expanded]="userMenu()">
+            <span class="as-avatar">{{ initials() || 'A' }}</span>
+            <span class="as-user-text"
+              ><strong>{{ displayName() }}</strong
+              ><small>{{ roleLabel() }}</small></span
+            >
+            <site-icon name="down" [size]="16" />
+          </button>
+          @if (userMenu()) {
+            <div class="as-dropdown" role="menu">
+              <a role="menuitem" routerLink="/account/settings"><site-icon name="user" [size]="16" />Thông tin tài khoản</a>
+              <a role="menuitem" routerLink="/account/password"><site-icon name="key" [size]="16" />Đổi mật khẩu</a>
+              <button type="button" role="menuitem" (click)="logout()"><site-icon name="logout" [size]="16" />Đăng xuất</button>
+            </div>
+          }
+        </div>
+      }
+    </header>
+
+    <main class="as-content">
+      <ng-content />
+    </main>
+  </div>
+</div>

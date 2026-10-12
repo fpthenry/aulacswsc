@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-booking-heading" data-cy="BookingCreateUpdateHeading" jhiTranslate="aulacswscApp.booking.home.createOrEditLabel">
-        Create or edit a Booking
+      <h2 id="jhi-booking-heading" data-cy="BookingCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa lịch hẹn
+          @if (editForm.controls.code.value) {
+            <span class="form-title-name">{{ editForm.controls.code.value }}</span>
+          }
+        } @else {
+          Thêm lịch hẹn mới
+        }
       </h2>
 
       <div>
@@ -15,321 +22,386 @@
           </div>
         }
 
-        @let codeRef = editForm.get('code')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_code" jhiTranslate="aulacswscApp.booking.code">Code</label>
-          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
-          @if (codeRef.invalid && (codeRef.dirty || codeRef.touched)) {
-            <div>
-              @if (editForm.get('code')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('code')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '30' }"
-                  >This field cannot be longer than 30 characters.</small
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Khách &amp; cơ sở</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thời gian</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Trạng thái</button>
+          <button type="button" (click)="sec4.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thanh toán</button>
+          <button type="button" (click)="sec5.scrollIntoView({ behavior: 'smooth', block: 'start' })">Ghi chú</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Khách &amp; cơ sở</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_customer" jhiTranslate="aulacswscApp.booking.customer">Customer</label>
+                <select
+                  class="form-control"
+                  id="field_customer"
+                  data-cy="customer"
+                  name="customer"
+                  formControlName="customer"
+                  [compareWith]="compareCustomer"
                 >
+                  @if (editForm.get(['customer'])!.value === null) {
+                    <option [ngValue]="null" selected></option>
+                  }
+                  @for (customerOption of customersSharedCollection; track $index) {
+                    <option [ngValue]="customerOption">{{ customerOption.fullName }}</option>
+                  }
+                </select>
+              </div>
+              @if (editForm.get(['customer'])!.invalid && (editForm.get(['customer'])!.dirty || editForm.get(['customer'])!.touched)) {
+                <div>
+                  @if (editForm.get(['customer'])?.errors?.required) {
+                    <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                  }
+                </div>
               }
             </div>
-          }
-        </div>
-
-        @let startTimeRef = editForm.get('startTime')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_startTime" jhiTranslate="aulacswscApp.booking.startTime">Start Time</label>
-          <div class="d-flex">
-            <input
-              id="field_startTime"
-              data-cy="startTime"
-              type="datetime-local"
-              class="form-control"
-              name="startTime"
-              formControlName="startTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.booking.branch">Branch</label>
+                <select
+                  class="form-control"
+                  id="field_branch"
+                  data-cy="branch"
+                  name="branch"
+                  formControlName="branch"
+                  [compareWith]="compareBranch"
+                >
+                  @if (!editForm.get('branch')!.value) {
+                    <option [ngValue]="null" selected></option>
+                  }
+                  @for (branchOption of branchesSharedCollection; track $index) {
+                    <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
+                  }
+                </select>
+              </div>
+              @if (editForm.get(['branch'])!.invalid && (editForm.get(['branch'])!.dirty || editForm.get(['branch'])!.touched)) {
+                <div>
+                  @if (editForm.get(['branch'])?.errors?.required) {
+                    <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                  }
+                </div>
+              }
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let numberOfPeopleRef = editForm.get('numberOfPeople')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_numberOfPeople" jhiTranslate="aulacswscApp.booking.numberOfPeople"
+                  >Number Of People</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="numberOfPeople"
+                  id="field_numberOfPeople"
+                  data-cy="numberOfPeople"
+                  formControlName="numberOfPeople"
+                />
+                @if (numberOfPeopleRef.invalid && (numberOfPeopleRef.dirty || numberOfPeopleRef.touched)) {
+                  <div>
+                    @if (editForm.get('numberOfPeople')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('numberOfPeople')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '1' }"
+                        >This field should be at least 1.</small
+                      >
+                    }
+                    @if (editForm.get('numberOfPeople')?.errors?.max) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '20' }"
+                        >This field cannot be more than 20.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('numberOfPeople')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let codeRef = editForm.get('code')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_code" jhiTranslate="aulacswscApp.booking.code">Code</label>
+                <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+                @if (codeRef.invalid && (codeRef.dirty || codeRef.touched)) {
+                  <div>
+                    @if (editForm.get('code')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('code')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '30' }"
+                        >This field cannot be longer than 30 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
           </div>
-          @if (startTimeRef.invalid && (startTimeRef.dirty || startTimeRef.touched)) {
-            <div>
-              @if (editForm.get('startTime')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('startTime')?.errors?.datetimelocal"
-                jhiTranslate="entity.validation.datetimelocal"
-                >This field should be a date and time.</small
-              >
-            </div>
-          }
-        </div>
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_endTime" jhiTranslate="aulacswscApp.booking.endTime">End Time</label>
-          <div class="d-flex">
-            <input
-              id="field_endTime"
-              data-cy="endTime"
-              type="datetime-local"
-              class="form-control"
-              name="endTime"
-              formControlName="endTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Thời gian</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let startTimeRef = editForm.get('startTime')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_startTime" jhiTranslate="aulacswscApp.booking.startTime">Start Time</label>
+                <div class="d-flex">
+                  <input
+                    id="field_startTime"
+                    data-cy="startTime"
+                    type="datetime-local"
+                    class="form-control"
+                    name="startTime"
+                    formControlName="startTime"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+                @if (startTimeRef.invalid && (startTimeRef.dirty || startTimeRef.touched)) {
+                  <div>
+                    @if (editForm.get('startTime')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('startTime')?.errors?.datetimelocal"
+                      jhiTranslate="entity.validation.datetimelocal"
+                      >This field should be a date and time.</small
+                    >
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_endTime" jhiTranslate="aulacswscApp.booking.endTime">End Time</label>
+                <div class="d-flex">
+                  <input
+                    id="field_endTime"
+                    data-cy="endTime"
+                    type="datetime-local"
+                    class="form-control"
+                    name="endTime"
+                    formControlName="endTime"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+                <div class="form-text">Để trống = 60 phút sau giờ bắt đầu.</div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        @let numberOfPeopleRef = editForm.get('numberOfPeople')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_numberOfPeople" jhiTranslate="aulacswscApp.booking.numberOfPeople">Number Of People</label>
-          <input
-            type="number"
-            class="form-control"
-            name="numberOfPeople"
-            id="field_numberOfPeople"
-            data-cy="numberOfPeople"
-            formControlName="numberOfPeople"
-          />
-          @if (numberOfPeopleRef.invalid && (numberOfPeopleRef.dirty || numberOfPeopleRef.touched)) {
-            <div>
-              @if (editForm.get('numberOfPeople')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('numberOfPeople')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '1' }"
-                  >This field should be at least 1.</small
-                >
-              }
-              @if (editForm.get('numberOfPeople')?.errors?.max) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.max" [translateValues]="{ max: '20' }"
-                  >This field cannot be more than 20.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('numberOfPeople')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Trạng thái</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let statusRef = editForm.get('status')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_status" jhiTranslate="aulacswscApp.booking.status">Status</label>
+                <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+                  <option [ngValue]="null">{{ 'aulacswscApp.BookingStatus.null' | translate }}</option>
+                  @for (bookingStatus of bookingStatusValues; track $index) {
+                    <option [value]="bookingStatus">{{ 'aulacswscApp.BookingStatus.' + bookingStatus | translate }}</option>
+                  }
+                </select>
+                @if (statusRef.invalid && (statusRef.dirty || statusRef.touched)) {
+                  <div>
+                    @if (editForm.get('status')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let statusRef = editForm.get('status')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_status" jhiTranslate="aulacswscApp.booking.status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null">{{ 'aulacswscApp.BookingStatus.null' | translate }}</option>
-            @for (bookingStatus of bookingStatusValues; track $index) {
-              <option [value]="bookingStatus">{{ 'aulacswscApp.BookingStatus.' + bookingStatus | translate }}</option>
-            }
-          </select>
-          @if (statusRef.invalid && (statusRef.dirty || statusRef.touched)) {
-            <div>
-              @if (editForm.get('status')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_source" jhiTranslate="aulacswscApp.booking.source">Source</label>
+                <select class="form-control" name="source" formControlName="source" id="field_source" data-cy="source">
+                  <option [ngValue]="null">{{ 'aulacswscApp.BookingSource.null' | translate }}</option>
+                  @for (bookingSource of bookingSourceValues; track $index) {
+                    <option [value]="bookingSource">{{ 'aulacswscApp.BookingSource.' + bookingSource | translate }}</option>
+                  }
+                </select>
+              </div>
             </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_source" jhiTranslate="aulacswscApp.booking.source">Source</label>
-          <select class="form-control" name="source" formControlName="source" id="field_source" data-cy="source">
-            <option [ngValue]="null">{{ 'aulacswscApp.BookingSource.null' | translate }}</option>
-            @for (bookingSource of bookingSourceValues; track $index) {
-              <option [value]="bookingSource">{{ 'aulacswscApp.BookingSource.' + bookingSource | translate }}</option>
-            }
-          </select>
-        </div>
-
-        @let totalAmountRef = editForm.get('totalAmount')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_totalAmount" jhiTranslate="aulacswscApp.booking.totalAmount">Total Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="totalAmount"
-            id="field_totalAmount"
-            data-cy="totalAmount"
-            formControlName="totalAmount"
-          />
-          @if (totalAmountRef.invalid && (totalAmountRef.dirty || totalAmountRef.touched)) {
-            <div>
-              @if (editForm.get('totalAmount')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('totalAmount')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        @let discountAmountRef = editForm.get('discountAmount')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_discountAmount" jhiTranslate="aulacswscApp.booking.discountAmount">Discount Amount</label>
-          <input
-            type="number"
-            class="form-control"
-            name="discountAmount"
-            id="field_discountAmount"
-            data-cy="discountAmount"
-            formControlName="discountAmount"
-          />
-          @if (discountAmountRef.invalid && (discountAmountRef.dirty || discountAmountRef.touched)) {
-            <div>
-              @if (editForm.get('discountAmount')?.errors?.min) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
-                  >This field should be at least 0.</small
-                >
-              }
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('discountAmount')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-                >This field should be a number.</small
-              >
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_paymentStatus" jhiTranslate="aulacswscApp.booking.paymentStatus">Payment Status</label>
-          <select
-            class="form-control"
-            name="paymentStatus"
-            formControlName="paymentStatus"
-            id="field_paymentStatus"
-            data-cy="paymentStatus"
-          >
-            <option [ngValue]="null">{{ 'aulacswscApp.PaymentStatus.null' | translate }}</option>
-            @for (paymentStatus of paymentStatusValues; track $index) {
-              <option [value]="paymentStatus">{{ 'aulacswscApp.PaymentStatus.' + paymentStatus | translate }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_paymentMethod" jhiTranslate="aulacswscApp.booking.paymentMethod">Payment Method</label>
-          <select
-            class="form-control"
-            name="paymentMethod"
-            formControlName="paymentMethod"
-            id="field_paymentMethod"
-            data-cy="paymentMethod"
-          >
-            <option [ngValue]="null">{{ 'aulacswscApp.PaymentMethod.null' | translate }}</option>
-            @for (paymentMethod of paymentMethodValues; track $index) {
-              <option [value]="paymentMethod">{{ 'aulacswscApp.PaymentMethod.' + paymentMethod | translate }}</option>
-            }
-          </select>
-        </div>
-
-        @let noteRef = editForm.get('note')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_note" jhiTranslate="aulacswscApp.booking.note">Note</label>
-          <input type="text" class="form-control" name="note" id="field_note" data-cy="note" formControlName="note" />
-          @if (noteRef.invalid && (noteRef.dirty || noteRef.touched)) {
-            <div>
-              @if (editForm.get('note')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1000' }"
-                  >This field cannot be longer than 1000 characters.</small
-                >
-              }
-            </div>
-          }
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_createdDate" jhiTranslate="aulacswscApp.booking.createdDate">Created Date</label>
-          <div class="d-flex">
-            <input
-              id="field_createdDate"
-              data-cy="createdDate"
-              type="datetime-local"
-              class="form-control"
-              name="createdDate"
-              formControlName="createdDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
           </div>
-        </div>
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.booking.branch">Branch</label>
-          <select
-            class="form-control"
-            id="field_branch"
-            data-cy="branch"
-            name="branch"
-            formControlName="branch"
-            [compareWith]="compareBranch"
-          >
-            @if (!editForm.get('branch')!.value) {
-              <option [ngValue]="null" selected></option>
-            }
-            @for (branchOption of branchesSharedCollection; track $index) {
-              <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
-            }
-          </select>
-        </div>
-        @if (editForm.get(['branch'])!.invalid && (editForm.get(['branch'])!.dirty || editForm.get(['branch'])!.touched)) {
-          <div>
-            @if (editForm.get(['branch'])?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
+        <section class="form-section" #sec4>
+          <h3><span class="sec-no">4</span>Thanh toán</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6 col-xl-4">
+              @let totalAmountRef = editForm.get('totalAmount')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_totalAmount" jhiTranslate="aulacswscApp.booking.totalAmount">Total Amount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="totalAmount"
+                  id="field_totalAmount"
+                  data-cy="totalAmount"
+                  formControlName="totalAmount"
+                />
+                @if (totalAmountRef.invalid && (totalAmountRef.dirty || totalAmountRef.touched)) {
+                  <div>
+                    @if (editForm.get('totalAmount')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('totalAmount')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                @if (editForm.get('totalAmount')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('totalAmount')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let discountAmountRef = editForm.get('discountAmount')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_discountAmount" jhiTranslate="aulacswscApp.booking.discountAmount"
+                  >Discount Amount</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="discountAmount"
+                  id="field_discountAmount"
+                  data-cy="discountAmount"
+                  formControlName="discountAmount"
+                />
+                @if (discountAmountRef.invalid && (discountAmountRef.dirty || discountAmountRef.touched)) {
+                  <div>
+                    @if (editForm.get('discountAmount')?.errors?.min) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '0' }"
+                        >This field should be at least 0.</small
+                      >
+                    }
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('discountAmount')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                      >This field should be a number.</small
+                    >
+                  </div>
+                }
+                @if (editForm.get('discountAmount')?.value) {
+                  <div class="form-text money-preview">= {{ editForm.get('discountAmount')?.value | number: '1.0-0' : 'vi' }} đ</div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_promotion" jhiTranslate="aulacswscApp.booking.promotion">Promotion</label>
+                <select
+                  class="form-control"
+                  id="field_promotion"
+                  data-cy="promotion"
+                  name="promotion"
+                  formControlName="promotion"
+                  [compareWith]="comparePromotion"
+                >
+                  <option [ngValue]="null"></option>
+                  @for (promotionOption of promotionsSharedCollection; track $index) {
+                    <option [ngValue]="promotionOption">{{ promotionOption.code }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_paymentStatus" jhiTranslate="aulacswscApp.booking.paymentStatus">Payment Status</label>
+                <select
+                  class="form-control"
+                  name="paymentStatus"
+                  formControlName="paymentStatus"
+                  id="field_paymentStatus"
+                  data-cy="paymentStatus"
+                >
+                  <option [ngValue]="null">{{ 'aulacswscApp.PaymentStatus.null' | translate }}</option>
+                  @for (paymentStatus of paymentStatusValues; track $index) {
+                    <option [value]="paymentStatus">{{ 'aulacswscApp.PaymentStatus.' + paymentStatus | translate }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_paymentMethod" jhiTranslate="aulacswscApp.booking.paymentMethod">Payment Method</label>
+                <select
+                  class="form-control"
+                  name="paymentMethod"
+                  formControlName="paymentMethod"
+                  id="field_paymentMethod"
+                  data-cy="paymentMethod"
+                >
+                  <option [ngValue]="null">{{ 'aulacswscApp.PaymentMethod.null' | translate }}</option>
+                  @for (paymentMethod of paymentMethodValues; track $index) {
+                    <option [value]="paymentMethod">{{ 'aulacswscApp.PaymentMethod.' + paymentMethod | translate }}</option>
+                  }
+                </select>
+              </div>
+            </div>
           </div>
-        }
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_promotion" jhiTranslate="aulacswscApp.booking.promotion">Promotion</label>
-          <select
-            class="form-control"
-            id="field_promotion"
-            data-cy="promotion"
-            name="promotion"
-            formControlName="promotion"
-            [compareWith]="comparePromotion"
-          >
-            <option [ngValue]="null"></option>
-            @for (promotionOption of promotionsSharedCollection; track $index) {
-              <option [ngValue]="promotionOption">{{ promotionOption.code }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_customer" jhiTranslate="aulacswscApp.booking.customer">Customer</label>
-          <select
-            class="form-control"
-            id="field_customer"
-            data-cy="customer"
-            name="customer"
-            formControlName="customer"
-            [compareWith]="compareCustomer"
-          >
-            @if (editForm.get(['customer'])!.value === null) {
-              <option [ngValue]="null" selected></option>
-            }
-            @for (customerOption of customersSharedCollection; track $index) {
-              <option [ngValue]="customerOption">{{ customerOption.fullName }}</option>
-            }
-          </select>
-        </div>
-        @if (editForm.get(['customer'])!.invalid && (editForm.get(['customer'])!.dirty || editForm.get(['customer'])!.touched)) {
-          <div>
-            @if (editForm.get(['customer'])?.errors?.required) {
-              <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-            }
+        <section class="form-section" #sec5>
+          <h3><span class="sec-no">5</span>Ghi chú</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let noteRef = editForm.get('note')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_note" jhiTranslate="aulacswscApp.booking.note">Note</label>
+                <input type="text" class="form-control" name="note" id="field_note" data-cy="note" formControlName="note" />
+                @if (noteRef.invalid && (noteRef.dirty || noteRef.touched)) {
+                  <div>
+                    @if (editForm.get('note')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1000' }"
+                        >This field cannot be longer than 1000 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_createdDate" jhiTranslate="aulacswscApp.booking.createdDate">Created Date</label>
+                <div class="d-flex">
+                  <input
+                    id="field_createdDate"
+                    data-cy="createdDate"
+                    type="datetime-local"
+                    class="form-control"
+                    name="createdDate"
+                    formControlName="createdDate"
+                    placeholder="YYYY-MM-DD HH:mm"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        }
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

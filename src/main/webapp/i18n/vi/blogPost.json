@@ -2,33 +2,33 @@
   "aulacswscApp": {
     "blogPost": {
       "home": {
-        "title": "Blog Posts",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Blog Post",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Blog Post",
-        "notFound": "No Blog Posts found"
+        "title": "Bài viết",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm bài viết",
+        "createOrEditLabel": "Thêm / sửa bài viết",
+        "notFound": "Chưa có bài viết nào"
       },
-      "created": "Một Blog Post mới được tạo với định danh {{ param }}",
-      "updated": "Một Blog Post cập nhật với định danh {{ param }}",
-      "deleted": "Một Blog Post đã xóa với định danh {{ param }}",
+      "created": "Đã thêm bài viết (ID {{ param }})",
+      "updated": "Đã lưu bài viết (ID {{ param }})",
+      "deleted": "Đã xóa bài viết (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Blog Post {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa bài viết #{{ id }}?"
       },
       "detail": {
-        "title": "Blog Post"
+        "title": "Bài viết"
       },
       "id": "ID",
-      "titleVi": "Title Vi",
-      "titleEn": "Title En",
-      "slug": "Slug",
-      "excerptVi": "Excerpt Vi",
-      "excerptEn": "Excerpt En",
-      "contentVi": "Content Vi",
-      "contentEn": "Content En",
-      "coverImageUrl": "Cover Image Url",
-      "category": "Category",
-      "published": "Published",
-      "publishedAt": "Published At"
+      "titleVi": "Tiêu đề (Tiếng Việt)",
+      "titleEn": "Tiêu đề (English)",
+      "slug": "Đường dẫn (tự tạo)",
+      "excerptVi": "Tóm tắt (Tiếng Việt)",
+      "excerptEn": "Tóm tắt (English)",
+      "contentVi": "Nội dung (cách đoạn bằng 1 dòng trống) (Tiếng Việt)",
+      "contentEn": "Nội dung (cách đoạn bằng 1 dòng trống) (English)",
+      "coverImageUrl": "Ảnh bìa",
+      "category": "Danh mục",
+      "published": "Xuất bản (hiện trên website)",
+      "publishedAt": "Ngày đăng"
     }
   }
 }

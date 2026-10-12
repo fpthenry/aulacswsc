@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10">
     @if (serviceCategory(); as serviceCategoryRef) {
       <div>
         <h2 data-cy="serviceCategoryDetailsHeading">
@@ -39,7 +39,11 @@
           </dd>
           <dt><span jhiTranslate="aulacswscApp.serviceCategory.imageUrl">Image Url</span></dt>
           <dd>
-            <span>{{ serviceCategoryRef.imageUrl }}</span>
+            @if (serviceCategoryRef.imageUrl) {
+              <img class="detail-img" [src]="serviceCategoryRef.imageUrl" alt="" />
+            } @else {
+              <span class="text-muted">Chưa có ảnh</span>
+            }
           </dd>
           <dt><span jhiTranslate="aulacswscApp.serviceCategory.displayOrder">Display Order</span></dt>
           <dd>

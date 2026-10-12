@@ -2,38 +2,38 @@
   "aulacswscApp": {
     "booking": {
       "home": {
-        "title": "Bookings",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Booking",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Booking",
-        "notFound": "No Bookings found"
+        "title": "Lịch hẹn",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm lịch hẹn",
+        "createOrEditLabel": "Thêm / sửa lịch hẹn",
+        "notFound": "Chưa có lịch hẹn nào"
       },
-      "created": "Một Booking mới được tạo với định danh {{ param }}",
-      "updated": "Một Booking cập nhật với định danh {{ param }}",
-      "deleted": "Một Booking đã xóa với định danh {{ param }}",
+      "created": "Đã thêm lịch hẹn (ID {{ param }})",
+      "updated": "Đã lưu lịch hẹn (ID {{ param }})",
+      "deleted": "Đã xóa lịch hẹn (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Booking {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa lịch hẹn #{{ id }}?"
       },
       "detail": {
-        "title": "Booking"
+        "title": "Lịch hẹn"
       },
       "id": "ID",
-      "code": "Code",
-      "startTime": "Start Time",
-      "endTime": "End Time",
-      "numberOfPeople": "Number Of People",
-      "status": "Status",
-      "source": "Source",
-      "totalAmount": "Total Amount",
-      "discountAmount": "Discount Amount",
-      "paymentStatus": "Payment Status",
-      "paymentMethod": "Payment Method",
-      "note": "Note",
-      "createdDate": "Created Date",
-      "items": "Items",
-      "branch": "Branch",
-      "promotion": "Promotion",
-      "customer": "Customer"
+      "code": "Mã",
+      "startTime": "Bắt đầu",
+      "endTime": "Kết thúc",
+      "numberOfPeople": "Số người",
+      "status": "Trạng thái",
+      "source": "Nguồn đặt",
+      "totalAmount": "Tổng tiền (đ)",
+      "discountAmount": "Giảm giá (đ)",
+      "paymentStatus": "Thanh toán",
+      "paymentMethod": "Hình thức thanh toán",
+      "note": "Ghi chú",
+      "createdDate": "Ngày tạo",
+      "items": "Dịch vụ trong lịch",
+      "branch": "Cơ sở",
+      "promotion": "Mã khuyến mãi",
+      "customer": "Khách hàng"
     }
   }
 }

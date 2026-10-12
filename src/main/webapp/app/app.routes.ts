@@ -19,11 +19,26 @@ const routes: Routes = [
     canMatch: [siteLangMatch],
     loadChildren: () => import('./site/site.routes'),
   },
+  // ===== trang quản trị (khung: app/backoffice) =====
   {
-    // trang chủ khu quản trị (trước đây là '')
     path: 'dashboard',
-    loadComponent: () => import('./home/home.component'),
-    title: 'home.title',
+    data: { authorities: [Authority.ADMIN, 'ROLE_STAFF'] },
+    canActivate: [UserRouteAccessService],
+    loadComponent: () => import('./backoffice/dashboard/dashboard.component'),
+    title: 'global.title',
+  },
+  {
+    path: 'booking-board',
+    data: { authorities: [Authority.ADMIN, 'ROLE_STAFF'] },
+    canActivate: [UserRouteAccessService],
+    loadComponent: () => import('./backoffice/bookings-board/bookings-board.component'),
+    title: 'global.title',
+  },
+  {
+    path: 'cai-dat-website',
+    data: { authorities: [Authority.ADMIN] },
+    canActivate: [UserRouteAccessService],
+    loadComponent: () => import('./backoffice/site-setting-shortcut/site-setting-shortcut.component'),
   },
   {
     path: '',

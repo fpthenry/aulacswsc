@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
+import { CheckListComponent } from 'app/backoffice/shared/check-list.component';
 
 import SharedModule from 'app/shared/shared.module';
 import { ImageUploadComponent } from 'app/shared/image-upload/image-upload.component';
@@ -22,7 +23,7 @@ import { SpaServiceFormGroup, SpaServiceFormService } from './spa-service-form.s
 @Component({
   selector: 'jhi-spa-service-update',
   templateUrl: './spa-service-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule, ImageUploadComponent],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule, ImageUploadComponent, CheckListComponent],
 })
 export class SpaServiceUpdateComponent implements OnInit {
   isSaving = false;

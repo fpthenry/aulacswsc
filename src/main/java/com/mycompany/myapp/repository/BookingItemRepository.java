@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.BookingItem;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -44,4 +45,10 @@ public interface BookingItemRepository extends JpaRepository<BookingItem, Long> 
 
     @Query("select bookingItem from BookingItem bookingItem left join fetch bookingItem.service where bookingItem.booking.id = :bookingId")
     List<BookingItem> findAllByBookingIdWithService(@Param("bookingId") Long bookingId);
+
+    @Query(
+        "select bookingItem from BookingItem bookingItem left join fetch bookingItem.service left join fetch bookingItem.staff " +
+        "where bookingItem.booking.id in :ids"
+    )
+    List<BookingItem> findAllByBookingIdsWithDetails(@Param("ids") Collection<Long> ids);
 }

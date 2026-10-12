@@ -2,32 +2,32 @@
   "aulacswscApp": {
     "galleryImage": {
       "home": {
-        "title": "Gallery Images",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Gallery Image",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Gallery Image",
-        "notFound": "No Gallery Images found"
+        "title": "Ảnh thư viện",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm ảnh thư viện",
+        "createOrEditLabel": "Thêm / sửa ảnh thư viện",
+        "notFound": "Chưa có ảnh thư viện nào"
       },
-      "created": "Một Gallery Image mới được tạo với định danh {{ param }}",
-      "updated": "Một Gallery Image cập nhật với định danh {{ param }}",
-      "deleted": "Một Gallery Image đã xóa với định danh {{ param }}",
+      "created": "Đã thêm ảnh thư viện (ID {{ param }})",
+      "updated": "Đã lưu ảnh thư viện (ID {{ param }})",
+      "deleted": "Đã xóa ảnh thư viện (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Gallery Image {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa ảnh thư viện #{{ id }}?"
       },
       "detail": {
-        "title": "Gallery Image"
+        "title": "Ảnh thư viện"
       },
       "id": "ID",
-      "imageUrl": "Image Url",
-      "captionVi": "Caption Vi",
-      "captionEn": "Caption En",
-      "altVi": "Alt Vi",
-      "altEn": "Alt En",
-      "width": "Width",
-      "height": "Height",
-      "displayOrder": "Display Order",
-      "active": "Active",
-      "branch": "Branch"
+      "imageUrl": "Ảnh",
+      "captionVi": "Chú thích (Tiếng Việt)",
+      "captionEn": "Chú thích (English)",
+      "altVi": "Mô tả ảnh (cho Google, người khiếm thị) (Tiếng Việt)",
+      "altEn": "Mô tả ảnh (cho Google, người khiếm thị) (English)",
+      "width": "Chiều rộng (px)",
+      "height": "Chiều cao (px)",
+      "displayOrder": "Thứ tự hiển thị (số nhỏ hiện trước)",
+      "active": "Đang hoạt động (hiện trên website)",
+      "branch": "Cơ sở"
     }
   }
 }

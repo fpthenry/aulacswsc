@@ -2,28 +2,28 @@
   "aulacswscApp": {
     "contactMessage": {
       "home": {
-        "title": "Contact Messages",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Contact Message",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Contact Message",
-        "notFound": "No Contact Messages found"
+        "title": "Tin nhắn liên hệ",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm tin nhắn liên hệ",
+        "createOrEditLabel": "Thêm / sửa tin nhắn liên hệ",
+        "notFound": "Chưa có tin nhắn liên hệ nào"
       },
-      "created": "Một Contact Message mới được tạo với định danh {{ param }}",
-      "updated": "Một Contact Message cập nhật với định danh {{ param }}",
-      "deleted": "Một Contact Message đã xóa với định danh {{ param }}",
+      "created": "Đã thêm tin nhắn liên hệ (ID {{ param }})",
+      "updated": "Đã lưu tin nhắn liên hệ (ID {{ param }})",
+      "deleted": "Đã xóa tin nhắn liên hệ (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Contact Message {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa tin nhắn liên hệ #{{ id }}?"
       },
       "detail": {
-        "title": "Contact Message"
+        "title": "Tin nhắn liên hệ"
       },
       "id": "ID",
-      "fullName": "Full Name",
-      "phone": "Phone",
+      "fullName": "Họ và tên",
+      "phone": "Số điện thoại",
       "email": "Email",
-      "message": "Message",
-      "handled": "Handled",
-      "createdDate": "Created Date"
+      "message": "Nội dung",
+      "handled": "Đã xử lý",
+      "createdDate": "Ngày tạo"
     }
   }
 }

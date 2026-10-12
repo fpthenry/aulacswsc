@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
+  <div class="col-12 col-xxl-10 admin-form">
     <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-staff-heading" data-cy="StaffCreateUpdateHeading" jhiTranslate="aulacswscApp.staff.home.createOrEditLabel">
-        Create or edit a Staff
+      <h2 id="jhi-staff-heading" data-cy="StaffCreateUpdateHeading" class="form-title">
+        @if (editForm.controls.id.value !== null) {
+          Sửa nhân viên
+          @if (editForm.controls.fullName.value) {
+            <span class="form-title-name">{{ editForm.controls.fullName.value }}</span>
+          }
+        } @else {
+          Thêm nhân viên mới
+        }
       </h2>
 
       <div>
@@ -15,133 +22,171 @@
           </div>
         }
 
-        @let fullNameRef = editForm.get('fullName')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_fullName" jhiTranslate="aulacswscApp.staff.fullName">Full Name</label>
-          <input type="text" class="form-control" name="fullName" id="field_fullName" data-cy="fullName" formControlName="fullName" />
-          @if (fullNameRef.invalid && (fullNameRef.dirty || fullNameRef.touched)) {
-            <div>
-              @if (editForm.get('fullName')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
-              @if (editForm.get('fullName')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
-                  >This field cannot be longer than 150 characters.</small
+        <nav class="form-toc" aria-label="Các nhóm thông tin">
+          <button type="button" (click)="sec1.scrollIntoView({ behavior: 'smooth', block: 'start' })">Thông tin nhân viên</button>
+          <button type="button" (click)="sec2.scrollIntoView({ behavior: 'smooth', block: 'start' })">Ảnh &amp; giới thiệu</button>
+          <button type="button" (click)="sec3.scrollIntoView({ behavior: 'smooth', block: 'start' })">Dịch vụ &amp; tài khoản</button>
+        </nav>
+
+        <section class="form-section" #sec1>
+          <h3><span class="sec-no">1</span>Thông tin nhân viên</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-md-6">
+              @let fullNameRef = editForm.get('fullName')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_fullName" jhiTranslate="aulacswscApp.staff.fullName">Full Name</label>
+                <input type="text" class="form-control" name="fullName" id="field_fullName" data-cy="fullName" formControlName="fullName" />
+                @if (fullNameRef.invalid && (fullNameRef.dirty || fullNameRef.touched)) {
+                  <div>
+                    @if (editForm.get('fullName')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                    @if (editForm.get('fullName')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '150' }"
+                        >This field cannot be longer than 150 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              @let phoneRef = editForm.get('phone')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_phone" jhiTranslate="aulacswscApp.staff.phone">Phone</label>
+                <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+                @if (phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)) {
+                  <div>
+                    @if (editForm.get('phone')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
+                        >This field cannot be longer than 20 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              @let positionRef = editForm.get('position')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_position" jhiTranslate="aulacswscApp.staff.position">Position</label>
+                <input type="text" class="form-control" name="position" id="field_position" data-cy="position" formControlName="position" />
+                @if (positionRef.invalid && (positionRef.dirty || positionRef.touched)) {
+                  <div>
+                    @if (editForm.get('position')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '100' }"
+                        >This field cannot be longer than 100 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.staff.branch">Branch</label>
+                <select
+                  class="form-control"
+                  id="field_branch"
+                  data-cy="branch"
+                  name="branch"
+                  formControlName="branch"
+                  [compareWith]="compareBranch"
                 >
-              }
+                  <option [ngValue]="null"></option>
+                  @for (branchOption of branchesSharedCollection; track $index) {
+                    <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
+                  }
+                </select>
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        @let phoneRef = editForm.get('phone')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_phone" jhiTranslate="aulacswscApp.staff.phone">Phone</label>
-          <input type="text" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
-          @if (phoneRef.invalid && (phoneRef.dirty || phoneRef.touched)) {
-            <div>
-              @if (editForm.get('phone')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '20' }"
-                  >This field cannot be longer than 20 characters.</small
-                >
-              }
+        <section class="form-section" #sec2>
+          <h3><span class="sec-no">2</span>Ảnh &amp; giới thiệu</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-12">
+              @let avatarUrlRef = editForm.get('avatarUrl')!;
+              <div class="mb-3">
+                <label class="form-label" for="field_avatarUrl" jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</label>
+                <jhi-image-upload [control]="editForm.controls.avatarUrl" inputId="field_avatarUrl" />
+                @if (avatarUrlRef.invalid && (avatarUrlRef.dirty || avatarUrlRef.touched)) {
+                  <div>
+                    @if (editForm.get('avatarUrl')?.errors?.maxlength) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
+                        >This field cannot be longer than 500 characters.</small
+                      >
+                    }
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </div>
-
-        @let positionRef = editForm.get('position')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_position" jhiTranslate="aulacswscApp.staff.position">Position</label>
-          <input type="text" class="form-control" name="position" id="field_position" data-cy="position" formControlName="position" />
-          @if (positionRef.invalid && (positionRef.dirty || positionRef.touched)) {
-            <div>
-              @if (editForm.get('position')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '100' }"
-                  >This field cannot be longer than 100 characters.</small
-                >
-              }
+            <div class="col-12">
+              <div class="mb-3">
+                <label class="form-label" for="field_bio" jhiTranslate="aulacswscApp.staff.bio">Bio</label>
+                <textarea class="form-control" name="bio" id="field_bio" data-cy="bio" formControlName="bio"></textarea>
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </section>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_bio" jhiTranslate="aulacswscApp.staff.bio">Bio</label>
-          <textarea class="form-control" name="bio" id="field_bio" data-cy="bio" formControlName="bio"></textarea>
-        </div>
-
-        @let avatarUrlRef = editForm.get('avatarUrl')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_avatarUrl" jhiTranslate="aulacswscApp.staff.avatarUrl">Avatar Url</label>
-          <jhi-image-upload [control]="editForm.controls.avatarUrl" inputId="field_avatarUrl" />
-          @if (avatarUrlRef.invalid && (avatarUrlRef.dirty || avatarUrlRef.touched)) {
-            <div>
-              @if (editForm.get('avatarUrl')?.errors?.maxlength) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '500' }"
-                  >This field cannot be longer than 500 characters.</small
-                >
-              }
+        <section class="form-section" #sec3>
+          <h3><span class="sec-no">3</span>Dịch vụ &amp; tài khoản</h3>
+          <div class="row g-3 form-grid">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="field_services" jhiTranslate="aulacswscApp.staff.services">Services</label>
+                <jhi-check-list
+                  [control]="editForm.controls.services"
+                  [options]="spaServicesSharedCollection"
+                  labelKey="nameVi"
+                  [compareWith]="compareSpaService"
+                  inputId="field_services"
+                />
+              </div>
             </div>
-          }
-        </div>
-
-        @let activeRef = editForm.get('active')!;
-        <div class="mb-3">
-          <label class="form-label" for="field_active" jhiTranslate="aulacswscApp.staff.active">Active</label>
-          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
-          @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
-            <div>
-              @if (editForm.get('active')?.errors?.required) {
-                <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
-              }
+            <div class="col-md-6 col-xl-4">
+              <div class="mb-3">
+                <label class="form-label" for="field_user" jhiTranslate="aulacswscApp.staff.user">User</label>
+                <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+                  <option [ngValue]="null"></option>
+                  @for (userOption of usersSharedCollection; track $index) {
+                    <option [ngValue]="userOption">{{ userOption.login }}</option>
+                  }
+                </select>
+              </div>
             </div>
-          }
-        </div>
+            <div class="col-md-6 col-xl-4">
+              @let activeRef = editForm.get('active')!;
+              <div class="mb-3 form-check form-switch switch-card">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  role="switch"
+                  name="active"
+                  id="field_active"
+                  data-cy="active"
+                  formControlName="active"
+                />
+                <label class="form-check-label" for="field_active" jhiTranslate="aulacswscApp.staff.active">Active</label>
 
-        <div class="mb-3">
-          <label class="form-label" for="field_user" jhiTranslate="aulacswscApp.staff.user">User</label>
-          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
-            <option [ngValue]="null"></option>
-            @for (userOption of usersSharedCollection; track $index) {
-              <option [ngValue]="userOption">{{ userOption.login }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="field_branch" jhiTranslate="aulacswscApp.staff.branch">Branch</label>
-          <select
-            class="form-control"
-            id="field_branch"
-            data-cy="branch"
-            name="branch"
-            formControlName="branch"
-            [compareWith]="compareBranch"
-          >
-            <option [ngValue]="null"></option>
-            @for (branchOption of branchesSharedCollection; track $index) {
-              <option [ngValue]="branchOption">{{ branchOption.nameVi }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="field_services" jhiTranslate="aulacswscApp.staff.services">Services</label>
-          <select
-            class="form-control"
-            id="field_services"
-            data-cy="services"
-            multiple
-            name="services"
-            formControlName="services"
-            [compareWith]="compareSpaService"
-          >
-            @for (spaServiceOption of spaServicesSharedCollection; track $index) {
-              <option [ngValue]="spaServiceOption">{{ spaServiceOption.nameVi }}</option>
-            }
-          </select>
-        </div>
+                @if (activeRef.invalid && (activeRef.dirty || activeRef.touched)) {
+                  <div>
+                    @if (editForm.get('active')?.errors?.required) {
+                      <small class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</small>
+                    }
+                  </div>
+                }
+                <div class="form-text">Tắt để ẩn khỏi website — dữ liệu vẫn được giữ.</div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div>
+      <div class="form-actions">
+        <span class="form-actions-hint">Ctrl + S để lưu nhanh</span>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>

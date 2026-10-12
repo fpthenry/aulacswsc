@@ -35,13 +35,6 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="code">
               <div class="d-flex">
                 <span jhiTranslate="aulacswscApp.booking.code">Code</span>
@@ -51,21 +44,26 @@
             </th>
             <th scope="col" jhiSortBy="startTime">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.startTime">Start Time</span>
+                <span>Thời gian</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="endTime">
+            <th scope="col" jhiSortBy="customer.fullName">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.endTime">End Time</span>
-
+                <span jhiTranslate="aulacswscApp.booking.customer">Customer</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="branch.nameVi">
+              <div class="d-flex">
+                <span jhiTranslate="aulacswscApp.booking.branch">Branch</span>
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="numberOfPeople">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.numberOfPeople">Number Of People</span>
+                <span>Số khách</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -77,88 +75,54 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="source">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.source">Source</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
             <th scope="col" jhiSortBy="totalAmount">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.totalAmount">Total Amount</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="discountAmount">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.discountAmount">Discount Amount</span>
+                <span>Tổng tiền</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="paymentStatus">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.paymentStatus">Payment Status</span>
+                <span>Thanh toán</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="paymentMethod">
+            <th scope="col" jhiSortBy="source">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.paymentMethod">Payment Method</span>
+                <span>Nguồn</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="note">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.note">Note</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="createdDate">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.createdDate">Created Date</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="branch.nameVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.branch">Branch</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="promotion.code">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.promotion">Promotion</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="customer.fullName">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.booking.customer">Customer</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col"></th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody>
           @for (booking of bookings(); track trackId(booking)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/booking', booking.id, 'view']">{{ booking.id }}</a>
+              <td class="c-main">
+                <a [routerLink]="['/booking', booking.id, 'edit']">{{ booking.code }}</a>
               </td>
-              <td>{{ booking.code }}</td>
-              <td>{{ booking.startTime | formatMediumDatetime }}</td>
-              <td>{{ booking.endTime | formatMediumDatetime }}</td>
+              <td>{{ booking.startTime?.format('HH:mm DD/MM/YYYY') }}</td>
+              <td>
+                @if (booking.customer) {
+                  <div>
+                    <a [routerLink]="['/customer', booking.customer.id, 'view']">{{ booking.customer.fullName }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (booking.branch) {
+                  <div>
+                    <a [routerLink]="['/branch', booking.branch.id, 'view']">{{ booking.branch.nameVi }}</a>
+                  </div>
+                }
+              </td>
               <td>{{ booking.numberOfPeople }}</td>
-              <td [jhiTranslate]="'aulacswscApp.BookingStatus.' + (booking.status ?? 'null')">
-                {{
+              <td>
+                <span class="st st-{{ booking.status }}" [jhiTranslate]="'aulacswscApp.BookingStatus.' + (booking.status ?? 'null')">{{
                   {
                     null: '',
                     PENDING: 'PENDING',
@@ -168,7 +132,17 @@
                     CANCELLED: 'CANCELLED',
                     NO_SHOW: 'NO_SHOW',
                   }[booking.status ?? 'null']
-                }}
+                }}</span>
+              </td>
+              <td class="c-num">
+                {{ (booking.totalAmount ?? null) !== null ? (booking.totalAmount | number: '1.0-0' : 'vi') + ' đ' : '' }}
+              </td>
+              <td>
+                <span
+                  class="st pay-{{ booking.paymentStatus }}"
+                  [jhiTranslate]="'aulacswscApp.PaymentStatus.' + (booking.paymentStatus ?? 'null')"
+                  >{{ { null: '', UNPAID: 'UNPAID', PAID: 'PAID', REFUNDED: 'REFUNDED' }[booking.paymentStatus ?? 'null'] }}</span
+                >
               </td>
               <td [jhiTranslate]="'aulacswscApp.BookingSource.' + (booking.source ?? 'null')">
                 {{
@@ -177,56 +151,24 @@
                   ]
                 }}
               </td>
-              <td>{{ booking.totalAmount }}</td>
-              <td>{{ booking.discountAmount }}</td>
-              <td [jhiTranslate]="'aulacswscApp.PaymentStatus.' + (booking.paymentStatus ?? 'null')">
-                {{ { null: '', UNPAID: 'UNPAID', PAID: 'PAID', REFUNDED: 'REFUNDED' }[booking.paymentStatus ?? 'null'] }}
-              </td>
-              <td [jhiTranslate]="'aulacswscApp.PaymentMethod.' + (booking.paymentMethod ?? 'null')">
-                {{
-                  { null: '', CASH: 'CASH', BANK_TRANSFER: 'BANK_TRANSFER', CARD: 'CARD', E_WALLET: 'E_WALLET' }[
-                    booking.paymentMethod ?? 'null'
-                  ]
-                }}
-              </td>
-              <td>{{ booking.note }}</td>
-              <td>{{ booking.createdDate | formatMediumDatetime }}</td>
-              <td>
-                @if (booking.branch) {
-                  <div>
-                    <a [routerLink]="['/branch', booking.branch.id, 'view']">{{ booking.branch.nameVi }}</a>
-                  </div>
-                }
-              </td>
-              <td>
-                @if (booking.promotion) {
-                  <div>
-                    <a [routerLink]="['/promotion', booking.promotion.id, 'view']">{{ booking.promotion.code }}</a>
-                  </div>
-                }
-              </td>
-              <td>
-                @if (booking.customer) {
-                  <div>
-                    <a [routerLink]="['/customer', booking.customer.id, 'view']">{{ booking.customer.fullName }}</a>
-                  </div>
-                }
-              </td>
-              <td class="text-end">
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/booking', booking.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/booking', booking.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/booking', booking.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(booking)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(booking)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" title="Xóa">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

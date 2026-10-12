@@ -2,28 +2,28 @@
   "aulacswscApp": {
     "bookingItem": {
       "home": {
-        "title": "Booking Items",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Thêm mới một Booking Item",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Booking Item",
-        "notFound": "No Booking Items found"
+        "title": "Chi tiết lịch hẹn",
+        "refreshListLabel": "Tải lại",
+        "createLabel": "Thêm chi tiết lịch hẹn",
+        "createOrEditLabel": "Thêm / sửa chi tiết lịch hẹn",
+        "notFound": "Chưa có chi tiết lịch hẹn nào"
       },
-      "created": "Một Booking Item mới được tạo với định danh {{ param }}",
-      "updated": "Một Booking Item cập nhật với định danh {{ param }}",
-      "deleted": "Một Booking Item đã xóa với định danh {{ param }}",
+      "created": "Đã thêm chi tiết lịch hẹn (ID {{ param }})",
+      "updated": "Đã lưu chi tiết lịch hẹn (ID {{ param }})",
+      "deleted": "Đã xóa chi tiết lịch hẹn (ID {{ param }})",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Booking Item {{ id }}?"
+        "question": "Bạn chắc chắn muốn xóa chi tiết lịch hẹn #{{ id }}?"
       },
       "detail": {
-        "title": "Booking Item"
+        "title": "Chi tiết lịch hẹn"
       },
       "id": "ID",
-      "price": "Price",
-      "quantity": "Quantity",
-      "durationMinutes": "Duration Minutes",
-      "service": "Service",
-      "staff": "Staff",
-      "booking": "Booking"
+      "price": "Giá gốc (đ)",
+      "quantity": "Số lượng",
+      "durationMinutes": "Thời lượng (phút)",
+      "service": "Dịch vụ",
+      "staff": "Kỹ thuật viên",
+      "booking": "Lịch hẹn"
     }
   }
 }

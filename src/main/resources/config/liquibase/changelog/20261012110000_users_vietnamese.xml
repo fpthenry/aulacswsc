@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Trang quản trị bàn giao cho spa: tài khoản mẫu dùng tiếng Việt mặc định -->
+    <changeSet id="20261012110000-1" author="jhipster">
+        <update tableName="jhi_user">
+            <column name="lang_key" value="vi"/>
+            <where>login in ('admin', 'user')</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

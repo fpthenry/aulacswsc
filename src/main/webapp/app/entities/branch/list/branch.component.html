@@ -33,181 +33,112 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
+            <th scope="col" class="c-thumb">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <span jhiTranslate="aulacswscApp.branch.imageUrl">Image Url</span>
               </div>
             </th>
             <th scope="col" jhiSortBy="nameVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.nameVi">Name Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="nameEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.nameEn">Name En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="slug">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.slug">Slug</span>
+                <span>Tên</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="addressVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.addressVi">Address Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="addressEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.addressEn">Address En</span>
+                <span>Địa chỉ</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="phone">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.phone">Phone</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="whatsapp">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.whatsapp">Whatsapp</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="zalo">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.zalo">Zalo</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="email">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.email">Email</span>
+                <span>Điện thoại</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="openTime">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.openTime">Open Time</span>
+                <span>Mở cửa</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="closeTime">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.closeTime">Close Time</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="lastBookingTime">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.lastBookingTime">Last Booking Time</span>
+                <span>Đóng cửa</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="capacity">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.capacity">Capacity</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="mapEmbedUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.mapEmbedUrl">Map Embed Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="mapDirectionUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.mapDirectionUrl">Map Direction Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="imageUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.imageUrl">Image Url</span>
+                <span>Sức chứa</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="displayOrder">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.displayOrder">Display Order</span>
+                <span>Thứ tự</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
             <th scope="col" jhiSortBy="active">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.branch.active">Active</span>
+                <span>Hiển thị</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
           @for (branch of branches(); track trackId(branch)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/branch', branch.id, 'view']">{{ branch.id }}</a>
+              <td class="c-thumb">
+                @if (branch.imageUrl) {
+                  <img [src]="branch.imageUrl" alt="" loading="lazy" />
+                } @else {
+                  <span class="thumb-empty" aria-hidden="true"></span>
+                }
               </td>
-              <td>{{ branch.nameVi }}</td>
-              <td>{{ branch.nameEn }}</td>
-              <td>{{ branch.slug }}</td>
-              <td>{{ branch.addressVi }}</td>
-              <td>{{ branch.addressEn }}</td>
+              <td class="c-main">
+                <a [routerLink]="['/branch', branch.id, 'edit']">{{ branch.nameVi }}</a>
+              </td>
+              <td class="c-long">
+                <span>{{ branch.addressVi }}</span>
+              </td>
               <td>{{ branch.phone }}</td>
-              <td>{{ branch.whatsapp }}</td>
-              <td>{{ branch.zalo }}</td>
-              <td>{{ branch.email }}</td>
               <td>{{ branch.openTime }}</td>
               <td>{{ branch.closeTime }}</td>
-              <td>{{ branch.lastBookingTime }}</td>
               <td>{{ branch.capacity }}</td>
-              <td>{{ branch.mapEmbedUrl }}</td>
-              <td>{{ branch.mapDirectionUrl }}</td>
-              <td>{{ branch.imageUrl }}</td>
               <td>{{ branch.displayOrder }}</td>
-              <td>{{ branch.active }}</td>
-              <td class="text-end">
+              <td>
+                <span class="yn" [class.yes]="branch.active">{{ branch.active ? 'Đang hiện' : 'Đã ẩn' }}</span>
+              </td>
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/branch', branch.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/branch', branch.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/branch', branch.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(branch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(branch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" title="Xóa">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>

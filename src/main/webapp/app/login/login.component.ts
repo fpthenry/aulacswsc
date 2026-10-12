@@ -30,7 +30,7 @@ export default class LoginComponent implements OnInit, AfterViewInit {
     // if already authenticated then navigate to home page
     this.accountService.identity().subscribe(() => {
       if (this.accountService.isAuthenticated()) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(this.homeRoute());
       }
     });
   }
@@ -45,10 +45,15 @@ export default class LoginComponent implements OnInit, AfterViewInit {
         this.authenticationError.set(false);
         if (!this.router.getCurrentNavigation()) {
           // There were no routing during login (eg from navigationToStoredUrl)
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(this.homeRoute());
         }
       },
       error: () => this.authenticationError.set(true),
     });
+  }
+
+  /** Quản lý / nhân viên vào trang Tổng quan; khách hàng có tài khoản quay về website. */
+  private homeRoute(): string[] {
+    return this.accountService.hasAnyAuthority(['ROLE_ADMIN', 'ROLE_STAFF']) ? ['/dashboard'] : ['/vi'];
   }
 }

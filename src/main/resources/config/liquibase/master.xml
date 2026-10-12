@@ -37,5 +37,6 @@
     <include file="config/liquibase/changelog/20261011120000_added_spa_authorities.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261011130000_seed_spa_content.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20261012090000_added_site_setting_hero_slides.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20261012110000_users_vietnamese.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

@@ -1,0 +1,167 @@
+<div class="ad-page-head">
+  <div>
+    <h1>{{ greeting() }}</h1>
+    <p>{{ today }}</p>
+  </div>
+  <div class="head-actions">
+    <a class="ad-btn" routerLink="/booking-board"><site-icon name="calendar" [size]="16" />Bảng lịch hẹn</a>
+    <a class="ad-btn ad-btn-primary" routerLink="/booking-board" [queryParams]="{ create: 1 }"
+      ><site-icon name="plus" [size]="16" />Tạo lịch hẹn</a
+    >
+  </div>
+</div>
+
+@if (error()) {
+  <div class="alert alert-warning">
+    Không tải được số liệu. <button type="button" class="ad-btn ad-btn-sm" (click)="load()">Thử lại</button>
+  </div>
+}
+
+@if (data(); as d) {
+  <!-- ===== số liệu ===== -->
+  <section class="kpis">
+    <div class="ad-card kpi">
+      <span class="kpi-icon k1"><site-icon name="calendar" /></span>
+      <div>
+        <p class="kpi-label">Lịch hẹn hôm nay</p>
+        <p class="kpi-value">{{ d.todayBookings }}</p>
+        <p class="kpi-sub">{{ d.todayGuests }} khách</p>
+      </div>
+    </div>
+    <a
+      class="ad-card kpi"
+      routerLink="/booking-board"
+      [queryParams]="{ status: 'PENDING', days: 7 }"
+      [class.alert-kpi]="d.pendingBookings > 0"
+    >
+      <span class="kpi-icon k2"><site-icon name="clock" /></span>
+      <div>
+        <p class="kpi-label">Chờ xác nhận</p>
+        <p class="kpi-value">{{ d.pendingBookings }}</p>
+        <p class="kpi-sub">{{ d.pendingBookings ? 'Bấm để xác nhận ngay' : 'Đã xử lý hết' }}</p>
+      </div>
+    </a>
+    <div class="ad-card kpi">
+      <span class="kpi-icon k3"><site-icon name="money" /></span>
+      <div>
+        <p class="kpi-label">Doanh thu hôm nay</p>
+        <p class="kpi-value">{{ money(d.todayRevenue) }}</p>
+        <p class="kpi-sub">Lịch đã hoàn thành</p>
+      </div>
+    </div>
+    <div class="ad-card kpi">
+      <span class="kpi-icon k4"><site-icon name="activity" /></span>
+      <div>
+        <p class="kpi-label">Doanh thu tháng này</p>
+        <p class="kpi-value">{{ money(d.monthRevenue) }}</p>
+        <p class="kpi-sub">{{ d.monthCompleted }} lịch hoàn thành</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="dash-grid">
+    <!-- ===== lịch hôm nay ===== -->
+    <section class="ad-card schedule">
+      <h2 class="ad-card-title">Lịch hẹn hôm nay <a routerLink="/booking-board">Mở bảng lịch hẹn →</a></h2>
+      @if (d.todaySchedule.length) {
+        <ul class="timeline">
+          @for (r of d.todaySchedule; track r.id) {
+            <li [class.dim]="r.status === 'CANCELLED' || r.status === 'NO_SHOW'">
+              <span class="tl-time">{{ time(r.startTime) }}</span>
+              <div class="tl-body">
+                <p class="tl-name">
+                  <strong>{{ r.customerName }}</strong>
+                  <span class="ad-muted"> · {{ r.numberOfPeople }} khách · {{ r.branchName }}</span>
+                </p>
+                <p class="tl-svc ad-muted">{{ r.services.join(', ') }}</p>
+              </div>
+              <span class="st st-{{ r.status }}">{{ 'aulacswscApp.BookingStatus.' + r.status | translate }}</span>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty ad-muted">Hôm nay chưa có lịch hẹn nào.</p>
+      }
+    </section>
+
+    <div class="side-col">
+      <!-- ===== việc cần làm ===== -->
+      <section class="ad-card">
+        <h2 class="ad-card-title">Việc cần xử lý</h2>
+        @if (todos().length) {
+          <ul class="todos">
+            @for (t of todos(); track t.text) {
+              <li>
+                <a [routerLink]="t.link" [queryParams]="t.params">
+                  <span class="todo-icon"><site-icon [name]="t.icon" [size]="16" /></span>
+                  <span
+                    ><strong>{{ t.count }}</strong> {{ t.text }}</span
+                  >
+                  <site-icon name="right" [size]="16" />
+                </a>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="all-done"><site-icon name="check" [size]="18" /> Không còn việc tồn đọng.</p>
+        }
+      </section>
+
+      <!-- ===== 7 ngày tới ===== -->
+      <section class="ad-card">
+        <h2 class="ad-card-title">7 ngày tới</h2>
+        <div class="bars" role="img" [attr.aria-label]="'Số lịch hẹn 7 ngày tới'">
+          @for (day of d.next7Days; track day.date; let i = $index) {
+            <div class="bar-col">
+              <span class="bar-val">{{ day.bookings }}</span>
+              <span class="bar" [style.height.%]="(day.bookings / maxDay()) * 100"></span>
+              <span class="bar-day">{{ dayLabel(day.date, i) }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="dash-grid2">
+    <!-- ===== dịch vụ đặt nhiều ===== -->
+    <section class="ad-card">
+      <h2 class="ad-card-title">Dịch vụ được đặt nhiều (tháng này)</h2>
+      @if (d.topServices.length) {
+        <ul class="tops">
+          @for (s of d.topServices; track s.id; let i = $index) {
+            <li>
+              <span class="top-rank">{{ i + 1 }}</span>
+              <span class="top-name">{{ s.name }}</span>
+              <span class="top-bar"><span [style.width.%]="(s.count / maxService()) * 100"></span></span>
+              <strong>{{ s.count }}</strong>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="empty ad-muted">Chưa có dữ liệu tháng này.</p>
+      }
+    </section>
+
+    <!-- ===== lối tắt ===== -->
+    @if (isAdmin()) {
+      <section class="ad-card">
+        <h2 class="ad-card-title">Lối tắt</h2>
+        <div class="shortcuts">
+          <a routerLink="/cai-dat-website"><site-icon name="settings" /><span>Sửa nội dung website</span></a>
+          <a routerLink="/spa-service/new"><site-icon name="sparkle" /><span>Thêm dịch vụ</span></a>
+          <a routerLink="/blog-post/new"><site-icon name="file" /><span>Viết bài mới</span></a>
+          <a routerLink="/gallery-image/new"><site-icon name="image" /><span>Thêm ảnh</span></a>
+          <a routerLink="/promotion/new"><site-icon name="tag" /><span>Tạo khuyến mãi</span></a>
+          <a href="/vi" target="_blank" rel="noopener"><site-icon name="external" /><span>Xem website</span></a>
+        </div>
+      </section>
+    }
+  </div>
+} @else if (loading()) {
+  <div class="skeleton">
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div class="ad-card sk"></div>
+    }
+  </div>
+}

@@ -2,10 +2,10 @@
   "aulacswscApp": {
     "PaymentMethod": {
       "null": "",
-      "CASH": "CASH",
-      "BANK_TRANSFER": "BANK_TRANSFER",
-      "CARD": "CARD",
-      "E_WALLET": "E_WALLET"
+      "CASH": "Tiền mặt",
+      "BANK_TRANSFER": "Chuyển khoản",
+      "CARD": "Thẻ",
+      "E_WALLET": "Ví điện tử"
     }
   }
 }

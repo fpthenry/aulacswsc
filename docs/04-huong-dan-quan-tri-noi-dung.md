@@ -6,15 +6,27 @@ Dành cho người quản lý spa: sửa chữ, ảnh, giá, cơ sở, bài vi�
 
 1. Mở website, kéo xuống cuối trang, bấm **Quản trị** (hoặc vào thẳng `/login`).
 2. Đăng nhập bằng tài khoản có quyền **ADMIN** (nhân viên quyền STAFF chỉ xem/sửa lịch hẹn và khách hàng).
-3. Sau khi đăng nhập bạn vào **/dashboard**. Menu **Nội dung & dữ liệu** chứa mọi mục bên dưới. Nút **Xem website** mở website khách.
+3. Sau khi đăng nhập bạn vào trang **Tổng quan** (`/dashboard`). Giao diện quản trị toàn tiếng Việt, gồm:
+   - **Thanh menu trái** chia nhóm: _Tổng quan_ · _Lịch hẹn_ (Bảng lịch hẹn, Khách hàng, Khuyến mãi) · _Nội dung website_ (Cài đặt website, Cơ sở, Danh mục dịch vụ, Dịch vụ & bảng giá, Thư viện ảnh, Bài viết / Tin tức, Đánh giá) · _Nhân sự & liên hệ_ · _Hệ thống_ (Tài khoản đăng nhập, Tình trạng hệ thống). Nhân viên (STAFF) chỉ thấy các mục được phép.
+   - **Số đỏ** cạnh menu = việc cần xử lý: lịch chờ xác nhận, tin nhắn chưa xử lý, đánh giá chờ duyệt (tự cập nhật mỗi phút).
+   - Góc phải trên: **Xem website** và menu tài khoản (_Thông tin tài khoản_, _Đổi mật khẩu_, _Đăng xuất_). Trên điện thoại bấm nút ☰ để mở menu.
+4. Trang **Tổng quan** cho biết: số lịch và khách hôm nay, số lịch chờ xác nhận (bấm vào để xử lý ngay), doanh thu hôm nay / tháng này, lịch hẹn hôm nay theo giờ, danh sách việc cần xử lý, biểu đồ lịch 7 ngày tới, dịch vụ được đặt nhiều trong tháng và các lối tắt (Sửa nội dung website, Thêm dịch vụ, Viết bài mới...). Trang tự làm mới mỗi 2 phút.
 
 > Mỗi mục đều có danh sách → bấm **Sửa** (bút chì) để chỉnh, **Thêm mới** để tạo, **Lưu** để cập nhật. Website hiển thị thay đổi sau khoảng **1 phút** (trình duyệt lưu tạm). Muốn thấy ngay: tải lại trang bằng Ctrl+F5.
+
+**Mẹo khi sửa nội dung**
+
+- Form dài được chia nhóm có số thứ tự; bấm tên nhóm ở thanh trên cùng để nhảy tới.
+- Dòng chữ nhỏ dưới mỗi ô là hướng dẫn nhập. Ô giá hiện ngay số tiền đã định dạng (vd _= 450.000 đ_) để tránh gõ thiếu/thừa số 0.
+- Công tắc **Bật/Tắt** thay cho ô tích (vd _Đang hoạt động_ tắt = ẩn khỏi website).
+- Chọn nhân viên / dịch vụ: bấm vào tên để tích chọn, có ô **Lọc nhanh** và nút **Chọn hết / Bỏ hết**.
+- **Ctrl + S** để lưu nhanh. Nếu rời trang khi chưa lưu, hệ thống sẽ hỏi lại.
 
 ## 2. Quy ước chung khi nhập
 
 | Bạn thấy                                                    | Ý nghĩa                                                                                                                                                                                                                                                                                                        |
 | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Trường có đuôi **Vi** / **En** (vd _Name Vi_, _Name En_)    | Bản tiếng Việt / tiếng Anh. Website `/vi` dùng ô Vi, `/en` dùng ô En. **Để trống ô En thì website tiếng Anh hiện bản tiếng Việt**                                                                                                                                                                              |
+| Cặp ô **(Tiếng Việt)** / **(English)** đặt cạnh nhau        | Bản tiếng Việt / tiếng Anh. Website `/vi` dùng ô Vi, `/en` dùng ô En. **Để trống ô En thì website tiếng Anh hiện bản tiếng Việt**                                                                                                                                                                              |
 | **Slug** (không có ô nhập)                                  | Đường dẫn trên website **do hệ thống tự tạo** khi thêm mới: tên/tiêu đề tiếng Việt bỏ dấu + ngày, vd "Massage đá nóng" tạo ngày 11/10/2026 → `/vi/services/massage-da-nong-20261011`. Bài viết dùng _ngày đăng_. Trùng thì thêm `-2`, `-3`. **Sửa tên sau này không đổi đường dẫn** (link đã chia sẻ vẫn chạy) |
 | **Active**                                                  | Bỏ tích = ẩn khỏi website (dữ liệu vẫn giữ). Dùng thay cho Xóa                                                                                                                                                                                                                                                 |
 | **Display Order**                                           | Số nhỏ hiện trước                                                                                                                                                                                                                                                                                              |
@@ -28,7 +40,9 @@ Dành cho người quản lý spa: sửa chữ, ảnh, giá, cơ sở, bài vi�
 
 ### 3.1 Cài đặt website (menu **Cài đặt website**)
 
-Chỉ có **một bản ghi** — luôn bấm _Sửa_ bản ghi đầu tiên, **không tạo thêm**.
+Bấm menu **Cài đặt website** là mở thẳng form sửa (chỉ có một bản ghi, không cần tạo thêm). Form chia **5 nhóm**: _Thương hiệu_ · _Đầu trang chủ_ · _Giới thiệu_ · _Liên hệ & mạng xã hội_ · _SEO & chính sách_ — bấm tên nhóm ở thanh trên cùng để nhảy tới. Nút **Lưu** luôn nằm ở đáy màn hình.
+
+> Bảng dưới ghi tên trường theo tiếng Anh (tên kỹ thuật); trên form các ô đã có nhãn tiếng Việt tương ứng.
 
 | Phần trên website                                                               | Trường cần sửa                                                                                                                                                                                               |
 | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
@@ -119,28 +133,33 @@ Image (bắt buộc), **Alt Vi** (bắt buộc — mô tả ngắn nội dung �
 | **Published**   | Tích = hiện trên website. Bỏ tích = bản nháp                |
 | Published At    | Ngày đăng (sắp xếp mới nhất trước)                          |
 
-## 4. Xử lý lịch hẹn khách đặt online
+## 4. Xử lý lịch hẹn — menu **Bảng lịch hẹn**
 
-Mỗi lịch đặt từ website có **mã** dạng `AL261011K7QM`, **Source** = `WEBSITE` (đặt đầy đủ) hoặc `QUICK` (đặt nhanh — thường chỉ có số điện thoại, cần gọi lại hỏi tên).
+Mỗi lịch đặt từ website có **mã** dạng `AL261011K7QM`, nguồn **Website** (đặt đầy đủ) hoặc **Đặt nhanh** (thường chỉ có số điện thoại — gọi lại hỏi tên).
 
-Quy trình đề xuất (menu **Lịch hẹn**, lọc theo trạng thái `PENDING`):
+**Bảng lịch hẹn** là màn hình làm việc hằng ngày của lễ tân:
 
-| Bước                           | Trạng thái (Status)                                        |
-| ------------------------------ | ---------------------------------------------------------- |
-| Lịch mới khách vừa đặt         | `PENDING`                                                  |
-| Đã gọi/nhắn xác nhận với khách | `CONFIRMED`                                                |
-| Khách đang làm dịch vụ         | `IN_PROGRESS`                                              |
-| Xong, đã thanh toán            | `COMPLETED` + Payment Status `PAID` + Payment Method       |
-| Khách hủy                      | `CANCELLED` — **khung giờ được mở lại** cho người khác đặt |
-| Khách không đến                | `NO_SHOW` — khung giờ được mở lại                          |
+- **Lọc**: chọn ngày (nút ‹ Hôm nay ›), xem **1 ngày** hoặc **7 ngày**, chọn cơ sở, bấm chip trạng thái (Chờ xác nhận, Đã xác nhận...), ô tìm theo **số điện thoại / tên / mã lịch**. Bộ lọc nằm trên đường dẫn — có thể lưu bookmark hoặc gửi link cho đồng nghiệp.
+- Mỗi lịch hiện giờ, khách, số điện thoại (bấm để **gọi**), nút **Zalo**, dịch vụ, số khách, cơ sở, kỹ thuật viên, ghi chú, tổng tiền, trạng thái thanh toán.
+- **Nút xử lý một chạm** theo trạng thái:
 
-- Dịch vụ của từng lịch nằm ở menu **Chi tiết lịch hẹn** (lọc theo mã lịch); có thể gán **Staff** (kỹ thuật viên).
-- Khách nhận khách vãng lai / qua điện thoại: tạo lịch trong menu **Lịch hẹn** với Source = `PHONE` / `WALK_IN`, nhớ điền **End Time** để hệ thống tính đúng chỗ trống (không điền thì coi như 60 phút).
+| Trạng thái hiện tại | Nút                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| Chờ xác nhận        | **Xác nhận** (sau khi đã gọi/nhắn khách) · **Hủy**                                                     |
+| Đã xác nhận         | **Khách đã đến** · **Không đến** · **Hủy**                                                             |
+| Đang phục vụ        | **Hoàn thành & thu tiền** → chọn Tiền mặt / Chuyển khoản / Thẻ / Ví điện tử (hoặc hoàn thành chưa thu) |
+| Hoàn thành chưa thu | **Ghi đã thanh toán**                                                                                  |
+| Đã hủy / Không đến  | **Khôi phục** (về Đã xác nhận)                                                                         |
+
+- Hủy / Không đến → **khung giờ được mở lại** cho khách khác đặt.
+- Dòng tổng phía trên: số lịch, số khách, doanh thu **dự kiến** và **đã thu** trong khoảng đang xem. Bảng tự làm mới mỗi phút.
+- **Tạo lịch hẹn** (khách gọi điện / khách vãng lai): bấm nút **Tạo lịch hẹn** → chọn _Qua điện thoại_ hoặc _Khách đến trực tiếp_, nhập số điện thoại (tên không bắt buộc), cơ sở, ngày giờ, số khách, chọn dịch vụ (hệ thống tính sẵn tổng tiền và thời lượng) → **Lưu**. Lịch tạo ở đây được xác nhận luôn; hệ thống báo nếu khung giờ đã kín.
+- Cần sửa chi tiết (đổi giờ, gán kỹ thuật viên, giảm giá): bấm biểu tượng bút chì ở dòng lịch đó. Nút **Danh sách đầy đủ** mở bảng dữ liệu gốc.
 - Khách tự tra cứu lịch tại `/vi/booking/lookup` bằng mã + số điện thoại.
 
 ## 5. Tin nhắn liên hệ
 
-Menu **Tin nhắn liên hệ**: tin khách gửi từ form ở trang Cơ sở. Sau khi trả lời, tích **Handled**.
+Menu **Tin nhắn liên hệ**: tin khách gửi từ form ở trang Cơ sở (số đỏ cạnh menu = tin chưa xử lý). Sau khi trả lời, tích **Đã xử lý**.
 
 ## 6. Kiểm tra sau khi sửa
 

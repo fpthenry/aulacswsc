@@ -14,7 +14,45 @@ Chi tiết kỹ thuật xem thêm: [01 Database & phân quyền](01-database-va-
 
 ## [Chưa commit]
 
-_Chưa có thay đổi._
+### Thêm — Trang quản trị bàn giao khách hàng
+
+- **Khung quản trị mới** (`app/backoffice/layout/admin-shell`): menu trái màu gỗ tối chia nhóm (Tổng quan · Lịch hẹn · Nội dung website · Nhân sự & liên hệ · Hệ thống), lọc theo quyền ADMIN / STAFF; **số đỏ việc cần xử lý** (lịch chờ xác nhận, tin nhắn chưa xử lý, đánh giá chờ duyệt) tự cập nhật mỗi phút; thanh trên có _Xem website_ và menu tài khoản (thông tin, đổi mật khẩu, đăng xuất); menu trượt trên điện thoại.
+- **Trang Tổng quan** (`/dashboard`): lời chào theo buổi, 4 thẻ số liệu (lịch & khách hôm nay, chờ xác nhận — bấm để xử lý, doanh thu hôm nay, doanh thu tháng), lịch hôm nay theo giờ, việc cần xử lý, biểu đồ 7 ngày tới, top 5 dịch vụ trong tháng, lối tắt cho Admin; tự làm mới 2 phút.
+- **Bảng lịch hẹn** (`/booking-board`): lọc ngày (1 / 7 ngày), cơ sở, trạng thái, tìm SĐT / tên / mã (bộ lọc lưu trên URL); nút xử lý một chạm theo trạng thái (Xác nhận, Khách đã đến, Không đến, Hủy, Khôi phục, **Hoàn thành & thu tiền** chọn hình thức thanh toán, Ghi đã thanh toán); gọi điện / Zalo một chạm; tổng số lịch, khách, dự kiến, đã thu; **Tạo lịch hẹn nhanh** cho khách gọi điện / vãng lai (chọn dịch vụ, tự tính tiền và thời lượng, kiểm tra khung giờ kín).
+- **API `/api/backoffice/**`** (ADMIN, STAFF): `GET /dashboard`, `GET /badges`, `GET /bookings`, `PATCH /bookings/{id}/status`, `POST /bookings?source=PHONE|WALK_IN`.
+- Menu **Cài đặt website** (`/cai-dat-website`) mở thẳng form sửa bản ghi duy nhất.
+
+### Thay đổi
+
+- **Danh sách (13 trang) gọn và dễ thao tác**: chỉ giữ cột quan trọng (bỏ ID, cột English, nội dung dài), **ảnh thu nhỏ thật** thay cho đường dẫn, tiêu đề cột ngắn và tự xuống dòng, nội dung dài cắt 2 dòng, tiền dạng `450.000 đ`, ngày giờ `14:00 13/10/2026`, Có/Không thành nhãn màu (Đang hiện / Đã ẩn, Đã duyệt, Đã xử lý...), số sao ★, trạng thái lịch có màu; **cột Xem / Sửa / Xóa dính mép phải** — không phải kéo ngang; bấm tên để sửa ngay; phân trang tiếng Việt.
+- **Trang Xem chi tiết**: hiện ảnh thật, khung rộng, nhãn dài tự xuống dòng.
+- **Toàn bộ trang quản trị tiếng Việt**: nhãn 13 bảng dữ liệu, trạng thái (Chờ xác nhận, Đã xác nhận...), nguồn, thanh toán, giới tính, chuyên mục; tài khoản admin/user mặc định ngôn ngữ `vi` (changeset `20261012110000_users_vietnamese.xml`).
+- **Form thêm / sửa thông minh (13 form)**: tiêu đề theo ngữ cảnh ("Sửa dịch vụ — Massage đá nóng" / "Thêm cơ sở mới"); chia **nhóm có số thứ tự + thanh nhảy nhanh** (vd Dịch vụ: Thông tin chính · Giá & thời lượng · Ảnh · Nội dung chi tiết · Hiển thị & kỹ thuật viên); ô ngắn xếp 2–3 cột, cặp Tiếng Việt / English cạnh nhau; ô Bật/Tắt thành **công tắc** kèm giải thích; **gợi ý dưới ô** (mỗi dòng một ý, số nhỏ hiện trước, cách lấy link Google Maps...); giá tiền hiện ngay **= 450.000 đ**; **đếm ký tự** mô tả ngắn / mô tả SEO; ô nhiều dòng tự cao theo nội dung; chọn nhân viên / dịch vụ bằng **ô tích có tên + lọc nhanh + Chọn hết** (thay ô chọn nhiều phải giữ Ctrl, trước đó chỉ hiện số ID); ẩn ô ID; nút **Lưu / Hủy dính đáy**, **Ctrl + S để lưu**, **cảnh báo khi rời trang** lúc còn thay đổi chưa lưu.
+- Bảng danh sách, nút, form của JHipster được làm lại theo tông màu spa (thẻ trắng bo góc, nút gỗ / đồng).
+- **Trang đăng nhập riêng** (không có menu quản trị); đăng nhập ADMIN / STAFF → Tổng quan, khách → website `/vi`.
+
+### Lưu ý vận hành
+
+- Khởi động lại backend để chạy changeset `20261012110000_users_vietnamese.xml` (hoặc chọn tiếng Việt trong Thông tin tài khoản).
+- Tài liệu cập nhật: [04 Hướng dẫn quản trị](04-huong-dan-quan-tri-noi-dung.md) mục 1 và 4, [03 Quy ước](03-quy-uoc-du-an.md) bảng file sửa tay.
+
+### Nội dung commit
+
+```
+feat(admin): giao diện quản trị tiếng Việt, tổng quan, bảng lịch hẹn và form thông minh
+
+- Khung quản trị mới: menu trái chia nhóm theo quyền, số việc cần xử lý, menu tài khoản
+- Tổng quan: số liệu hôm nay/tháng, lịch hôm nay, việc cần xử lý, 7 ngày tới, top dịch vụ
+- Bảng lịch hẹn: lọc ngày/cơ sở/trạng thái/tìm kiếm, xử lý một chạm, thu tiền, tạo lịch nhanh
+- API /api/backoffice/** (dashboard, badges, bookings, đổi trạng thái, tạo lịch) cho ADMIN/STAFF
+- Việt hóa nhãn 13 entity và enum; user mặc định tiếng Việt (changeset users_vietnamese)
+- Form: chia nhóm + mục lục, lưới nhiều cột, công tắc Bật/Tắt, gợi ý, xem trước tiền, đếm ký tự
+- Form: chọn nhiều bằng ô tích (jhi-check-list), Ctrl+S lưu, cảnh báo rời trang khi chưa lưu
+- Danh sách: cột gọn, ảnh thu nhỏ, nhãn trạng thái, tiền/ngày định dạng Việt, nút thao tác dính phải
+- Trang chi tiết hiện ảnh thật, nhãn tự xuống dòng
+- Trang đăng nhập riêng, ADMIN/STAFF vào thẳng Tổng quan
+- Cập nhật tài liệu 03, 04 và CHANGELOG
+```
 
 ---
 

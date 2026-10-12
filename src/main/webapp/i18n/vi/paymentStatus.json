@@ -2,9 +2,9 @@
   "aulacswscApp": {
     "PaymentStatus": {
       "null": "",
-      "UNPAID": "UNPAID",
-      "PAID": "PAID",
-      "REFUNDED": "REFUNDED"
+      "UNPAID": "Chưa thanh toán",
+      "PAID": "Đã thanh toán",
+      "REFUNDED": "Đã hoàn tiền"
     }
   }
 }

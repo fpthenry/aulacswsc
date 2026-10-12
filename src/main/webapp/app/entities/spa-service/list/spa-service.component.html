@@ -35,142 +35,14 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
-            <th scope="col" jhiSortBy="id">
+            <th scope="col" class="c-thumb">
               <div class="d-flex">
-                <span jhiTranslate="global.field.id">ID</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
+                <span jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</span>
               </div>
             </th>
             <th scope="col" jhiSortBy="nameVi">
               <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.nameVi">Name Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="nameEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.nameEn">Name En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="slug">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.slug">Slug</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="shortDescriptionVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.shortDescriptionVi">Short Description Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="shortDescriptionEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.shortDescriptionEn">Short Description En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="descriptionVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.descriptionVi">Description Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="descriptionEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.descriptionEn">Description En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="benefitsVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.benefitsVi">Benefits Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="benefitsEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.benefitsEn">Benefits En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="notesVi">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.notesVi">Notes Vi</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="notesEn">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.notesEn">Notes En</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="price">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.price">Price</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="salePrice">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.salePrice">Sale Price</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="priceMax">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.priceMax">Price Max</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="durationMinutes">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.durationMinutes">Duration Minutes</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="imageUrl">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.imageUrl">Image Url</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="featured">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.featured">Featured</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="displayOrder">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.displayOrder">Display Order</span>
-
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="active">
-              <div class="d-flex">
-                <span jhiTranslate="aulacswscApp.spaService.active">Active</span>
+                <span>Tên</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -181,34 +53,64 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col"></th>
+            <th scope="col" jhiSortBy="price">
+              <div class="d-flex">
+                <span>Giá</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="salePrice">
+              <div class="d-flex">
+                <span>Giá KM</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="durationMinutes">
+              <div class="d-flex">
+                <span>Thời lượng</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="featured">
+              <div class="d-flex">
+                <span>Nổi bật</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="displayOrder">
+              <div class="d-flex">
+                <span>Thứ tự</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="active">
+              <div class="d-flex">
+                <span>Hiển thị</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" class="c-actions"><span class="visually-hidden">Thao tác</span></th>
           </tr>
         </thead>
         <tbody>
           @for (spaService of spaServices(); track trackId(spaService)) {
             <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/spa-service', spaService.id, 'view']">{{ spaService.id }}</a>
+              <td class="c-thumb">
+                @if (spaService.imageUrl) {
+                  <img [src]="spaService.imageUrl" alt="" loading="lazy" />
+                } @else {
+                  <span class="thumb-empty" aria-hidden="true"></span>
+                }
               </td>
-              <td>{{ spaService.nameVi }}</td>
-              <td>{{ spaService.nameEn }}</td>
-              <td>{{ spaService.slug }}</td>
-              <td>{{ spaService.shortDescriptionVi }}</td>
-              <td>{{ spaService.shortDescriptionEn }}</td>
-              <td>{{ spaService.descriptionVi }}</td>
-              <td>{{ spaService.descriptionEn }}</td>
-              <td>{{ spaService.benefitsVi }}</td>
-              <td>{{ spaService.benefitsEn }}</td>
-              <td>{{ spaService.notesVi }}</td>
-              <td>{{ spaService.notesEn }}</td>
-              <td>{{ spaService.price }}</td>
-              <td>{{ spaService.salePrice }}</td>
-              <td>{{ spaService.priceMax }}</td>
-              <td>{{ spaService.durationMinutes }}</td>
-              <td>{{ spaService.imageUrl }}</td>
-              <td>{{ spaService.featured }}</td>
-              <td>{{ spaService.displayOrder }}</td>
-              <td>{{ spaService.active }}</td>
+              <td class="c-main">
+                <a [routerLink]="['/spa-service', spaService.id, 'edit']">{{ spaService.nameVi }}</a>
+              </td>
               <td>
                 @if (spaService.category) {
                   <div>
@@ -216,21 +118,36 @@
                   </div>
                 }
               </td>
-              <td class="text-end">
+              <td class="c-num">{{ (spaService.price ?? null) !== null ? (spaService.price | number: '1.0-0' : 'vi') + ' đ' : '' }}</td>
+              <td class="c-num">
+                {{ (spaService.salePrice ?? null) !== null ? (spaService.salePrice | number: '1.0-0' : 'vi') + ' đ' : '' }}
+              </td>
+              <td class="c-num">{{ (spaService.durationMinutes ?? null) !== null ? spaService.durationMinutes + ' phút' : '' }}</td>
+              <td>
+                <span class="yn" [class.yes]="spaService.featured">{{ spaService.featured ? 'Nổi bật' : '—' }}</span>
+              </td>
+              <td>{{ spaService.displayOrder }}</td>
+              <td>
+                <span class="yn" [class.yes]="spaService.active">{{ spaService.active ? 'Đang hiện' : 'Đã ẩn' }}</span>
+              </td>
+              <td class="c-actions">
                 <div class="btn-group">
-                  <a [routerLink]="['/spa-service', spaService.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <a
+                    [routerLink]="['/spa-service', spaService.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                    title="Xem chi tiết"
+                  >
                     <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                   </a>
 
                   <a [routerLink]="['/spa-service', spaService.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                     <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                   </a>
 
-                  <button type="submit" (click)="delete(spaService)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <button type="submit" (click)="delete(spaService)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" title="Xóa">
                     <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                   </button>
                 </div>
               </td>
