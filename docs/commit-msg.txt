@@ -1,0 +1,33 @@
+feat(site): website khách spa, đặt lịch online và quản trị nội dung song ngữ
+
+Website khách (/vi, /en)
+- Trang chủ: hero slideshow nền tối (Ken Burns, có nút tạm dừng), giới thiệu,
+  danh mục, dịch vụ nổi bật, slider đánh giá, thư viện ảnh, cơ sở, tin tức
+- Trang dịch vụ (lọc nhóm/giá/thời lượng, tìm không dấu), chi tiết dịch vụ,
+  cơ sở + form liên hệ, đánh giá, thư viện ảnh (masonry + lightbox), tin tức, chính sách
+- Header cố định đổi nền khi cuộn, VI/EN, chế độ tối, nhạc nền bật/tắt,
+  nút WhatsApp/Zalo/gọi điện nổi
+- SEO: title/meta/Open Graph/hreflang theo trang, JSON-LD schema.org,
+  sitemap.xml và robots.txt sinh động
+- Khả năng truy cập: điều hướng bàn phím, nhãn form, thông báo lỗi aria,
+  tôn trọng prefers-reduced-motion
+
+Đặt lịch
+- Luồng 7 bước (cơ sở, dịch vụ, ngày, giờ 15 phút, số người, thông tin, xác nhận),
+  lưu nháp localStorage, chế độ đặt nhanh, tra cứu bằng mã + SĐT
+- Server tính khung giờ còn trống theo sức chứa cơ sở, tính giá, tạo mã đặt lịch,
+  tự tạo khách theo SĐT; tải .ics, gửi qua WhatsApp/Zalo
+- Chống spam: honeypot + giới hạn tần suất theo IP
+
+Dữ liệu & quản trị
+- Bảng mới: SiteSetting, Branch, GalleryImage, BlogPost; nội dung song ngữ Vi/En
+- API công khai /api/public/** chỉ trả dữ liệu đang bật/đã duyệt/đã xuất bản
+- Upload ảnh (nén WebP 3 cỡ ở trình duyệt), slug tự sinh ở server (tên + ngày),
+  danh sách ảnh hero slideshow
+- Changeset role STAFF/CUSTOMER, dữ liệu mẫu dev, cột hero_slides; tắt context faker
+- Menu quản trị tiếng Việt, trang quản trị chuyển sang /dashboard
+
+Công cụ & tài liệu
+- scripts/seed-demo.mjs: nạp/xóa dữ liệu demo (ảnh, nhạc nền tự tổng hợp, lịch hẹn)
+- docs 01–03 cập nhật, docs 04 hướng dẫn quản trị nội dung
+- .gitignore bỏ qua images/ (ảnh demo có bản quyền) và uploads/
