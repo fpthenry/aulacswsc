@@ -14,7 +14,28 @@ Chi tiết kỹ thuật xem thêm: [01 Database & phân quyền](01-database-va-
 
 ## [Chưa commit]
 
-_Chưa có thay đổi._
+### Sửa lỗi — đóng gói production (`./mvnw -Pprod clean verify -DskipTests`)
+
+- `angular.json`: nâng giới hạn CSS mỗi component (`anyComponentStyle`) lên cảnh báo 20 kB / lỗi 40 kB — style website và trang quản trị vượt mức mặc định 4 kB làm build production dừng.
+- `BookingResource.java`: `Optional.get()` → `orElseThrow()` (plugin modernizer chặn build).
+- `WebConfigurer.java`: bỏ qua khi đường dẫn tệp tĩnh không hợp lệ (`nested:target/...` khi chạy jar trong thư mục `target` trên Windows) — trước đó jar không khởi động được.
+- Danh sách entity: bỏ import pipe ngày không còn dùng (hết cảnh báo NG8113).
+- Đã chạy thử jar với profile `prod`: `/vi`, `/login`, `/dashboard`, `/api/public/site`, `/sitemap.xml`, `/robots.txt` đều trả 200.
+
+### Lưu ý vận hành
+
+- Trước khi đóng gói phải **dừng app dev** (`./mvnw` đang chạy giữ file trong `target`, bước `clean` báo `Failed to delete C:ulacswsc	arget`).
+
+### Nội dung commit
+
+```
+fix(build): sửa lỗi đóng gói production
+
+- angular.json: nâng giới hạn CSS mỗi component (20kb cảnh báo / 40kb lỗi)
+- BookingResource: Optional.get -> orElseThrow (modernizer)
+- WebConfigurer: bỏ qua đường dẫn static không hợp lệ khi chạy jar trên Windows
+- Bỏ import pipe ngày không dùng trong danh sách entity
+```
 
 ---
 

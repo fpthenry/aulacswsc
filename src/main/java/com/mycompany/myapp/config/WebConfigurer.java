@@ -59,7 +59,12 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
         if (server instanceof ConfigurableServletWebServerFactory servletWebServer) {
             File root;
             String prefixPath = resolvePathPrefix();
-            root = Path.of(prefixPath + "target/classes/static/").toFile();
+            try {
+                root = Path.of(prefixPath + "target/classes/static/").toFile();
+            } catch (java.nio.file.InvalidPathException e) {
+                // chạy từ file jar (vd "nested:..." trên Windows): tệp tĩnh đã nằm trong jar, không cần documentRoot
+                return;
+            }
             if (root.exists() && root.isDirectory()) {
                 servletWebServer.setDocumentRoot(root);
             }

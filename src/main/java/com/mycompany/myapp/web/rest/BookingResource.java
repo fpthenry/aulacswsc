@@ -202,7 +202,7 @@ public class BookingResource {
             if (customerId.isEmpty()) {
                 return ResponseEntity.ok().body(List.of());
             }
-            criteria.customerId().setEquals(customerId.get());
+            criteria.customerId().setEquals(customerId.orElseThrow());
         }
 
         Page<BookingDTO> page = bookingQueryService.findByCriteria(criteria, pageable);
@@ -224,7 +224,7 @@ public class BookingResource {
             if (customerId.isEmpty()) {
                 return ResponseEntity.ok().body(0L);
             }
-            criteria.customerId().setEquals(customerId.get());
+            criteria.customerId().setEquals(customerId.orElseThrow());
         }
         return ResponseEntity.ok().body(bookingQueryService.countByCriteria(criteria));
     }
@@ -242,7 +242,7 @@ public class BookingResource {
         if (isCustomerOnly()) {
             Optional<Long> customerId = currentCustomerId();
             bookingDTO = bookingDTO.filter(
-                b -> b.getCustomer() != null && customerId.isPresent() && customerId.get().equals(b.getCustomer().getId())
+                b -> b.getCustomer() != null && customerId.isPresent() && customerId.orElseThrow().equals(b.getCustomer().getId())
             );
         }
         return ResponseUtil.wrapOrNotFound(bookingDTO);
